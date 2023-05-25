@@ -1,1 +1,1 @@
-# svelte-jsonschema-form
+# Svelte JSON Schema Form
