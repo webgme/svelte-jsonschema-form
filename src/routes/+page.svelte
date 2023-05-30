@@ -1,3 +1,9 @@
-<h1>Welcome to your library project</h1>
-<p>Create your package using @sveltejs/package and preview/showcase your work with SvelteKit</p>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script lang="ts">
+  import SchemaFrom from "$lib/SchemaForm.svelte";
+  import type { JSONSchema7 } from "json-schema";
+  import testSchema from "../schemas/simple.json";
+
+  const schema = testSchema as JSONSchema7;
+</script>
+
+<SchemaFrom schema={schema} />
