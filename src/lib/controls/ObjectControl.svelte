@@ -18,7 +18,7 @@
     {/if}
     <Content>
       {#each Object.entries(properties) as [name, props]}
-        <Control {...props} required={required.includes(name)} />
+        <Control required={required.includes(name)} title={name} {...props} />
       {/each}
     </Content>
   </Paper>
