@@ -11,16 +11,18 @@
   let value = $$props.default ?? "";
 </script>
 
-<Textfield
-  type="number"
-  step="any"
-  label={title}
-  bind:value={value}
-  input$min={minimum}
-  input$max={maximum}
-  {required}
->
-  {#if description}
-    <HelperText persistent slot="helper">{description}</HelperText>
-  {/if}
-</Textfield>
+<div>
+  <Textfield
+    type="number"
+    step="any"
+    label={title}
+    bind:value={value}
+    input$min={minimum}
+    input$max={maximum}
+    {required}
+  >
+    <HelperText persistent slot="helper">
+      {#if description}{description}{/if}
+    </HelperText>
+  </Textfield>
+</div>

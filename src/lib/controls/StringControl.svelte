@@ -12,15 +12,17 @@
   let value: string = $$props.default ?? "";
 </script>
 
-<Textfield
-  label={title}
-  bind:value={value}
-  input$minlength={minLength}
-  input$maxlength={maxLength}
-  input$pattern={pattern}
-  {required}
->
-  {#if description}
-    <HelperText persistent slot="helper">{description}</HelperText>
-  {/if}
-</Textfield>
+<div>
+  <Textfield
+    label={title}
+    bind:value={value}
+    input$minlength={minLength}
+    input$maxlength={maxLength}
+    input$pattern={pattern}
+    {required}
+  >
+    <HelperText persistent slot="helper">
+      {#if description}{description}{/if}
+    </HelperText>
+  </Textfield>
+</div>
