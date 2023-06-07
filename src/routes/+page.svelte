@@ -1,5 +1,5 @@
 <script lang="ts">
-  import SchemaFrom from "$lib/SchemaForm.svelte";
+  import SchemaForm from "$lib/SchemaForm.svelte";
   import type { JSONSchema7 } from "json-schema";
   import testSchema from "../schemas/nested/schema.json";
   import testData from "../schemas/nested/data.json";
@@ -8,7 +8,7 @@
   let data = testData;
 </script>
 
-<SchemaFrom {schema} bind:data={data} />
+<SchemaForm {schema} bind:data={data} />
 
 <hr id="divider" />
 
