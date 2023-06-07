@@ -16,7 +16,7 @@
   }
 
   function removeItem(index: number) {
-    data = data.splice(index, 1);
+    data = (data.splice(index, 1), data);
   }
 </script>
 
