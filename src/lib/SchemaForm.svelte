@@ -3,9 +3,7 @@
   import Control from "./Control.svelte"; 
 
   export let schema: JSONSchema7 = {};
-  // export let data: { [prop: string]: any } = {};
+  export let data: { [prop: string]: any } = {};
 </script>
 
-<Control {...schema}/>
-
-<pre>{JSON.stringify(schema, null, 2)}</pre>
+<Control {...schema} bind:data={data} />
