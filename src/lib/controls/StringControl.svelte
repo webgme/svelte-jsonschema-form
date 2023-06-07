@@ -2,6 +2,7 @@
   import Textfield from "@smui/textfield";
   import HelperText from "@smui/textfield/helper-text";
 
+  export let data: string | undefined = undefined;
   export let title: string | undefined = undefined;
   export let description: string | undefined = undefined;
   export let minLength: number | undefined = undefined;
@@ -9,7 +10,13 @@
   export let pattern: string | undefined = undefined;
   export let required: boolean | undefined = undefined;
 
-  let value: string = $$props.default ?? "";
+  let defaultValue = $$props.default ?? "";
+  let value: string = data ?? defaultValue;
+
+  $: if ((data != null) || (value != defaultValue)) {
+    data = value;
+  }
+  
 </script>
 
 <div>

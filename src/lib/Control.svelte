@@ -3,7 +3,7 @@
   import * as controls from "./controls";
 
   export let type: JSONSchema7TypeName | JSONSchema7TypeName[] = "object";
-  // export let data: { [prop: string]: any } = {};
+  export let data: any = undefined;
 
   let control: any;
 
@@ -13,4 +13,4 @@
   };
 </script>
 
-<svelte:component this={control} {...$$props} />
+<svelte:component this={control} {...$$props} bind:data={data} />

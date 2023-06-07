@@ -4,20 +4,19 @@
   import Fab, { Icon } from "@smui/fab";
   import Control from "../Control.svelte";
 
+  export let data: any[] = [];
   export let title: string | undefined = undefined;
   export let description: string | null = null;
   export let items: JSONSchema7 | JSONSchema7[] | undefined = undefined;
 
-  let itemInstances: JSONSchema7[] = [];
-
-  $: hasItems = itemInstances.length > 0;
+  $: hasItems = data.length > 0;
 
   function addItem() {
-    itemInstances = [...itemInstances, items as JSONSchema7];
+    data = [...data, undefined];
   }
 
   function removeItem(index: number) {
-    itemInstances = itemInstances.filter((_, i) => i !== index);
+    data = data.splice(index, 1);
   }
 </script>
 
@@ -38,9 +37,9 @@
   {#if hasItems}
     <Content>
       <ul class="control-array-items">
-        {#each itemInstances as item, index}
+        {#each data as value, index}
           <li>
-            <Control {...item} />
+            <Control {...items} bind:data={value} />
             <Fab mini on:click={() => removeItem(index)}>
               <Icon class="material-icons">delete</Icon>
             </Fab>
