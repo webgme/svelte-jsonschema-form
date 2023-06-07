@@ -1,7 +1,7 @@
 <script lang="ts">
   import SchemaFrom from "$lib/SchemaForm.svelte";
   import type { JSONSchema7 } from "json-schema";
-  import testSchema from "../schemas/nested.json";
+  import testSchema from "../schemas/nested/schema.json";
 
   const schema = testSchema as JSONSchema7;
 </script>
