@@ -21,7 +21,7 @@
     <Subtitle>{description}</Subtitle>
   {/if}
   <Content>
-    {#each Object.entries(properties) as [name, props]}
+    {#each Object.entries(properties) as [name, props] (name)}
       <Control
         required={required.includes(name)}
         title={name}

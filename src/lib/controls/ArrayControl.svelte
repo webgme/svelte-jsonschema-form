@@ -2,6 +2,7 @@
   import type { JSONSchema7 } from "json-schema";
   import Paper, { Title, Subtitle, Content } from "@smui/paper";
   import Fab, { Icon } from "@smui/fab";
+  import IconButton from "@smui/icon-button";
   import Control from "../Control.svelte";
 
   export let data: any[] = [];
@@ -17,6 +18,18 @@
 
   function removeItem(index: number) {
     data = (data.splice(index, 1), data);
+  }
+
+  function moveItemUp(index: number) {
+    if (index > 0) {
+      [data[index - 1], data[index]] = [data[index], data[index - 1]];
+    }
+  }
+
+  function moveItemDown(index: number) {
+    if (index < data.length - 1) {
+      [data[index + 1], data[index]] = [data[index], data[index + 1]];
+    }
   }
 </script>
 
@@ -37,12 +50,26 @@
   {#if hasItems}
     <Content>
       <ul class="control-array-items">
-        {#each data as value, index}
+        {#each data as value, index (value)}
           <li>
             <Control {...items} bind:data={value} />
-            <Fab mini on:click={() => removeItem(index)}>
-              <Icon class="material-icons">delete</Icon>
-            </Fab>
+            <div class="control-array-item-actions">
+              <IconButton
+                on:click={() => moveItemUp(index)}
+                class="material-icons"
+                size="button"
+                disabled={index === 0}
+              >keyboard_arrow_up</IconButton>
+              <Fab mini on:click={() => removeItem(index)}>
+                <Icon class="material-icons">delete</Icon>
+              </Fab>
+              <IconButton
+                on:click={() => moveItemDown(index)}
+                class="material-icons"
+                size="button"
+                disabled={index === data.length - 1}
+              >keyboard_arrow_down</IconButton>
+            </div>
           </li>
         {/each}
       </ul>
@@ -66,12 +93,14 @@
     align-items: center;
   }
 
-  .control-array-items > li > :global(*:not(.mdc-fab:last-child)) {
+  .control-array-items > li > :global(*:not(.control-array-item-actions)) {
     flex: 1;
   }
 
-  .control-array-items > li > :global(.mdc-fab:last-child) {
+  .control-array-items > li > .control-array-item-actions {
     margin-left: 1rem;
+    display: flex;
+    flex-direction: column;
   }
 
   .control-array-items :global(.smui-paper__content) {
