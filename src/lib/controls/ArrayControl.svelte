@@ -10,6 +10,12 @@
   export let description: string | null = null;
   export let items: JSONSchema7 | JSONSchema7[] | undefined = undefined;
 
+  function getKey(index: number) {
+    const value = data[index];
+    const useIndex = (items == null) || (typeof items !== "object");
+    return useIndex ? index : value;
+  }
+
   $: hasItems = data.length > 0;
 
   function addItem() {
@@ -50,7 +56,7 @@
   {#if hasItems}
     <Content>
       <ul class="control-array-items">
-        {#each data as value, index (value)}
+        {#each data as value, index (getKey(index))}
           <li>
             <Control {...items} bind:data={value} />
             <div class="control-array-item-actions">
