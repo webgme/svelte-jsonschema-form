@@ -13,8 +13,20 @@
   let defaultValue = $$props.default ?? "";
   let value: string = data ?? defaultValue;
 
-  $: if ((data != null) || (value != defaultValue)) {
-    data = value;
+  $: updateData(value);
+  $: updateValue(data);
+
+
+  function updateData(val: string) {
+    if ((data !== val) && ((data != null) || (val != defaultValue))) {
+      data = val;
+    }
+  }
+
+  function updateValue(val: string | undefined) {
+    if (value !== val) {
+      value = val ?? defaultValue;
+    }
   }
   
 </script>

@@ -2,15 +2,27 @@
   import FormField from "@smui/form-field";
   import Checkbox from "@smui/checkbox";
 
-  export let data: boolean | undefined = $$props.default ?? false;
+  export let data: boolean | undefined = undefined;
   export let title: string | undefined = undefined;
 
   let defaultValue = $$props.default ?? false;
   let checked: boolean = data ?? defaultValue;
 
-  $: if ((data != null) || (checked != defaultValue)) {
-    data = checked;
+  $: updateData(checked);
+  $: updateChecked(data);
+
+  function updateData(val: boolean) {
+    if ((data !== val) && ((data != null) || (val != defaultValue))) {
+      data = val;
+    }
   }
+
+  function updateChecked(val: boolean | undefined) {
+    if (checked !== val) {
+      checked = val ?? defaultValue;
+    }
+  }
+
 </script>
 
 <FormField>
