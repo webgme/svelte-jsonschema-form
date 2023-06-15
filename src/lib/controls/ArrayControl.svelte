@@ -8,32 +8,84 @@
   export let data: any[] = [];
   export let title: string | undefined = undefined;
   export let description: string | null = null;
+
+  export let prefixItems: JSONSchema7[] | undefined = undefined;
   export let items: JSONSchema7 | JSONSchema7[] | undefined = undefined;
+  export let additionalItems: JSONSchema7 | undefined = undefined;
+
+  // Validation Settings
+  export let minItems: number = 0;
+  export let maxItems: number = Infinity;
+  // TODO: implement additional validation settings
+  // export let uniqueItems: boolean = false;
+  // export let contains: JSONSchema7 | undefined = undefined;
+  // export let minContains: number = 0;
+  // export let maxContains: number = Infinity;
+  // export let unevaluatedItems: JSONSchema7 | undefined = undefined; 
+
+  let hasItems: boolean = false;
+  let prefixed: JSONSchema7[] = [];
+  let additional: JSONSchema7 | undefined = undefined;
+  let canAddItem = false;
+
+  $: hasItems = data.length > 0;
+  $: {
+    const itemsIsArray = Array.isArray(items);
+    [prefixed, additional] = [
+      (itemsIsArray ? items : prefixItems ?? []) as JSONSchema7[],
+      (itemsIsArray ? additionalItems : items) as JSONSchema7
+    ];
+  }
+  $: canAddItem = (additional != null) && (data.length < maxItems);
 
   function getKey(index: number) {
     const value = data[index];
     const useIndex = (value == null) || (typeof value !== "object");
-    return useIndex ? index : value;
+    const key = useIndex ? `${index} | ${getType(index) ?? ""}` : value;
+    console.log("key:", key);
+    return key;
   }
 
-  $: hasItems = data.length > 0;
+  function getItem(index: number) {
+    return (prefixed.length > index) ? prefixed[index] : additional;
+  }
+
+  function getType(index: number) {
+    return getItem(index)?.type;
+  }
+
+  function canRemoveItem(index: number) {
+    return (index >= prefixed.length) && (data.length > minItems);
+  }
+
+  function canMoveItemUp(index: number) {
+    return (index > 0) && (getType(index) === getType(index - 1));
+  }
+
+  function canMoveItemDown(index: number) {
+    return (index < data.length - 1) && (getType(index) === getType(index + 1));
+  }
 
   function addItem() {
-    data = [...data, undefined];
+    if (canAddItem) {
+      data = [...data, undefined];
+    }
   }
 
   function removeItem(index: number) {
-    data = (data.splice(index, 1), data);
+    if (canRemoveItem(index)) {
+      data = (data.splice(index, 1), data);
+    }
   }
 
   function moveItemUp(index: number) {
-    if (index > 0) {
+    if (canMoveItemUp(index)) {
       [data[index - 1], data[index]] = [data[index], data[index - 1]];
     }
   }
 
   function moveItemDown(index: number) {
-    if (index < data.length - 1) {
+    if (canMoveItemDown(index)) {
       [data[index + 1], data[index]] = [data[index], data[index + 1]];
     }
   }
@@ -44,7 +96,7 @@
     <span>
       {#if title != null}{title}{/if}
     </span>
-    {#if items != null}
+    {#if canAddItem}
       <Fab mini on:click={addItem}>
         <Icon class="material-icons">add</Icon>
       </Fab>
@@ -58,22 +110,30 @@
       <ul class="control-array-items">
         {#each data as value, index (getKey(index))}
           <li>
-            <Control {...items} bind:data={value} />
+            <Control {...getItem(index)} bind:data={value} />
             <div class="control-array-item-actions">
               <IconButton
                 on:click={() => moveItemUp(index)}
                 class="material-icons"
                 size="button"
-                disabled={index === 0}
+                disabled={!canMoveItemUp(index)}
               >keyboard_arrow_up</IconButton>
-              <Fab mini on:click={() => removeItem(index)}>
-                <Icon class="material-icons">delete</Icon>
-              </Fab>
+              <!-- {#if canRemoveItem(index)}
+                <Fab mini on:click={() => removeItem(index)}>
+                  <Icon class="material-icons">delete</Icon>
+                </Fab>
+              {/if} -->
+              <IconButton
+                on:click={() => removeItem(index)}
+                class="material-icons"
+                size="button"
+                disabled={!canRemoveItem(index)}
+              >delete</IconButton>
               <IconButton
                 on:click={() => moveItemDown(index)}
                 class="material-icons"
                 size="button"
-                disabled={index === data.length - 1}
+                disabled={!canMoveItemDown(index)}
               >keyboard_arrow_down</IconButton>
             </div>
           </li>
