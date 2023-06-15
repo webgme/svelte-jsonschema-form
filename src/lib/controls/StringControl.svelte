@@ -1,6 +1,7 @@
 <script lang="ts">
   import Textfield from "@smui/textfield";
   import HelperText from "@smui/textfield/helper-text";
+  import Select, { Option } from "@smui/select";
 
   export let data: string | undefined = undefined;
   export let title: string | undefined = undefined;
@@ -12,9 +13,11 @@
 
   let defaultValue = $$props.default ?? "";
   let value: string = data ?? defaultValue;
+  let enumValues: string[] | undefined = undefined;
 
   $: updateData(value);
   $: updateValue(data);
+  $: enumValues = $$props.enum;
 
 
   function updateData(val: string) {
@@ -32,16 +35,27 @@
 </script>
 
 <div>
-  <Textfield
-    label={title}
-    bind:value={value}
-    input$minlength={minLength}
-    input$maxlength={maxLength}
-    input$pattern={pattern}
-    {required}
-  >
-    <HelperText persistent slot="helper">
+  {#if enumValues?.length}
+    <Select bind:value label={title} {required}>
+      {#each enumValues as enumValue}
+        <Option value={enumValue}>{enumValue}</Option>
+      {/each}
+    </Select>
+    <HelperText persistent>
       {#if description}{description}{/if}
     </HelperText>
-  </Textfield>
+  {:else}
+    <Textfield
+      label={title}
+      bind:value
+      input$minlength={minLength}
+      input$maxlength={maxLength}
+      input$pattern={pattern}
+      {required}
+    >
+      <HelperText persistent slot="helper">
+        {#if description}{description}{/if}
+      </HelperText>
+    </Textfield>
+  {/if}
 </div>
