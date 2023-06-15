@@ -1,11 +1,8 @@
 <script lang="ts">
   import SchemaForm from "$lib/SchemaForm.svelte";
-  import type { JSONSchema7 } from "json-schema";
-  import testSchema from "../schemas/nested/schema.json";
-  import testData from "../schemas/nested/data.json";
+  import { arrays as test } from "../schemas";
 
-  const schema = testSchema as JSONSchema7;
-  let data = testData;
+  let { schema, data } = test;
 </script>
 
 <SchemaForm {schema} bind:data={data} />
