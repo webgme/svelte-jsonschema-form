@@ -1,6 +1,6 @@
 <script lang="ts">
   import SchemaForm from "$lib/SchemaForm.svelte";
-  import { arrays as test } from "../schemas";
+  import { numbers as test } from "../schemas";
 
   let { schema, data } = test;
 </script>
