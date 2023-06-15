@@ -12,7 +12,7 @@
 
   function getKey(index: number) {
     const value = data[index];
-    const useIndex = (items == null) || (typeof items !== "object");
+    const useIndex = (value == null) || (typeof value !== "object");
     return useIndex ? index : value;
   }
 
