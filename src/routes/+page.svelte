@@ -1,5 +1,5 @@
 <script lang="ts">
-  import SchemaForm from "$lib/SchemaForm.svelte";
+  import SchemaForm from "$lib";
   import { numbers as test } from "../schemas";
 
   let { schema, data } = test;
