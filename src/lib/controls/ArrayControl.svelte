@@ -5,7 +5,7 @@
   import IconButton from "@smui/icon-button";
   import Control from "../Control.svelte";
 
-  export let data: any[] = [];
+  export let data: any[];
   export let title: string | undefined = undefined;
   export let description: string | null = null;
 
@@ -28,7 +28,10 @@
   let additional: JSONSchema7 | undefined = undefined;
   let canAddItem = false;
 
-  $: hasItems = data.length > 0;
+  $: if (data == null) {
+    data = [];
+  }
+  $: hasItems = data?.length > 0;
   $: {
     const itemsIsArray = Array.isArray(items);
     [prefixed, additional] = [
