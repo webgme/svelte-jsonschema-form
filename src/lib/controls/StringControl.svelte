@@ -9,7 +9,7 @@
   export let minLength: number | undefined = undefined;
   export let maxLength: number | undefined = undefined;
   export let pattern: string | undefined = undefined;
-  export let required: boolean | undefined = undefined;
+  export let isRequired: boolean | undefined = undefined;
 
   let defaultValue = $$props.default ?? "";
   let value: string = data ?? defaultValue;
@@ -36,7 +36,7 @@
 
 <div>
   {#if enumValues?.length}
-    <Select bind:value label={title} {required}>
+    <Select bind:value label={title} required={isRequired}>
       {#each enumValues as enumValue}
         <Option value={enumValue}>{enumValue}</Option>
       {/each}
@@ -51,7 +51,7 @@
       input$minlength={minLength}
       input$maxlength={maxLength}
       input$pattern={pattern}
-      {required}
+      required={isRequired}
     >
       <HelperText persistent slot="helper">
         {#if description}{description}{/if}

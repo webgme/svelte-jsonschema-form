@@ -23,7 +23,7 @@
   <Content>
     {#each Object.entries(properties) as [name, props] (name)}
       <Control
-        required={required.includes(name)}
+        isRequired={required.includes(name)}
         title={name}
         {...props}
         bind:data={data[name]}

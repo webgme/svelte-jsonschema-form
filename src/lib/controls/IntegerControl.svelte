@@ -6,7 +6,7 @@
   export let data: number | undefined = undefined;
   export let title: string | undefined = undefined;
   export let description: string | undefined = undefined;
-  export let required: boolean | undefined = undefined;
+  export let isRequired: boolean | undefined = undefined;
   export let minimum: number | undefined = undefined;
   export let maximum: number | undefined = undefined;
   export let multipleOf: number | undefined = undefined;
@@ -34,7 +34,7 @@
 
 <div class="control-integer">
   {#if enumValues?.length}
-    <Select bind:value label={title} {required}>
+    <Select bind:value label={title} required={isRequired}>
       {#each enumValues as enumValue}
         <Option value={enumValue}>{enumValue}</Option>
       {/each}
@@ -50,7 +50,7 @@
       input$min={minimum}
       input$max={maximum}
       input$step={multipleOf}
-      {required}
+      required={isRequired}
     >
       <HelperText persistent slot="helper">
         {#if description}{description}{/if}

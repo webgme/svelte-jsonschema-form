@@ -41,9 +41,7 @@
   function getKey(index: number) {
     const value = data[index];
     const useIndex = (value == null) || (typeof value !== "object");
-    const key = useIndex ? `${index} | ${getType(index) ?? ""}` : value;
-    console.log("key:", key);
-    return key;
+    return useIndex ? `${index} | ${getType(index) ?? ""}` : value;
   }
 
   function getItem(index: number) {
