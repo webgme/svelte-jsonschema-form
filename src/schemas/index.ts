@@ -7,6 +7,8 @@ import arraysSchema from "../schemas/arrays/schema.json";
 import arraysData from "../schemas/arrays/data.json";
 import numbersSchema from "../schemas/numbers/schema.json";
 import numbersData from "../schemas/numbers/data.json";
+import referencesSchema from "../schemas/references/schema.json";
+import referencesData from "../schemas/references/data.json";
 
 export const simple = {
   schema: simpleSchema as JSONSchema7,
@@ -26,4 +28,9 @@ export const arrays = {
 export const numbers = {
   schema: numbersSchema as JSONSchema7,
   data: numbersData
+};
+
+export const references = {
+  schema: referencesSchema as JSONSchema7,
+  data: referencesData
 };

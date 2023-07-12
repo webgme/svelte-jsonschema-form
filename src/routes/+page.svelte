@@ -1,6 +1,6 @@
 <script lang="ts">
   import SchemaForm from "$lib";
-  import { numbers as test } from "../schemas";
+  import { references as test } from "../schemas";
 
   let { schema, data } = test;
 </script>
