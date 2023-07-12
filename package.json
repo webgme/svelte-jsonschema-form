@@ -13,6 +13,7 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"test:unit": "vitest",
+		"prepare": "smui-theme compile static/smui.css -i src/theme",
 		"postinstall": "patch-package"
 	},
 	"exports": {
@@ -38,6 +39,8 @@
 		"@smui/icon-button": "^7.0.0-beta.8",
 		"@smui/paper": "^7.0.0-beta.8",
 		"@smui/select": "^7.0.0-beta.8",
+		"@smui/tab": "^7.0.0-beta.14",
+		"@smui/tab-bar": "^7.0.0-beta.14",
 		"@smui/textfield": "^7.0.0-beta.8",
 		"@sveltejs/adapter-auto": "^2.0.0",
 		"@sveltejs/kit": "^1.5.0",

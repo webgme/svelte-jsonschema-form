@@ -1,11 +1,24 @@
 <script lang="ts">
+  import TabBar from "@smui/tab-bar"
+  import Tab, { Label } from "@smui/tab"
   import SchemaForm from "$lib";
-  import { references as test } from "../schemas";
+  import * as schemas from "../schemas";
 
-  let { schema, data } = test;
+  let schemaNames = Object.keys(schemas) as (keyof typeof schemas)[];
+  let active = schemaNames[0];
+
+  $: schema = schemas[active].schema;
+  $: data = schemas[active].data;
 </script>
 
-<SchemaForm {schema} bind:data={data} />
+<section>
+  <TabBar tabs={schemaNames} let:tab bind:active>
+    <Tab {tab}>
+      <Label>{tab}</Label>
+    </Tab>
+  </TabBar>
+  <SchemaForm {schema} bind:data={data} />
+</section>
 
 <hr id="divider" />
 
