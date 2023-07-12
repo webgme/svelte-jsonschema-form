@@ -1,0 +1,14 @@
+diff --git a/node_modules/@json-schema-tools/dereferencer/build/dereferencer.js b/node_modules/@json-schema-tools/dereferencer/build/dereferencer.js
+index 138760a..147d4bb 100644
+--- a/node_modules/@json-schema-tools/dereferencer/build/dereferencer.js
++++ b/node_modules/@json-schema-tools/dereferencer/build/dereferencer.js
+@@ -193,7 +193,8 @@ var Dereferencer = /** @class */ (function () {
+                         _a.label = 5;
+                     case 5:
+                         if (!(this.options.recursive === true && fetched !== true && fetched !== false && ref !== "#")) return [3 /*break*/, 9];
+-                        subDerefferOpts = __assign(__assign({}, this.options), { refCache: this.refCache });
++                        const refCache = __assign({ [ref]: fetched }, this.refCache);
++                        subDerefferOpts = __assign(__assign({}, this.options), { refCache });
+                         subDereffer = new Dereferencer(fetched, subDerefferOpts);
+                         if (!(subDereffer.refs.length !== 0)) return [3 /*break*/, 7];
+                         subFetchedProm = subDereffer._resolve();
