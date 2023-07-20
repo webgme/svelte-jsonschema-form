@@ -10,9 +10,9 @@
 
 
   $: dereferencing = new JsonSchemaDereferencer(
-    structuredClone(schema),
+    mergeAllOf(structuredClone(schema)),
     { mutate: true }
-  ).resolve().then<JSONSchema7>(mergeAllOf);
+  ).resolve();
 </script>
 
 {#await dereferencing}
