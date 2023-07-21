@@ -9,6 +9,8 @@ import numbersSchema from "../schemas/numbers/schema.json";
 import numbersData from "../schemas/numbers/data.json";
 import referencesSchema from "../schemas/references/schema.json";
 import referencesData from "../schemas/references/data.json";
+import anyOfSchema from "../schemas/any-of/schema.json";
+import anyOfData from "../schemas/any-of/data.json";
 import allOfSchema from "../schemas/all-of/schema.json";
 import allOfData from "../schemas/all-of/data.json";
 
@@ -35,6 +37,11 @@ export const numbers = {
 export const references = {
   schema: referencesSchema as JSONSchema7,
   data: referencesData
+};
+
+export const anyOf = {
+  schema: <unknown>anyOfSchema as JSONSchema7,
+  data: anyOfData
 };
 
 export const allOf = {
