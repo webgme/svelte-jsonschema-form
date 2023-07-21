@@ -61,6 +61,7 @@
 	"type": "module",
 	"dependencies": {
 		"@json-schema-tools/dereferencer": "^1.6.1",
+		"@json-schema-tools/validator": "^1.4.0",
 		"core-js": "^3.31.1",
 		"json-schema-merge-allof": "^0.8.1",
 		"patch-package": "^7.0.2"
