@@ -3,6 +3,7 @@
 	"version": "0.0.1",
 	"description": "A Svelte component for generating forms from JSON Schema.",
 	"license": "MIT",
+	"repository": "github:webgme/svelte-jsonschema-form",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build && npm run package",
@@ -14,7 +15,8 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"test:unit": "vitest",
 		"prepare": "smui-theme compile static/smui.css -i src/theme",
-		"postinstall": "patch-package"
+		"postinstall": "patch-package",
+		"deploy": "node scripts/deploy.js"
 	},
 	"exports": {
 		".": {
