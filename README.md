@@ -4,6 +4,8 @@ This is a Svelte component for generating forms based on a JSON schema. Though d
 
 [Initial webgme-taxonomy issue](https://github.com/webgme/webgme-taxonomy/issues/235)
 
+[Svelte JSON Schema Form Playground](https://webgme.github.io/svelte-jsonschema-form/)
+
 ## Similar Projects
 
 - [react-jsonschema-form](https://rjsf-team.github.io/react-jsonschema-form/)
