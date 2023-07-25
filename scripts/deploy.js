@@ -11,7 +11,7 @@ const url = GITHUB_TOKEN ?
 	`https://git:${GITHUB_TOKEN}@${repository}.git` :
 	`git@${repository}.git`
 
-const options = { cwd: 'dist' }
+const options = { cwd: 'build' }
 const command = [
 	"git init -b master",
 	GIT_CONFIG_NAME && `git config user.name "${GIT_CONFIG_NAME}"`,
