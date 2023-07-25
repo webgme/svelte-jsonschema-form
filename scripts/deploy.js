@@ -1,4 +1,4 @@
-import { version, repository } from '../package.json';
+import { version, repository } from '../package.json' assert { type: "json" };
 import { exec } from 'child_process';
 
 const {
