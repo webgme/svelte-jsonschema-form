@@ -13,13 +13,18 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Use Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: 18
+          cache: npm
       - name: Install
-        run: npm ci
+        env:
+          BASE_PATH: '/svelte-jsonschema-form'
+        run: |
+          npm ci
+          touch build/.nojekyll
       - name: Deploy Release
         run: npm run deploy
         env:
