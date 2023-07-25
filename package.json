@@ -21,8 +21,8 @@
 	},
 	"exports": {
 		".": {
-			"main": "./dist/index.js",
 			"types": "./dist/index.d.ts",
+			"main": "./dist/index.js",
 			"svelte": "./dist/index.js"
 		}
 	},

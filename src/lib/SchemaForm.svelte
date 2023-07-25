@@ -1,6 +1,7 @@
 <script lang="ts">
   import 'core-js/actual/structured-clone';
   import type { JSONSchema7 } from "json-schema";
+  import { building } from '$app/environment';
   import JsonSchemaDereferencer from "@json-schema-tools/dereferencer";
   import mergeAllOf from "json-schema-merge-allof";
   import Control from "./Control.svelte"; 
@@ -8,8 +9,16 @@
   export let schema: JSONSchema7 = {};
   export let data: { [prop: string]: any } = {};
 
+  /* A bit of a hack - When bulding the static test site, the dereferencer is still behind a
+   * `.default` property for some reason. I'm guessing it has something to do with how modules are
+   * imported during the svelte build process. When running in browser, it appears to be imported
+   * properly (so `.default` is `undefined`).
+   */
+  const Dereferencer: typeof JsonSchemaDereferencer = building
+    ? (<any>JsonSchemaDereferencer).default
+    : JsonSchemaDereferencer;
 
-  $: dereferencing = new JsonSchemaDereferencer(
+  $: dereferencing = new Dereferencer(
     mergeAllOf(structuredClone(schema)),
     { mutate: true }
   ).resolve();
