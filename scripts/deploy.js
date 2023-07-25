@@ -1,5 +1,5 @@
-const { version, repository } = require('../package.json')
-const { exec } = require('child_process')
+import { version, repository } from '../package.json';
+import { exec } from 'child_process';
 
 const {
 	GIT_CONFIG_NAME,
