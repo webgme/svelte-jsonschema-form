@@ -1,7 +1,6 @@
 <script lang="ts">
   import 'core-js/actual/structured-clone';
   import type { JSONSchema7 } from "json-schema";
-  import { building } from '$app/environment';
   import JsonSchemaDereferencer from "@json-schema-tools/dereferencer";
   import mergeAllOf from "json-schema-merge-allof";
   import Control from "./Control.svelte"; 
@@ -14,9 +13,7 @@
    * imported during the svelte build process. When running in browser, it appears to be imported
    * properly (so `.default` is `undefined`).
    */
-  const Dereferencer: typeof JsonSchemaDereferencer = building
-    ? (<any>JsonSchemaDereferencer).default
-    : JsonSchemaDereferencer;
+  const Dereferencer: typeof JsonSchemaDereferencer = (<any>JsonSchemaDereferencer).default ?? JsonSchemaDereferencer;
 
   $: dereferencing = new Dereferencer(
     mergeAllOf(structuredClone(schema)),
