@@ -10,9 +10,9 @@ const {
 	GITHUB_TOKEN
 } = process.env
 
-const url = GITHUB_TOKEN ?
-	`https://git:${GITHUB_TOKEN}@${repository}.git` :
-	`git@${repository}.git`
+const url = new URL(repository.url);
+url.username = "git";
+url.password = GITHUB_TOKEN;
 
 const options = { cwd: 'build' }
 const command = [

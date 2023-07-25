@@ -3,7 +3,10 @@
 	"version": "0.0.1",
 	"description": "A Svelte component for generating forms from JSON Schema.",
 	"license": "MIT",
-	"repository": "github:webgme/svelte-jsonschema-form",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/webgme/svelte-jsonschema-form.git"
+	},
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build && npm run package",
