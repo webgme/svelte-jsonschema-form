@@ -22,9 +22,8 @@ jobs:
       - name: Install
         env:
           BASE_PATH: '/svelte-jsonschema-form'
-        run: |
-          npm ci
-          touch build/.nojekyll
+        run: npm ci
+      - run: touch build/.nojekyll
       - name: Upload Artifacts
         uses: actions/upload-pages-artifact@v1
         with:
