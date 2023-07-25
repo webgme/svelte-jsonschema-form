@@ -7,8 +7,8 @@ on:
 
 jobs:
 
-  deploy-github-pages:
-    name: Deploy example page to GitHub Pages
+  build_site:
+    name: Build pages artifacts
     runs-on: ubuntu-latest
 
     steps:
@@ -25,9 +25,25 @@ jobs:
         run: |
           npm ci
           touch build/.nojekyll
-      - name: Deploy Release
-        run: npm run deploy
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GIT_CONFIG_NAME: github-actions[bot]
-          GIT_CONFIG_EMAIL: github-actions[bot]@users.noreply.github.com
+      - name: Upload Artifacts
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: 'build/'
+
+  deploy:
+    needs: build_site
+    name: Deploy example page to GitHub Pages
+    runs-on: ubuntu-latest
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v1
