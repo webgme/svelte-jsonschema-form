@@ -1,5 +1,8 @@
-import { version, repository } from '../package.json' assert { type: "json" };
 import { exec } from 'child_process';
+import { createRequire } from "module";
+
+const require = createRequire(import.meta.url);
+const { version, repository } = require("../package.json");
 
 const {
 	GIT_CONFIG_NAME,
