@@ -1,14 +1,44 @@
 <script lang="ts">
+  import type { JSONSchema7 } from "json-schema";
   import TabBar from "@smui/tab-bar"
   import Tab, { Label } from "@smui/tab"
+  import Textfield from '@smui/textfield';
   import SchemaForm from "$lib";
   import * as schemas from "../schemas";
 
   let schemaNames = Object.keys(schemas) as (keyof typeof schemas)[];
   let active = schemaNames[0];
+  let schemaString = "";
+  let dataString = "";
 
-  $: schema = schemas[active].schema;
-  $: data = schemas[active].data;
+  $: schema = structuredClone(schemas[active].schema);
+  $: data = structuredClone(schemas[active].data);
+  $: setSchemaString(schema);
+  $: setDataString(data);
+
+  function setSchemaString(schema: JSONSchema7) {
+    schemaString = JSON.stringify(schema, null, 2);
+  }
+
+  function setDataString(data: any) {
+    dataString = JSON.stringify(data, null, 2);
+  }
+
+  function setSchema() {
+    try {
+      schema = JSON.parse(schemaString);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  function setData() {
+    try {
+      data = JSON.parse(dataString);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 </script>
 
 <section>
@@ -23,15 +53,19 @@
 <hr id="divider" />
 
 <section id="debug">
-  <div id="schema">
-    <h2>Schema</h2>
-    <pre>{JSON.stringify(schema, null, 2)}</pre>
-  </div>
+  <Textfield
+    textarea
+    bind:value={schemaString}
+    on:change={setSchema}
+    label="Schema"
+  />
 
-  <div id="data">
-    <h2>Data</h2>
-    <pre>{JSON.stringify(data, null, 2)}</pre>
-  </div>
+  <Textfield
+    textarea
+    bind:value={dataString}
+    on:change={setData}
+    label="Data"
+  />
 </section>
 
 <style>
@@ -42,9 +76,11 @@
   #debug {
     display: flex;
     justify-content: space-between;
+    min-height: 500px;
   }
 
-  #debug > div {
+  #debug > :global(*) {
+    margin: 8px;
     flex: 1;
   }
 </style>
