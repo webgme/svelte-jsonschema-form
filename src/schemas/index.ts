@@ -14,37 +14,46 @@ import anyOfData from "../schemas/any-of/data.json";
 import allOfSchema from "../schemas/all-of/schema.json";
 import allOfData from "../schemas/all-of/data.json";
 
-export const simple = {
-  schema: simpleSchema as JSONSchema7,
-  data: simpleData
-}
-
-export const nested = {
-  schema: nestedSchema as JSONSchema7,
-  data: nestedData
-}
-
-export const arrays = {
-  schema: arraysSchema as JSONSchema7,
-  data: arraysData
-}
-
-export const numbers = {
-  schema: numbersSchema as JSONSchema7,
-  data: numbersData
+export type TestSchema = {
+  name: string;
+  schema: JSONSchema7;
+  data: { [prop: string]: any };
 };
 
-export const references = {
-  schema: referencesSchema as JSONSchema7,
-  data: referencesData
-};
-
-export const anyOf = {
-  schema: <unknown>anyOfSchema as JSONSchema7,
-  data: anyOfData
-};
-
-export const allOf = {
-  schema: <unknown>allOfSchema as JSONSchema7,
-  data: allOfData
-};
+export default [
+  {
+    name: "Simple",
+    schema: simpleSchema as JSONSchema7,
+    data: simpleData
+  },
+  {
+    name: "Nested",
+    schema: nestedSchema as JSONSchema7,
+    data: nestedData
+  },
+  {
+    name: "Arrays",
+    schema: arraysSchema as JSONSchema7,
+    data: arraysData
+  },
+  {
+    name: "Numbers",
+    schema: numbersSchema as JSONSchema7,
+    data: numbersData
+  },
+  {
+    name: "References",
+    schema: referencesSchema as JSONSchema7,
+    data: referencesData
+  },
+  {
+    name: "Any Of",
+    schema: <unknown>anyOfSchema as JSONSchema7,
+    data: anyOfData
+  },
+  {
+    name: "All Of",
+    schema: <unknown>allOfSchema as JSONSchema7,
+    data: allOfData
+  }
+] as TestSchema[];

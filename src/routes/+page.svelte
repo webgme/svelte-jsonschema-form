@@ -1,27 +1,31 @@
 <script lang="ts">
-  import type { JSONSchema7 } from "json-schema";
   import TabBar from "@smui/tab-bar"
   import Tab, { Label } from "@smui/tab"
   import Textfield from '@smui/textfield';
   import SchemaForm from "$lib";
-  import * as schemas from "../schemas";
+  import schemas, { type TestSchema } from "../schemas";
 
-  let schemaNames = Object.keys(schemas) as (keyof typeof schemas)[];
-  let active = schemaNames[0];
+  let active = schemas[0];
+  let schema: TestSchema["schema"];
+  let data: TestSchema["data"];
   let schemaString = "";
   let dataString = "";
 
-  $: schema = structuredClone(schemas[active].schema);
-  $: data = structuredClone(schemas[active].data);
+  $: updateActive(active);
   $: setSchemaString(schema);
   $: setDataString(data);
 
-  function setSchemaString(schema: JSONSchema7) {
+  function setSchemaString(schema: TestSchema["schema"]) {
     schemaString = JSON.stringify(schema, null, 2);
   }
 
-  function setDataString(data: any) {
+  function setDataString(data: TestSchema["data"]) {
     dataString = JSON.stringify(data, null, 2);
+  }
+
+  function updateActive(active: TestSchema) {
+    schema = structuredClone(active.schema);
+    data = structuredClone(active.data);
   }
 
   function setSchema() {
@@ -42,12 +46,12 @@
 </script>
 
 <section>
-  <TabBar tabs={schemaNames} let:tab bind:active>
+  <TabBar tabs={schemas} let:tab bind:active>
     <Tab {tab}>
-      <Label>{tab}</Label>
+      <Label>{tab.name}</Label>
     </Tab>
   </TabBar>
-  <SchemaForm {schema} bind:data={data} />
+  <SchemaForm {schema} bind:data />
 </section>
 
 <hr id="divider" />
