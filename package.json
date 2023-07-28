@@ -12,7 +12,7 @@
 		"dev": "vite dev",
 		"build": "vite build && npm run package",
 		"build:theme": "smui-theme compile static/smui.css -i src/theme",
-		"build:static": "vite build --static && npm run package && npm run build:theme",
+		"build:static": "npm run build --static && npm run build:theme",
 		"preview": "vite preview",
 		"package": "svelte-kit sync && svelte-package && publint",
 		"prepublishOnly": "npm run package",
