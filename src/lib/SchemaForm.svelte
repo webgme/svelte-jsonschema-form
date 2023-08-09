@@ -21,11 +21,13 @@
   ).resolve();
 </script>
 
-{#await dereferencing}
-  <div>dereferencing...</div>
-{:then dereferenced}
-  <Control {...dereferenced} bind:data={data} />
-{:catch error}
-  <div class="error">ERROR: {error.message}</div>
-{/await}
+<form class="jsonschema-form">
+  {#await dereferencing}
+    <p>dereferencing...</p>
+  {:then dereferenced}
+    <Control {...dereferenced} bind:data={data} />
+  {:catch error}
+    <div class="error">ERROR: {error.message}</div>
+  {/await}
+</form>
  
