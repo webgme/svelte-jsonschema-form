@@ -40,6 +40,10 @@
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.28.1",
+		"@smui/button": "^7.0.0-beta.14",
+		"@smui/snackbar": "^7.0.0-beta.14",
+		"@smui/tab": "^7.0.0-beta.14",
+		"@smui/tab-bar": "^7.0.0-beta.14",
 		"@sveltejs/adapter-auto": "^2.0.0",
 		"@sveltejs/adapter-static": "^2.0.2",
 		"@sveltejs/kit": "^1.5.0",
@@ -60,16 +64,14 @@
 	"type": "module",
 	"dependencies": {
 		"@json-schema-tools/dereferencer": "^1.6.1",
-		"@json-schema-tools/validator": "^1.4.0",
 		"@smui/checkbox": "^7.0.0-beta.14",
 		"@smui/fab": "^7.0.0-beta.14",
 		"@smui/form-field": "^7.0.0-beta.14",
 		"@smui/icon-button": "^7.0.0-beta.14",
 		"@smui/paper": "^7.0.0-beta.14",
 		"@smui/select": "^7.0.0-beta.14",
-		"@smui/tab": "^7.0.0-beta.14",
-		"@smui/tab-bar": "^7.0.0-beta.14",
 		"@smui/textfield": "^7.0.0-beta.14",
+		"ajv": "^8.12.0",
 		"core-js": "^3.31.1",
 		"json-schema-merge-allof": "^0.8.1",
 		"patch-package": "^7.0.2"

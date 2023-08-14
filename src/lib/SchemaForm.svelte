@@ -2,7 +2,7 @@
   import 'core-js/actual/structured-clone';
   import type { JSONSchema7 } from "json-schema";
   import JsonSchemaDereferencer from "@json-schema-tools/dereferencer";
-  import validator, { ValidationErrors } from "@json-schema-tools/validator";
+  import Ajv from "ajv";
   import mergeAllOf from "json-schema-merge-allof";
   import Control from "./Control.svelte"; 
 
