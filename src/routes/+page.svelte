@@ -1,8 +1,11 @@
 <script lang="ts">
   import TabBar from "@smui/tab-bar"
   import Tab, { Label } from "@smui/tab"
+  import IconButton from '@smui/icon-button';
+  import Button, { Label as BtnLabel } from "@smui/button"
   import Textfield from '@smui/textfield';
-  import SchemaForm from "$lib";
+  import Snackbar, { Label as SBLabel, Actions } from '@smui/snackbar';
+  import SchemaForm, { type ValidationError } from "$lib";
   import schemas, { type TestSchema } from "../schemas";
 
   let active = schemas[0];
@@ -10,6 +13,10 @@
   let data: TestSchema["data"];
   let schemaString = "";
   let dataString = "";
+  let validationError: ValidationError | null = null;
+
+  let schemaForm: SchemaForm;
+  let errorSnackbar: Snackbar;
 
   $: updateActive(active);
   $: setSchemaString(schema);
@@ -43,6 +50,15 @@
       console.error(error);
     }
   }
+
+  function download() {
+    try {
+      schemaForm.download();
+    } catch (error) {
+      validationError = error as ValidationError;
+      errorSnackbar.open();
+    }
+  }
 </script>
 
 <section>
@@ -51,7 +67,29 @@
       <Label>{tab.name}</Label>
     </Tab>
   </TabBar>
-  <SchemaForm {schema} bind:data />
+  <SchemaForm {schema} bind:data bind:this={schemaForm}>
+    <Button on:click={download} type="button" variant="raised">
+      <BtnLabel>Download</BtnLabel>
+    </Button>
+  </SchemaForm>
+
+  <Snackbar class="schema-error" bind:this={errorSnackbar}>
+    <SBLabel>
+      {#if validationError}
+        {validationError.message}
+        <ul>
+          {#each validationError.errors as error}
+            <li>{error.message}</li>
+          {/each}
+        </ul>
+      {:else}
+        Unknown error
+      {/if}
+    </SBLabel>
+    <Actions>
+      <IconButton class="material-icons" title="Dismiss">close</IconButton>
+    </Actions>
+  </Snackbar>
 </section>
 
 <hr id="divider" />
