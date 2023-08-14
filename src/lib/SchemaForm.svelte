@@ -4,7 +4,8 @@
   import JsonSchemaDereferencer from "@json-schema-tools/dereferencer";
   import Ajv from "ajv";
   import mergeAllOf from "json-schema-merge-allof";
-  import Control from "./Control.svelte"; 
+  import Control from "./Control.svelte";
+  import ValidationError from "./ValidationError";
 
   export let schema: JSONSchema7 = {};
   export let data: { [prop: string]: any } = {};
@@ -15,6 +16,7 @@
    * properly (so `.default` is `undefined`).
    */
   const Dereferencer: typeof JsonSchemaDereferencer = (<any>JsonSchemaDereferencer).default ?? JsonSchemaDereferencer;
+  const ajv = new Ajv();
 
   const actions = {
     get blob() {
@@ -34,28 +36,30 @@
     { mutate: true }
   ).resolve();
 
-  async function validate() {
-    const schema = await dereferencing;
-    return validator(schema, data);
+  $: validator = ajv.compile(schema);
+
+  export function validate() {
+    const valid = validator(data);
+    return valid || (validator.errors ?? false);
   }
 
-  function getBlob() {
+  export function getBlob() {
     return new Blob(
       [JSON.stringify(data)],
       { type: "application/json"}
     );
   }
 
-  function getUrl() {
+  export function getUrl() {
     const blob = getBlob();
     return URL.createObjectURL(blob);
   }
 
-  async function download(filename: string = "data", options?: { validate: boolean }) {
+  export function download(filename: string = "data", options?: { validate: boolean }) {
     const opts = Object.assign({ validate: true }, options);
-    const validity = opts.validate && await validate();
-    if (validity instanceof ValidationErrors) {
-      throw validity;
+    const validity = !opts.validate || validate();
+    if (validity !== true) {
+      throw new ValidationError(validity)
     }
     const url = getUrl();
     const anchor = document.createElementNS('http://www.w3.org/1999/xhtml', 'a') as HTMLAnchorElement;
