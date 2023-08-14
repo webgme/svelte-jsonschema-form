@@ -81,8 +81,19 @@
     <div class="error">ERROR: {error.message}</div>
   {/await}
 
-  <div class="actions">
-    <slot {actions} />
-  </div>
+  {@debug $$slots}
+  {#if $$slots.default}
+    <div class="actions">
+      <slot {actions} />
+    </div>
+  {/if}
 </form>
+
+<style>
+
+  .jsonschema-form .actions {
+    margin: 12px 0;
+  }
+
+</style>
  
