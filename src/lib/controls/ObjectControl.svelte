@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { JSONSchema7, JSONSchema7Definition } from "json-schema";
+  import type { JSONSchema7Definition } from "json-schema";
   import Paper, { Title, Subtitle, Content } from "@smui/paper";
   import Control from "../Control.svelte";
   import AnyOfControl from "./AnyOfControl.svelte";

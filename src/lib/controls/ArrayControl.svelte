@@ -111,7 +111,7 @@
       <ul class="control-array-items">
         {#each data as value, index (getKey(index))}
           <li>
-            <Control {...getItem(index)} bind:data={value} />
+            <Control {...getItem(index)} bind:data={value} force={true} />
             <div class="control-array-item-actions">
               <IconButton
                 on:click={() => moveItemUp(index)}

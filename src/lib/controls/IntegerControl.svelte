@@ -10,6 +10,7 @@
   export let minimum: number | undefined = undefined;
   export let maximum: number | undefined = undefined;
   export let multipleOf: number | undefined = undefined;
+  export let force: boolean = false;
 
   let defaultValue = $$props.default ?? "";
   let value = data ?? defaultValue;
@@ -21,7 +22,7 @@
 
   function updateData(val: number) {
     if ((data !== val) && ((data != null) || (val != defaultValue))) {
-      data = val;
+      data = val ?? undefined;
     }
   }
 
@@ -35,6 +36,9 @@
 <div class="control-integer">
   {#if enumValues?.length}
     <Select bind:value label={title} required={isRequired}>
+      {#if !force}
+        <Option value={null}/>
+      {/if}
       {#each enumValues as enumValue}
         <Option value={enumValue}>{enumValue}</Option>
       {/each}
