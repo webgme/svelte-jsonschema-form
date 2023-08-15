@@ -21,6 +21,7 @@
   $: updateActive(active);
   $: setSchemaString(schema);
   $: setDataString(data);
+  $: if (validationError != null) errorSnackbar.open();
 
   function setSchemaString(schema: TestSchema["schema"]) {
     schemaString = JSON.stringify(schema, null, 2);
@@ -56,7 +57,6 @@
       schemaForm.download();
     } catch (error) {
       validationError = error as ValidationError;
-      errorSnackbar.open();
     }
   }
 </script>
