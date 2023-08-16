@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { JSONSchema7 } from "json-schema";
-  import Paper, { Title, Subtitle, Content } from "@smui/paper";
+  import Accordion, { Panel, Header, Content } from '@smui-extra/accordion';
+  // import Paper, { Title, Subtitle, Content } from "@smui/paper";
   import Fab, { Icon } from "@smui/fab";
   import IconButton from "@smui/icon-button";
   import Control from "../Control.svelte";
@@ -23,6 +24,7 @@
   // export let maxContains: number = Infinity;
   // export let unevaluatedItems: JSONSchema7 | undefined = undefined; 
 
+  let open = true;
   let hasItems: boolean = false;
   let prefixed: JSONSchema7[] = [];
   let additional: JSONSchema7 | undefined = undefined;
@@ -90,23 +92,30 @@
       [data[index + 1], data[index]] = [data[index], data[index + 1]];
     }
   }
+
+  function headerAddItem(event: Event) {
+    addItem();
+    event.stopPropagation();
+    event.preventDefault();
+    return false;
+  }
 </script>
 
-<Paper class="control-array">
-  <Title>
-    <span>
-      {#if title != null}{title}{/if}
-    </span>
-    {#if canAddItem}
-      <Fab mini on:click={addItem}>
-        <Icon class="material-icons">add</Icon>
-      </Fab>
-    {/if}
-  </Title>
-  {#if description != null}
-    <Subtitle>{description}</Subtitle>
-  {/if}
-  {#if hasItems}
+<Accordion class="control-array">
+  <Panel bind:open color="secondary">
+    <Header>
+      {title ?? ""}
+      <span slot="description">{description ?? ""}</span>
+      <div slot="icon">
+        {#if canAddItem}
+          <IconButton class="material-icons" on:click={headerAddItem}>add</IconButton>
+        {/if}
+        <IconButton toggle pressed={open}>
+          <Icon class="material-icons" on>expand_less</Icon>
+          <Icon class="material-icons">expand_more</Icon>
+        </IconButton>
+      </div>
+    </Header>
     <Content>
       <ul class="control-array-items">
         {#each data as value, index (getKey(index))}
@@ -141,13 +150,17 @@
         {/each}
       </ul>
     </Content>
-  {/if}
-</Paper>
+  </Panel>
+</Accordion>
 
 <style>
   :global(.control-array .smui-paper__title) {
     display: flex;
     justify-content: space-between;
+  }
+
+  :global(.control-array.smui-accordion > .smui-accordion__panel > .smui-paper__content) {
+    background-color: var(--mdc-theme-surface, transparent);
   }
 
   .control-array-items {
@@ -168,6 +181,10 @@
     margin-left: 1rem;
     display: flex;
     flex-direction: column;
+  }
+
+  .control-array-items > li > .control-array-item-actions :global(.mdc-icon-button) {
+    color: revert;
   }
 
   .control-array-items :global(.smui-paper__content) {
