@@ -11,6 +11,14 @@
   $error: color-palette.$red-900
 );
 
+:root {
+  --mdc-theme-primary: #{theme.$primary};
+  --mdc-theme-secondary: #{theme.$secondary};
+  --mdc-theme-surface: #{theme.$surface};
+  --mdc-theme-background: #{theme.$background};
+  --mdc-theme-error: #{theme.$error};
+}
+
 html,
 body {
   background-color: theme.$surface;
