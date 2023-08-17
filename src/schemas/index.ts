@@ -13,6 +13,8 @@ import anyOfSchema from "../schemas/any-of/schema.json";
 import anyOfData from "../schemas/any-of/data.json";
 import allOfSchema from "../schemas/all-of/schema.json";
 import allOfData from "../schemas/all-of/data.json";
+import taxonomySchema from "../schemas/taxonomy/schema.json"; 
+import taxonomyData from "../schemas/taxonomy/data.json"; 
 
 export type TestSchema = {
   name: string;
@@ -55,5 +57,10 @@ export default [
     name: "All Of",
     schema: <unknown>allOfSchema as JSONSchema7,
     data: allOfData
+  },
+  {
+    name: "Taxonomy",
+    schema: taxonomySchema,
+    data: taxonomyData
   }
 ] as TestSchema[];

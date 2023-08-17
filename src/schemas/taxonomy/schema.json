@@ -1,0 +1,252 @@
+{
+  "title": "Metadata for Data",
+  "type": "object",
+  "properties": {
+      "Subject": {
+          "type": "object",
+          "properties": {
+              "Location": {
+                  "title": "Location",
+                  "type": "object",
+                  "properties": {
+                      "Country": {
+                          "title": "Country",
+                          "type": "string"
+                      },
+                      "State": {
+                          "title": "State",
+                          "type": "string"
+                      },
+                      "ZIP": {
+                          "title": "ZIP",
+                          "type": "integer"
+                      }
+                  },
+                  "required": [],
+                  "additionalProperties": false
+              },
+              "Sex": {
+                  "title": "Sex",
+                  "type": "object",
+                  "properties": {
+                      "value": {
+                          "title": "value",
+                          "type": "object",
+                          "anyOf": [
+                              {
+                                  "title": "Female",
+                                  "type": "object",
+                                  "properties": {
+                                      "Female": {
+                                          "title": "Female",
+                                          "type": "object",
+                                          "properties": {},
+                                          "required": [],
+                                          "additionalProperties": false
+                                      }
+                                  },
+                                  "additionalProperties": false
+                              },
+                              {
+                                  "title": "Other",
+                                  "type": "object",
+                                  "properties": {
+                                      "Other": {
+                                          "title": "Other",
+                                          "type": "object",
+                                          "properties": {},
+                                          "required": [],
+                                          "additionalProperties": false
+                                      }
+                                  },
+                                  "additionalProperties": false
+                              },
+                              {
+                                  "title": "Male",
+                                  "type": "object",
+                                  "properties": {
+                                      "Male": {
+                                          "title": "Male",
+                                          "type": "object",
+                                          "properties": {},
+                                          "required": [],
+                                          "additionalProperties": false
+                                      }
+                                  },
+                                  "additionalProperties": false
+                              }
+                          ]
+                      }
+                  },
+                  "required": [],
+                  "additionalProperties": false
+              },
+              "Race": {
+                  "title": "Race",
+                  "type": "object",
+                  "properties": {
+                      "value": {
+                          "title": "value",
+                          "type": "object",
+                          "anyOf": [
+                              {
+                                  "title": "Non-Hispanic Black",
+                                  "type": "object",
+                                  "properties": {
+                                      "Non-Hispanic Black": {
+                                          "title": "Non-Hispanic Black",
+                                          "type": "object",
+                                          "properties": {},
+                                          "required": [],
+                                          "additionalProperties": false
+                                      }
+                                  },
+                                  "additionalProperties": false
+                              },
+                              {
+                                  "title": "Hispanic",
+                                  "type": "object",
+                                  "properties": {
+                                      "Hispanic": {
+                                          "title": "Hispanic",
+                                          "type": "object",
+                                          "properties": {},
+                                          "required": [],
+                                          "additionalProperties": false
+                                      }
+                                  },
+                                  "additionalProperties": false
+                              },
+                              {
+                                  "title": "Asian/Pacific-Islander",
+                                  "type": "object",
+                                  "properties": {
+                                      "Asian/Pacific-Islander": {
+                                          "title": "Asian/Pacific-Islander",
+                                          "type": "object",
+                                          "properties": {},
+                                          "required": [],
+                                          "additionalProperties": false
+                                      }
+                                  },
+                                  "additionalProperties": false
+                              },
+                              {
+                                  "title": "Other",
+                                  "type": "object",
+                                  "properties": {
+                                      "Other": {
+                                          "title": "Other",
+                                          "type": "object",
+                                          "properties": {},
+                                          "required": [],
+                                          "additionalProperties": false
+                                      }
+                                  },
+                                  "additionalProperties": false
+                              },
+                              {
+                                  "title": "Non-Hispanic White",
+                                  "type": "object",
+                                  "properties": {
+                                      "Non-Hispanic White": {
+                                          "title": "Non-Hispanic White",
+                                          "type": "object",
+                                          "properties": {},
+                                          "required": [],
+                                          "additionalProperties": false
+                                      }
+                                  },
+                                  "additionalProperties": false
+                              }
+                          ]
+                      }
+                  },
+                  "required": [],
+                  "additionalProperties": false
+              },
+              "DOB": {
+                  "title": "DOB",
+                  "type": "object",
+                  "properties": {
+                      "value": {
+                          "title": "value",
+                          "type": "string"
+                      }
+                  },
+                  "required": [],
+                  "additionalProperties": false
+              },
+              "Handedness": {
+                  "title": "Handedness",
+                  "type": "object",
+                  "properties": {
+                      "value": {
+                          "title": "value",
+                          "type": "object",
+                          "anyOf": [
+                              {
+                                  "title": "Left",
+                                  "type": "object",
+                                  "properties": {
+                                      "Left": {
+                                          "title": "Left",
+                                          "type": "object",
+                                          "properties": {},
+                                          "required": [],
+                                          "additionalProperties": false
+                                      }
+                                  },
+                                  "additionalProperties": false
+                              },
+                              {
+                                  "title": "Right",
+                                  "type": "object",
+                                  "properties": {
+                                      "Right": {
+                                          "title": "Right",
+                                          "type": "object",
+                                          "properties": {},
+                                          "required": [],
+                                          "additionalProperties": false
+                                      }
+                                  },
+                                  "additionalProperties": false
+                              }
+                          ]
+                      }
+                  },
+                  "required": [],
+                  "additionalProperties": false
+              },
+              "Height": {
+                  "title": "Height",
+                  "type": "object",
+                  "properties": {
+                      "value": {
+                          "title": "value",
+                          "type": "number"
+                      }
+                  },
+                  "required": [],
+                  "additionalProperties": false
+              },
+              "Weight": {
+                  "title": "Weight",
+                  "type": "object",
+                  "properties": {
+                      "value": {
+                          "title": "value",
+                          "type": "integer"
+                      }
+                  },
+                  "required": [],
+                  "additionalProperties": false
+              }
+          },
+          "required": []
+      }
+  },
+  "additionalProperties": false,
+  "required": []
+}
