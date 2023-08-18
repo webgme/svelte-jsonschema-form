@@ -55,9 +55,22 @@
 
 
 <style>
-
+  :global(.control-object) {
+    flex-basis: 100%;
+  }
   :global(.control-object.smui-accordion > .smui-accordion__panel > .smui-paper__content) {
-    background-color: var(--mdc-theme-surface, transparent);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
   }
 
+  :global(.control-object.smui-accordion > .smui-accordion__panel > .smui-paper__content > *) {
+    flex: 1;
+    min-width: 200px;
+  }
+
+  :global(.control-object.smui-accordion > .smui-accordion__panel > .smui-paper__content > .control-object),
+  :global(.control-object.smui-accordion > .smui-accordion__panel > .smui-paper__content > .control-array) {
+    flex-basis: 100%;
+  }
 </style>

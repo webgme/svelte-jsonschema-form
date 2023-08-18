@@ -35,7 +35,7 @@
   
 </script>
 
-<div>
+<div class="control-string">
   {#if enumValues?.length}
     <Select bind:value label={title} required={isRequired}>
       {#if !force}
@@ -63,3 +63,10 @@
     </Textfield>
   {/if}
 </div>
+
+<style>
+  .control-string > :global(.mdc-text-field),
+  .control-string > :global(.mdc-select) {
+    width: 100%;
+  }
+</style>

@@ -62,3 +62,10 @@
     </Textfield>
   {/if}
 </div>
+
+<style>
+  .control-number > :global(.mdc-text-field),
+  .control-number > :global(.mdc-select) {
+    width: 100%;
+  }
+</style>

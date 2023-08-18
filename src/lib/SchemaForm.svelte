@@ -81,7 +81,6 @@
     <div class="error">ERROR: {error.message}</div>
   {/await}
 
-  {@debug $$slots}
   {#if $$slots.default}
     <div class="actions">
       <slot {actions} />

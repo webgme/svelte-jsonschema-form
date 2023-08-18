@@ -102,7 +102,7 @@
 </script>
 
 <Accordion class="control-array">
-  <Panel bind:open color="secondary">
+  <Panel bind:open>
     <Header>
       {title ?? ""}
       <span slot="description">{description ?? ""}</span>
@@ -154,15 +154,6 @@
 </Accordion>
 
 <style>
-  :global(.control-array .smui-paper__title) {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  :global(.control-array.smui-accordion > .smui-accordion__panel > .smui-paper__content) {
-    background-color: var(--mdc-theme-surface, transparent);
-  }
-
   .control-array-items {
     list-style: none;
     padding-left: 0;

@@ -62,3 +62,11 @@
     </Textfield>
   {/if}
 </div>
+
+
+<style>
+  .control-integer > :global(.mdc-text-field),
+  .control-integer > :global(.mdc-select) {
+    width: 100%;
+  }
+</style>
