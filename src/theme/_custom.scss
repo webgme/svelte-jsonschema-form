@@ -30,6 +30,11 @@
         height: 34px;
         justify-content: center;
       }
+
+      .jsonschema-form > .smui-paper > .smui-paper__content > & {
+        background-color: #6B6B6B;
+        color: #FFFFFF;
+      }
     }
 
     > .smui-paper__content > * {
