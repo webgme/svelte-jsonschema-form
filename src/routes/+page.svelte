@@ -1,4 +1,5 @@
 <script lang="ts">
+  import "../theme/_custom.scss"
   import TabBar from "@smui/tab-bar"
   import Tab, { Label } from "@smui/tab"
   import IconButton from '@smui/icon-button';
@@ -62,7 +63,7 @@
 </script>
 
 <section>
-  <TabBar tabs={schemas} let:tab bind:active>
+  <TabBar tabs={schemas} let:tab bind:active id="schema-select">
     <Tab {tab}>
       <Label>{tab.name}</Label>
     </Tab>
@@ -111,6 +112,10 @@
 </section>
 
 <style>
+  :global(#schema-select) {
+    margin-bottom: 32px;
+  }
+
   #divider {
     margin-top: 3rem;
   }

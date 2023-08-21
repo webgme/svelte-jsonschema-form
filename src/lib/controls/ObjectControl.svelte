@@ -27,7 +27,7 @@
     <AnyOfControl {anyOf} type={'object'} bind:data={data} />
   {:else}
     <Accordion class="control-object">
-      <Panel bind:open>
+      <Panel bind:open variant="unelevated">
         <slot name="title" {title}>
           <Header>
             {title ?? ""}
@@ -67,11 +67,6 @@
     display: flex;
     flex-wrap: wrap;
     gap: 24px;
-  }
-
-  :global(.control-object.smui-accordion > .smui-accordion__panel > .smui-paper__content > *) {
-    flex: 1;
-    min-width: 200px;
   }
 
   :global(.control-object.smui-accordion > .smui-accordion__panel > .smui-paper__content > .control-object),

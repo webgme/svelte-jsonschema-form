@@ -1,0 +1,33 @@
+.control-object.smui-accordion > .smui-accordion__panel {
+
+  > .smui-accordion__header {
+    background-color: #E4E4E4;
+    color: #6B6B6B;
+    border-radius: 6px;
+    align-items: center;
+
+    > .smui-accordion__header__title {
+      padding-left: 18px;
+      text-transform: uppercase;
+    }
+
+    > .smui-accordion__header__description {
+      font-style: italic;
+      opacity: 1;
+    }
+
+    > .smui-accordion__header__title,
+    > .smui-accordion__header__description {
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+
+    > .smui-accordion__header__icon > .mdc-icon-button {
+      height: 34px;
+    }
+  }
+
+  > .smui-paper__content > * {
+    flex-basis: 325px;
+  }
+}
