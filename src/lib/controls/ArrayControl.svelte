@@ -102,7 +102,7 @@
 </script>
 
 <Accordion class="control-array">
-  <Panel bind:open>
+  <Panel bind:open variant="unelevated">
     <Header>
       {title ?? ""}
       <span slot="description">{description ?? ""}</span>
