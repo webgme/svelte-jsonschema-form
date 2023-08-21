@@ -4,8 +4,11 @@
   import JsonSchemaDereferencer from "@json-schema-tools/dereferencer";
   import Ajv from "ajv";
   import mergeAllOf from "json-schema-merge-allof";
+  import Paper, { Title, Subtitle, Content } from '@smui/paper';
+  import ObjectProps from "./controls/ObjectProps.svelte";
   import Control from "./Control.svelte";
   import ValidationError from "./ValidationError";
+  import { isObjectSchema } from './utilities';
 
   export let schema: JSONSchema7 = {};
   export let data: { [prop: string]: any } = {};
@@ -76,7 +79,21 @@
   {#await dereferencing}
     <p>dereferencing...</p>
   {:then dereferenced}
-    <Control {...dereferenced} bind:data={data} />
+    {#if isObjectSchema(dereferenced)}
+      <Paper>
+        {#if dereferenced.title}
+          <Title>{dereferenced.title}</Title>
+        {/if}
+        {#if dereferenced.description}
+          <Subtitle>{dereferenced.description}</Subtitle>
+        {/if}
+        <Content>
+          <ObjectProps {...dereferenced} bind:data />
+        </Content>
+      </Paper>
+    {:else}
+      <Control {...dereferenced} bind:data />
+    {/if}
   {:catch error}
     <div class="error">ERROR: {error.message}</div>
   {/await}

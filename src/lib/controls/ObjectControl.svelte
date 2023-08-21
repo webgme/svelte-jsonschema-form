@@ -2,8 +2,8 @@
   import type { JSONSchema7Definition } from "json-schema";
   import Accordion, { Panel, Header, Content } from '@smui-extra/accordion';
   import IconButton, { Icon } from '@smui/icon-button';
-  import Control from "../Control.svelte";
   import AnyOfControl from "./AnyOfControl.svelte";
+  import ObjectProps from "./ObjectProps.svelte";
 
   export let data: { [prop: string]: any };
   export let title: string | undefined = undefined;
@@ -38,20 +38,8 @@
             </IconButton>
           </Header>
         </slot>
-        <Content color="white">
-          {#if properties != null}
-            {#each Object.entries(properties) as [name, props] (name)}
-              <Control
-                isRequired={required.includes(name)}
-                title={name}
-                {...props}
-                bind:data={data[name]}
-              />
-            {/each}
-          {/if}
-          {#if anyOf != null}
-            <AnyOfControl {anyOf} type={'object'} bind:data={data} />
-          {/if}
+        <Content>
+          <ObjectProps {properties} {required} {anyOf} bind:data />
         </Content>
       </Panel>
     </Accordion>
