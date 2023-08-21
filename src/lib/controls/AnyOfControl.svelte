@@ -37,7 +37,7 @@
 
 {#if isObjectType}
   <ObjectControl {...selected} bind:data>
-    <Select slot="title" key={getKey} bind:value={selected}>
+    <Select variant="outlined" slot="title" key={getKey} bind:value={selected}>
       {#each schemas as schema, index (schema)}
         <Option value={schema}>{schema.title ?? `Option ${index + 1}` }</Option>
       {/each}

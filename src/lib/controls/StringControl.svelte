@@ -37,7 +37,7 @@
 
 <div class="control-string">
   {#if enumValues?.length}
-    <Select bind:value label={title} required={isRequired}>
+    <Select  variant="outlined" bind:value label={title} required={isRequired}>
       {#if !force}
         <Option value={null}/>
       {/if}
@@ -50,6 +50,7 @@
     </HelperText>
   {:else}
     <Textfield
+      variant="outlined"
       label={title}
       bind:value
       input$minlength={minLength}

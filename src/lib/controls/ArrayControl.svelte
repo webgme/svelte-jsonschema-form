@@ -1,7 +1,6 @@
 <script lang="ts">
   import type { JSONSchema7 } from "json-schema";
   import Accordion, { Panel, Header, Content } from '@smui-extra/accordion';
-  // import Paper, { Title, Subtitle, Content } from "@smui/paper";
   import Fab, { Icon } from "@smui/fab";
   import IconButton from "@smui/icon-button";
   import Control from "../Control.svelte";
