@@ -12,7 +12,7 @@
   export let multipleOf: number | undefined = undefined;
   export let force: boolean = false;
 
-  let defaultValue = $$props.default ?? "";
+  let defaultValue = $$props.default ?? NaN;
   let value = data ?? defaultValue;
   let enumValues: number[] | undefined = undefined;
 
@@ -22,7 +22,7 @@
 
   function updateData(val: number) {
     if ((data !== val) && ((data != null) || (val != defaultValue))) {
-      data = val ?? undefined;
+      data = ((val == null) || Number.isNaN(val)) ? undefined : val;
     }
   }
 

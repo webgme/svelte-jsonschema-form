@@ -23,7 +23,7 @@
 
   function updateData(val: string) {
     if ((data !== val) && ((data != null) || (val != defaultValue))) {
-      data = val ?? undefined;
+      data = val || undefined;
     }
   }
 
