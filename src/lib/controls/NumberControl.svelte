@@ -33,7 +33,7 @@
   }
 </script>
 
-<div class="control-number">
+<div class="jsonschema-form-control control-number">
   {#if enumValues?.length}
     <Select variant="outlined" bind:value label={title} required={isRequired}>
       {#if !force}

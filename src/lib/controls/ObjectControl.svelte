@@ -26,7 +26,7 @@
   {#if justAnyOf}
     <AnyOfControl {anyOf} type={'object'} bind:data={data} />
   {:else}
-    <Accordion class="control-object">
+    <Accordion class="jsonschema-form-control control-object">
       <Panel bind:open variant="unelevated">
         <slot name="title" {title}>
           <Header>
@@ -38,7 +38,7 @@
             </IconButton>
           </Header>
         </slot>
-        <Content>
+        <Content class="jsonschema-form-controls">
           <ObjectProps {properties} {required} {anyOf} bind:data />
         </Content>
       </Panel>

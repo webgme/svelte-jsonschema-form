@@ -25,7 +25,7 @@
 
 </script>
 
-<FormField>
+<FormField class="jsonschema-form-control control-boolean">
   <Checkbox bind:checked />
   <span slot="label">{title}</span>
 </FormField>

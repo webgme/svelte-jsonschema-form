@@ -35,7 +35,7 @@
   
 </script>
 
-<div class="control-string">
+<div class="jsonschema-form-control control-string">
   {#if enumValues?.length}
     <Select  variant="outlined" bind:value label={title} required={isRequired}>
       {#if !force}

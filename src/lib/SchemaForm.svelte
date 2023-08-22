@@ -87,7 +87,7 @@
         {#if dereferenced.description}
           <Subtitle>{dereferenced.description}</Subtitle>
         {/if}
-        <Content>
+        <Content class="jsonschema-form-controls">
           <ObjectProps {...dereferenced} bind:data />
         </Content>
       </Paper>

@@ -100,7 +100,7 @@
   }
 </script>
 
-<Accordion class="control-array">
+<Accordion class="jsonschema-form-control control-array">
   <Panel bind:open variant="unelevated">
     <Header>
       {title ?? ""}
@@ -119,7 +119,9 @@
       <ul class="control-array-items">
         {#each data as value, index (getKey(index))}
           <li>
-            <Control {...getItem(index)} bind:data={value} force={true} />
+            <div class="jsonschema-form-controls">
+              <Control {...getItem(index)} bind:data={value} force={true} />
+            </div>
             <div class="control-array-item-actions">
               <IconButton
                 on:click={() => moveItemUp(index)}
