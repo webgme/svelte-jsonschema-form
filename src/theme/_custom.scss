@@ -1,7 +1,7 @@
 .control-object,
 .control-array {
 
-  &.smui-accordion > .smui-accordion__panel {
+  &.smui-accordion > .smui-paper {
 
     > .smui-accordion__header {
       background-color: #E4E4E4;
@@ -35,10 +35,6 @@
         background-color: #6B6B6B;
         color: #FFFFFF;
       }
-    }
-
-    > .smui-paper__content > * {
-      flex-basis: 325px;
     }
   }
 }

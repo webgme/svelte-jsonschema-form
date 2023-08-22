@@ -45,20 +45,3 @@
     </Accordion>
   {/if}
 {/if}
-
-
-<style>
-  :global(.control-object) {
-    flex-basis: 100%;
-  }
-  :global(.control-object.smui-accordion > .smui-accordion__panel > .smui-paper__content) {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 24px;
-  }
-
-  :global(.control-object.smui-accordion > .smui-accordion__panel > .smui-paper__content > .control-object),
-  :global(.control-object.smui-accordion > .smui-accordion__panel > .smui-paper__content > .control-array) {
-    flex-basis: 100%;
-  }
-</style>

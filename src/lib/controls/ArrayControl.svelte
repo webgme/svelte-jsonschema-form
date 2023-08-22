@@ -158,6 +158,7 @@
   .control-array-items {
     list-style: none;
     padding-left: 0;
+    width: 100%;
   }
 
   .control-array-items > li {

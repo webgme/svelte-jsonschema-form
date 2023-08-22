@@ -106,10 +106,23 @@
 </form>
 
 <style>
-
   .jsonschema-form .actions {
     margin: 12px 0;
   }
 
+  .jsonschema-form :global(.jsonschema-form-controls) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  .jsonschema-form :global(.jsonschema-form-controls > .jsonschema-form-control) {
+    flex-basis: 325px;
+  }
+
+  .jsonschema-form :global(.jsonschema-form-controls > .control-array),
+  .jsonschema-form :global(.jsonschema-form-controls > .control-object) {
+    flex-basis: 100%;
+  }
 </style>
  
