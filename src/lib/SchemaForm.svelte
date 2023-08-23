@@ -1,6 +1,7 @@
 <script lang="ts">
   import 'core-js/actual/structured-clone';
   import type { JSONSchema7 } from "json-schema";
+  import UISchema from "./UISchema";
   import JsonSchemaDereferencer from "@json-schema-tools/dereferencer";
   import Ajv from "ajv";
   import mergeAllOf from "json-schema-merge-allof";
@@ -12,6 +13,7 @@
 
   export let schema: JSONSchema7 = {};
   export let data: { [prop: string]: any } = {};
+  export let uischema: UISchema = {};
 
   /* A bit of a hack - When bulding the static test site, the dereferencer is still behind a
    * `.default` property for some reason. I'm guessing it has something to do with how modules are
@@ -20,7 +22,6 @@
    */
   const Dereferencer: typeof JsonSchemaDereferencer = (<any>JsonSchemaDereferencer).default ?? JsonSchemaDereferencer;
   const ajv = new Ajv();
-
   const actions = {
     get blob() {
       return getBlob();
@@ -33,6 +34,7 @@
     validate,
     download
   };
+  let uischemaStore = UISchema.store(uischema);
 
   $: dereferencing = new Dereferencer(
     mergeAllOf(structuredClone(schema)),
@@ -40,6 +42,8 @@
   ).resolve();
 
   $: validator = ajv.compile(schema);
+
+  $: $uischemaStore = uischema;
 
   export function validate() {
     const valid = validator(data);

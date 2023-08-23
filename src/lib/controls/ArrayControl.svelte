@@ -1,8 +1,8 @@
 <script lang="ts">
   import type { JSONSchema7 } from "json-schema";
+  import UISchema from "$lib/UISchema";
   import Accordion, { Panel, Header, Content } from '@smui-extra/accordion';
-  import Fab, { Icon } from "@smui/fab";
-  import IconButton from "@smui/icon-button";
+  import IconButton, { Icon } from "@smui/icon-button";
   import Control from "../Control.svelte";
 
   export let data: any[];
@@ -28,6 +28,7 @@
   let prefixed: JSONSchema7[] = [];
   let additional: JSONSchema7 | undefined = undefined;
   let canAddItem = false;
+  const uischema = UISchema.get();
 
   $: if (data == null) {
     data = [];
@@ -41,6 +42,7 @@
     ];
   }
   $: canAddItem = (additional != null) && (data.length < maxItems);
+  $: updateOpen($uischema.collapse);
 
   function getKey(index: number) {
     const value = data[index];
@@ -97,6 +99,10 @@
     event.stopPropagation();
     event.preventDefault();
     return false;
+  }
+
+  function updateOpen(collapse: UISchema['collapse']) {
+    open = UISchema.shouldCollapse($$props, collapse, open);
   }
 </script>
 

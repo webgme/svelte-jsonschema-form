@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { JSONSchema7Definition } from "json-schema";
+  import UISchema from "$lib/UISchema";
   import Accordion, { Panel, Header, Content } from '@smui-extra/accordion';
   import IconButton, { Icon } from '@smui/icon-button';
   import AnyOfControl from "./AnyOfControl.svelte";
@@ -14,12 +15,18 @@
 
   let open = true;
   let hasProps = false;
+  const uischema = UISchema.get();
 
   $: if (data == null) {
     data = {};
   }
   $: justAnyOf = (title == null) && (properties == null) && (anyOf != null);
   $: hasProps = !!Object.keys(properties ?? {}).length || !!Object.keys(anyOf ?? {}).length;
+  $: updateOpen($uischema.collapse);
+
+  function updateOpen(collapse: UISchema['collapse']) {
+    open = UISchema.shouldCollapse($$props, collapse, open);
+  }
 </script>
 
 {#if hasProps}
