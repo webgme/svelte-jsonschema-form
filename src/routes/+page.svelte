@@ -12,6 +12,7 @@
   let active = schemas[0];
   let schema: TestSchema["schema"];
   let data: TestSchema["data"];
+  let uischema = { collapse: "unrequired" } as const;
   let schemaString = "";
   let dataString = "";
   let validationError: ValidationError | null = null;
@@ -68,7 +69,7 @@
       <Label>{tab.name}</Label>
     </Tab>
   </TabBar>
-  <SchemaForm {schema} bind:data bind:this={schemaForm}>
+  <SchemaForm {schema} {uischema} bind:data bind:this={schemaForm}>
     <Button on:click={download} type="button" variant="raised">
       <BtnLabel>Download</BtnLabel>
     </Button>
