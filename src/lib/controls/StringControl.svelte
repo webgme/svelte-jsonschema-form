@@ -6,6 +6,7 @@
   export let data: string | undefined = undefined;
   export let title: string | undefined = undefined;
   export let description: string | undefined = undefined;
+  export let format: string | undefined = undefined;
   export let minLength: number | undefined = undefined;
   export let maxLength: number | undefined = undefined;
   export let pattern: string | undefined = undefined;
@@ -52,6 +53,7 @@
     <Textfield
       variant="outlined"
       label={title}
+      type={format}
       bind:value
       input$minlength={minLength}
       input$maxlength={maxLength}

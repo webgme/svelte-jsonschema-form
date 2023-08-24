@@ -6,6 +6,7 @@
   export let data: number | undefined = undefined;
   export let title: string | undefined = undefined;
   export let description: string | undefined = undefined;
+  export let format: string | undefined = undefined;
   export let isRequired: boolean | undefined = undefined;
   export let minimum: number | undefined = undefined;
   export let maximum: number | undefined = undefined;
@@ -48,7 +49,7 @@
     </HelperText>
   {:else}
     <Textfield
-      type="number"
+      type={format ?? "number"}
       variant="outlined"
       label={title}
       bind:value={value}
