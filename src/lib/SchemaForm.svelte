@@ -4,6 +4,7 @@
   import UISchema from "./UISchema";
   import JsonSchemaDereferencer from "@json-schema-tools/dereferencer";
   import Ajv from "ajv";
+  import ajvFormats from "ajv-formats";
   import mergeAllOf from "json-schema-merge-allof";
   import Paper, { Title, Subtitle, Content } from '@smui/paper';
   import ObjectProps from "./controls/ObjectProps.svelte";
@@ -22,6 +23,7 @@
    */
   const Dereferencer: typeof JsonSchemaDereferencer = (<any>JsonSchemaDereferencer).default ?? JsonSchemaDereferencer;
   const ajv = new Ajv();
+  ajvFormats(ajv);
   const actions = {
     get blob() {
       return getBlob();
