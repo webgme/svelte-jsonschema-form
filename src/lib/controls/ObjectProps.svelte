@@ -20,5 +20,5 @@
   {/each}
 {/if}
 {#if anyOf != null}
-  <AnyOfControl {anyOf} type={'object'} bind:data={data} />
+  <AnyOfControl {anyOf} type={'object'} bind:data />
 {/if}

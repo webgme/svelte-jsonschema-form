@@ -19,3 +19,7 @@ export function hasRequired(schema: JSONSchema7) {
   });
   return hasRequired;
 }
+
+export function isBoolean(arg: any): arg is boolean {
+  return typeof arg === "boolean";
+}

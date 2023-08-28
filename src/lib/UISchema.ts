@@ -26,7 +26,7 @@ namespace UISchema {
       case "none":
         return false;
       case "unrequired":
-        return hasRequired(schema);
+        return !hasRequired(schema);
     }
     return fallback;
   }

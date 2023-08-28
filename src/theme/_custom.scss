@@ -10,8 +10,14 @@
       align-items: center;
 
       > .smui-accordion__header__title {
-        padding-left: 18px;
-        text-transform: uppercase;
+        display: inline-flex;
+        align-items: center;
+        padding-left: 2px;
+
+        > .control-object-title {
+          padding-left: 8px;
+          text-transform: uppercase;
+        }
       }
 
       > .smui-accordion__header__description {
@@ -21,11 +27,11 @@
 
       > .smui-accordion__header__title,
       > .smui-accordion__header__description {
-        padding-top: 5px;
-        padding-bottom: 5px;
+        padding-top: 1px;
+        padding-bottom: 1px;
       }
 
-      > .smui-accordion__header__icon .mdc-icon-button {
+      .mdc-icon-button {
         display: inline-flex;
         height: 34px;
         justify-content: center;
@@ -35,6 +41,10 @@
         background-color: #6B6B6B;
         color: #FFFFFF;
       }
+    }
+
+    &.has-required > .smui-accordion__header {
+      padding-left: 18px;
     }
   }
 }
