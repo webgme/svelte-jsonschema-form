@@ -61,14 +61,14 @@
       <Panel bind:open variant="unelevated" disabled={!enabled} class={hasRequired ? "has-required" : undefined}>
         <Header>
           {#if !hasRequired}
-            <IconButton toggle bind:pressed={enabled} size="button" on:click={stop}>
+            <IconButton type="button" toggle bind:pressed={enabled} size="button" on:click={stop}>
               <Icon class="material-icons" on>check_box</Icon>
               <Icon class="material-icons">check_box_outline_blank</Icon>
             </IconButton>
           {/if}
           <span class="control-object-title">{title ?? ""}</span>
           <svelte:fragment slot="description">{description ?? ""}</svelte:fragment>
-          <IconButton slot="icon" toggle pressed={open} size="button">
+          <IconButton slot="icon" type="button" toggle pressed={open} size="button">
             <Icon class="material-icons" on>expand_less</Icon>
             <Icon class="material-icons">expand_more</Icon>
           </IconButton>

@@ -129,7 +129,7 @@
   <Panel bind:open variant="unelevated"  disabled={!enabled}  class={hasRequired ? "has-required" : undefined}>
     <Header>
       {#if !hasRequired}
-        <IconButton toggle bind:pressed={enabled} size="button" on:click={stop}>
+        <IconButton type="button" toggle bind:pressed={enabled} size="button" on:click={stop}>
           <Icon class="material-icons" on>check_box</Icon>
           <Icon class="material-icons">check_box_outline_blank</Icon>
         </IconButton>
@@ -138,9 +138,9 @@
       <span slot="description">{description ?? ""}</span>
       <div slot="icon">
         {#if canAddItem}
-          <IconButton class="material-icons" on:click={headerAddItem}>add</IconButton>
+          <IconButton type="button" class="material-icons" on:click={headerAddItem}>add</IconButton>
         {/if}
-        <IconButton toggle pressed={open}>
+        <IconButton type="button" toggle pressed={open}>
           <Icon class="material-icons" on>expand_less</Icon>
           <Icon class="material-icons">expand_more</Icon>
         </IconButton>
@@ -156,6 +156,7 @@
               </div>
               <div class="control-array-item-actions">
                 <IconButton
+                  type="button"
                   on:click={() => moveItemUp(index)}
                   class="material-icons"
                   size="button"
@@ -167,12 +168,14 @@
                   </Fab>
                 {/if} -->
                 <IconButton
+                  type="button"
                   on:click={() => removeItem(index)}
                   class="material-icons"
                   size="button"
                   disabled={!canRemoveItem(index)}
                 >delete</IconButton>
                 <IconButton
+                  type="button"
                   on:click={() => moveItemDown(index)}
                   class="material-icons"
                   size="button"
