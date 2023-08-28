@@ -13,6 +13,7 @@
   export let properties: { [prop: string]: any } | undefined = undefined;
   export let required: string[] = [];
   export let anyOf: JSONSchema7Definition[] | undefined = undefined;
+  export let showEmpty = true;
 
   let open = true;
   let hasProps = false;
@@ -52,28 +53,26 @@
   }
 </script>
 
-{#if hasProps}
+{#if showEmpty || hasProps}
   {#if justAnyOf}
-    <AnyOfControl {anyOf} type={'object'} bind:data />
+    <AnyOfControl {anyOf} bind:data />
   {:else}
     <Accordion class="jsonschema-form-control control-object">
       <Panel bind:open variant="unelevated" disabled={!enabled} class={hasRequired ? "has-required" : undefined}>
-        <slot name="title" {title}>
-          <Header>
-            {#if !hasRequired}
-              <IconButton toggle bind:pressed={enabled} size="button" on:click={stop}>
-                <Icon class="material-icons" on>check_box</Icon>
-                <Icon class="material-icons">check_box_outline_blank</Icon>
-              </IconButton>
-            {/if}
-            <span class="control-object-title">{title ?? ""}</span>
-            <svelte:fragment slot="description">{description ?? ""}</svelte:fragment>
-            <IconButton slot="icon" toggle pressed={open} size="button">
-              <Icon class="material-icons" on>expand_less</Icon>
-              <Icon class="material-icons">expand_more</Icon>
+        <Header>
+          {#if !hasRequired}
+            <IconButton toggle bind:pressed={enabled} size="button" on:click={stop}>
+              <Icon class="material-icons" on>check_box</Icon>
+              <Icon class="material-icons">check_box_outline_blank</Icon>
             </IconButton>
-          </Header>
-        </slot>
+          {/if}
+          <span class="control-object-title">{title ?? ""}</span>
+          <svelte:fragment slot="description">{description ?? ""}</svelte:fragment>
+          <IconButton slot="icon" toggle pressed={open} size="button">
+            <Icon class="material-icons" on>expand_less</Icon>
+            <Icon class="material-icons">expand_more</Icon>
+          </IconButton>
+        </Header>
         <Content class="jsonschema-form-controls">
           {#if data}
             <ObjectProps {properties} {required} {anyOf} bind:data />

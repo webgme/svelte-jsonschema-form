@@ -127,7 +127,8 @@
   }
 
   .jsonschema-form :global(.jsonschema-form-controls > .control-array),
-  .jsonschema-form :global(.jsonschema-form-controls > .control-object) {
+  .jsonschema-form :global(.jsonschema-form-controls > .control-object),
+  .jsonschema-form :global(.jsonschema-form-controls > .control-anyof) {
     flex-basis: 100%;
   }
 </style>

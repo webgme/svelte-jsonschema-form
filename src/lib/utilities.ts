@@ -1,4 +1,4 @@
-import type { JSONSchema7 } from "json-schema";
+import type { JSONSchema7, JSONSchema7TypeName } from "json-schema";
 import traverse from "@json-schema-tools/traverse";
 
 export function toClasses(classObj: { [cls: string]: boolean }) {
@@ -8,8 +8,16 @@ export function toClasses(classObj: { [cls: string]: boolean }) {
     .join(" ");
 }
 
+export function isSchemaType(type: JSONSchema7TypeName, { type: types }: JSONSchema7) {
+  return (Array.isArray(types) ? types[0] : types) === type;
+}
+
 export function isObjectSchema(schema: JSONSchema7) {
-  return schema.type === "object";
+  return isSchemaType("object", schema);
+}
+
+export function isArraySchema(schema: JSONSchema7) {
+  return isSchemaType("array", schema);
 }
 
 export function hasRequired(schema: JSONSchema7) {

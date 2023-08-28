@@ -13,4 +13,4 @@
   };
 </script>
 
-<svelte:component this={control} {...$$props} bind:data={data} />
+<svelte:component this={control} {...$$props} bind:data />
