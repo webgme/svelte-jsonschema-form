@@ -59,7 +59,7 @@
   </Title>
   {#if selected != null}
     <!-- <Content> -->
-      <Control schema={selected} bind:data debug={true} />
+      <Control {...selected} bind:data debug={true} />
     <!-- </Content> -->
   {/if}
 </Paper>

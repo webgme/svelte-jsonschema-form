@@ -68,7 +68,7 @@
           {/if}
           <span class="control-object-title">{title ?? ""}</span>
           <svelte:fragment slot="description">{description ?? ""}</svelte:fragment>
-          <IconButton slot="icon" type="button" toggle pressed={open} size="button">
+          <IconButton slot="icon" type="button" toggle pressed={open} size="button" disabled={!enabled}>
             <Icon class="material-icons" on>expand_less</Icon>
             <Icon class="material-icons">expand_more</Icon>
           </IconButton>
