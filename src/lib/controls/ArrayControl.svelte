@@ -1,11 +1,12 @@
 <script lang="ts">
   import type { JSONSchema7 } from "json-schema";
   import UISchema from "$lib/UISchema";
+  import { hasRequired as checkRequired, isBoolean } from "$lib/utilities";
   import Accordion, { Panel, Header, Content } from '@smui-extra/accordion';
   import IconButton, { Icon } from "@smui/icon-button";
   import Control from "../Control.svelte";
 
-  export let data: any[];
+  export let data: any[] | undefined = undefined;
   export let title: string | undefined = undefined;
   export let description: string | null = null;
 
@@ -28,12 +29,10 @@
   let prefixed: JSONSchema7[] = [];
   let additional: JSONSchema7 | undefined = undefined;
   let canAddItem = false;
+  let enabled = true;
   const uischema = UISchema.get();
 
-  $: if (data == null) {
-    data = [];
-  }
-  $: hasItems = data?.length > 0;
+  $: hasItems = (data?.length ?? 0) > 0;
   $: {
     const itemsIsArray = Array.isArray(items);
     [prefixed, additional] = [
@@ -41,11 +40,15 @@
       (itemsIsArray ? additionalItems : items) as JSONSchema7
     ];
   }
-  $: canAddItem = (additional != null) && (data.length < maxItems);
+  $: canAddItem = (additional != null) && ((data?.length ?? 0) < maxItems);
+  $: hasRequired = checkRequired({ prefixItems, items, additionalItems } as any);
+  $: updateEnabled(data, hasRequired);
+  $: updateData(enabled);
+  $: updateOpen(enabled);
   $: updateOpen($uischema.collapse);
 
   function getKey(index: number) {
-    const value = data[index];
+    const value = data![index];
     const useIndex = (value == null) || (typeof value !== "object");
     return useIndex ? `${index} | ${getType(index) ?? ""}` : value;
   }
@@ -59,7 +62,7 @@
   }
 
   function canRemoveItem(index: number) {
-    return (index >= prefixed.length) && (data.length > minItems);
+    return (index >= prefixed.length) && ((data?.length ?? 0) > minItems);
   }
 
   function canMoveItemUp(index: number) {
@@ -67,30 +70,30 @@
   }
 
   function canMoveItemDown(index: number) {
-    return (index < data.length - 1) && (getType(index) === getType(index + 1));
+    return (index < (data?.length ?? 0) - 1) && (getType(index) === getType(index + 1));
   }
 
   function addItem() {
     if (canAddItem) {
-      data = [...data, undefined];
+      data = [...data!, undefined];
     }
   }
 
   function removeItem(index: number) {
     if (canRemoveItem(index)) {
-      data = (data.splice(index, 1), data);
+      data = (data!.splice(index, 1), data);
     }
   }
 
   function moveItemUp(index: number) {
     if (canMoveItemUp(index)) {
-      [data[index - 1], data[index]] = [data[index], data[index - 1]];
+      [data![index - 1], data![index]] = [data![index], data![index - 1]];
     }
   }
 
   function moveItemDown(index: number) {
     if (canMoveItemDown(index)) {
-      [data[index + 1], data[index]] = [data[index], data[index + 1]];
+      [data![index + 1], data![index]] = [data![index], data![index + 1]];
     }
   }
 
@@ -101,15 +104,37 @@
     return false;
   }
 
-  function updateOpen(collapse: UISchema['collapse']) {
-    open = UISchema.shouldCollapse($$props, collapse, open);
+  function updateOpen(enabled: boolean): void;
+  function updateOpen(collapse: UISchema['collapse']): void;
+  function updateOpen(arg: boolean | UISchema['collapse']) {
+    open = isBoolean(arg) ? arg : !UISchema.shouldCollapse($$props, arg, open);
+  }
+
+  function updateEnabled(data: any, hasRequired: boolean) {
+    const shouldEnable = hasRequired || !!data;
+    if (shouldEnable != enabled) {
+      enabled = shouldEnable;
+    }
+  }
+
+  function updateData(enabled: boolean) {
+    const hasData = (data != null);
+    if (hasData != enabled) {
+      data = enabled ? [] : undefined;
+    }
   }
 </script>
 
 <Accordion class="jsonschema-form-control control-array">
-  <Panel bind:open variant="unelevated">
+  <Panel bind:open variant="unelevated"  disabled={!enabled}  class={hasRequired ? "has-required" : undefined}>
     <Header>
-      {title ?? ""}
+      {#if !hasRequired}
+        <IconButton toggle bind:pressed={enabled} size="button" on:click={stop}>
+          <Icon class="material-icons" on>check_box</Icon>
+          <Icon class="material-icons">check_box_outline_blank</Icon>
+        </IconButton>
+      {/if}
+      <span class="control-array-title">{title ?? ""}</span>
       <span slot="description">{description ?? ""}</span>
       <div slot="icon">
         {#if canAddItem}
@@ -123,38 +148,40 @@
     </Header>
     <Content>
       <ul class="control-array-items">
-        {#each data as value, index (getKey(index))}
-          <li>
-            <div class="jsonschema-form-controls">
-              <Control {...getItem(index)} bind:data={value} force={true} />
-            </div>
-            <div class="control-array-item-actions">
-              <IconButton
-                on:click={() => moveItemUp(index)}
-                class="material-icons"
-                size="button"
-                disabled={!canMoveItemUp(index)}
-              >keyboard_arrow_up</IconButton>
-              <!-- {#if canRemoveItem(index)}
-                <Fab mini on:click={() => removeItem(index)}>
-                  <Icon class="material-icons">delete</Icon>
-                </Fab>
-              {/if} -->
-              <IconButton
-                on:click={() => removeItem(index)}
-                class="material-icons"
-                size="button"
-                disabled={!canRemoveItem(index)}
-              >delete</IconButton>
-              <IconButton
-                on:click={() => moveItemDown(index)}
-                class="material-icons"
-                size="button"
-                disabled={!canMoveItemDown(index)}
-              >keyboard_arrow_down</IconButton>
-            </div>
-          </li>
-        {/each}
+        {#if data}
+          {#each data as value, index (getKey(index))}
+            <li>
+              <div class="jsonschema-form-controls">
+                <Control {...getItem(index)} bind:data={value} force={true} />
+              </div>
+              <div class="control-array-item-actions">
+                <IconButton
+                  on:click={() => moveItemUp(index)}
+                  class="material-icons"
+                  size="button"
+                  disabled={!canMoveItemUp(index)}
+                >keyboard_arrow_up</IconButton>
+                <!-- {#if canRemoveItem(index)}
+                  <Fab mini on:click={() => removeItem(index)}>
+                    <Icon class="material-icons">delete</Icon>
+                  </Fab>
+                {/if} -->
+                <IconButton
+                  on:click={() => removeItem(index)}
+                  class="material-icons"
+                  size="button"
+                  disabled={!canRemoveItem(index)}
+                >delete</IconButton>
+                <IconButton
+                  on:click={() => moveItemDown(index)}
+                  class="material-icons"
+                  size="button"
+                  disabled={!canMoveItemDown(index)}
+                >keyboard_arrow_down</IconButton>
+              </div>
+            </li>
+          {/each}
+        {/if}
       </ul>
     </Content>
   </Panel>
