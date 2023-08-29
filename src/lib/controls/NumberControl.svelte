@@ -22,8 +22,9 @@
   $: enumValues = $$props.enum;
 
   function updateData(val: number) {
-    if ((data !== val) && ((data != null) || (val != defaultValue))) {
-      data = ((val == null) || Number.isNaN(val)) ? undefined : val;
+    if ((data !== val) && (force || ((data != null) || (val != defaultValue)))) {
+      const hasVal = (val != null) && !Number.isNaN(val);
+      data = hasVal ? val : (force ? defaultValue : undefined);
     }
   }
 

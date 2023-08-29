@@ -4,6 +4,7 @@
 
   export let data: boolean | undefined = undefined;
   export let title: string | undefined = undefined;
+  export let force: boolean = false;
 
   let defaultValue = $$props.default ?? false;
   let checked: boolean = data ?? defaultValue;
@@ -12,8 +13,8 @@
   $: updateChecked(data);
 
   function updateData(val: boolean) {
-    if ((data !== val) && ((data != null) || (val != defaultValue))) {
-      data = val;
+    if ((data !== val) && (force || ((data != null) || (val != defaultValue)))) {
+      data = val ?? (force ? defaultValue : undefined);
     }
   }
 
