@@ -98,7 +98,7 @@
         </Content>
       </Paper>
     {:else}
-      <Control {...dereferenced} bind:data />
+      <Control schema={dereferenced} bind:data />
     {/if}
   {:catch error}
     <div class="error">ERROR: {error.message}</div>

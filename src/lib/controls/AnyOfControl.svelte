@@ -64,18 +64,12 @@
     </Select>
   </Title>
   {#if selected != null}
-    <!-- <Content> -->
-      {#if isObjectSchema(typeSchema)}
-        <Paper variant="unelevated" class="jsonschema-form-control control-object">
-          {#if data}
-            <ObjectProps {...selected} bind:data />
-          {:else}
-            <ObjectProps {...selected} data={{}} />
-          {/if}
-        </Paper>
-      {:else}
-        <Control {...selected} bind:data />
-      {/if}
-    <!-- </Content> -->
+    {#if isObjectSchema(typeSchema)}
+      <Paper variant="unelevated" class="jsonschema-form-control control-object">
+        <ObjectProps {...selected} bind:data force />
+      </Paper>
+    {:else}
+      <Control schema={selected} bind:data force />
+    {/if}
   {/if}
 </Paper>

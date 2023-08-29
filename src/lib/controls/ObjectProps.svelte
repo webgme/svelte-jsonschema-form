@@ -11,12 +11,8 @@
 
 {#if properties != null}
   {#each Object.entries(properties) as [name, props] (name)}
-    <Control
-      isRequired={required.includes(name)}
-      title={name}
-      {...props}
-      bind:data={data[name]}
-    />
+    {@const schema = {...props, title: name, isRequired: required.includes(name)}}
+    <Control {schema} bind:data={data[name]} />
   {/each}
 {/if}
 {#if anyOf != null}

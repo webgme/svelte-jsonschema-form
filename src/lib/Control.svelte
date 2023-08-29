@@ -1,16 +1,19 @@
 <script lang="ts">
-  import type { JSONSchema7TypeName } from "json-schema";
+  import type { JSONSchema7, JSONSchema7TypeName } from "json-schema";
   import * as controls from "./controls";
 
-  export let type: JSONSchema7TypeName | JSONSchema7TypeName[] | undefined = undefined;
+  export let schema: JSONSchema7 | undefined;
   export let data: any = undefined;
+  export let force: boolean = false;
 
   let control: any;
 
-  $: {
+  $: updateControlType(schema?.type);
+
+  function updateControlType(type: JSONSchema7['type']) {
     const singleType = (Array.isArray(type) ? type[0] : type) ?? "object";
     control = controls[singleType as keyof typeof controls] as any;
-  };
+  }
 </script>
 
-<svelte:component this={control} {...$$props} bind:data />
+<svelte:component this={control} {...schema} bind:data {force} />

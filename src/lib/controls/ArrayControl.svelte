@@ -156,7 +156,7 @@
           {#each data as value, index (getKey(index))}
             <li>
               <div class="jsonschema-form-controls">
-                <Control {...getItem(index)} bind:data={value} force={true} />
+                <Control schema={getItem(index)} bind:data={value} force />
               </div>
               <div class="control-array-item-actions">
                 <IconButton
