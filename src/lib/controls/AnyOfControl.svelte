@@ -11,10 +11,11 @@
   export let anyOf: JSONSchema7Definition[] = [];
 
   const keys = new WeakMap<JSONSchema7, string>();
+  let schemas: JSONSchema7[] = [];
   let selected: JSONSchema7 | undefined = undefined;
 
-  $: schemas = anyOf.filter(schema => (schema !== true) && (schema !== false)) as JSONSchema7[];
   $: typeSchema = { type: selected?.type ?? type };
+  $: updateSchemas(anyOf);
   $: resetSelected(schemas);
   $: updateData(selected);
 
@@ -22,13 +23,17 @@
     return keys.get(schema) ?? "";
   }
 
-  function resetSelected(schemas: JSONSchema7[]) {
+  function updateSchemas(anyOf: JSONSchema7Definition[]) {
+    schemas = anyOf.filter(schema => (schema !== true) && (schema !== false)) as JSONSchema7[];
     const timestamp = Date.now();
     schemas.forEach((schema, index) => {
       if (!keys.has(schema)) {
         keys.set(schema, `${timestamp}#${index}`);
       }
     });
+  }
+
+  function resetSelected(schemas: JSONSchema7[]) {
     if ((selected == null) || !schemas.includes(selected)) {
       selected = schemas[0];
     }

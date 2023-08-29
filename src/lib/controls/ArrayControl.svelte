@@ -123,6 +123,10 @@
       data = enabled ? [] : undefined;
     }
   }
+
+  function stop(event: Event) {
+    event.stopPropagation();
+  }
 </script>
 
 <Accordion class="jsonschema-form-control control-array">
@@ -146,7 +150,7 @@
         </IconButton>
       </div>
     </Header>
-    <Content>
+    <div class="smui-paper__content">
       <ul class="control-array-items">
         {#if data}
           {#each data as value, index (getKey(index))}
@@ -186,7 +190,7 @@
           {/each}
         {/if}
       </ul>
-    </Content>
+    </div>
   </Panel>
 </Accordion>
 
