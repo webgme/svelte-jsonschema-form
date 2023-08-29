@@ -14,7 +14,8 @@
         align-items: center;
         padding-left: 2px;
 
-        > .control-object-title {
+        > .control-object-title,
+        > .control-array-title {
           padding-left: 8px;
           text-transform: uppercase;
         }
