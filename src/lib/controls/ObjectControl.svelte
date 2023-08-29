@@ -13,7 +13,6 @@
   export let properties: { [prop: string]: any } | undefined = undefined;
   export let required: string[] = [];
   export let anyOf: JSONSchema7Definition[] | undefined = undefined;
-  export let showEmpty = true;
 
   let open = true;
   let hasProps = false;
@@ -31,7 +30,7 @@
   function updateOpen(enabled: boolean): void;
   function updateOpen(collapse: UISchema['collapse']): void;
   function updateOpen(arg: boolean | UISchema['collapse']) {
-    open = isBoolean(arg) ? arg : !UISchema.shouldCollapse($$props, arg, open);
+    open = hasProps && (isBoolean(arg) ? arg : !UISchema.shouldCollapse($$props, arg, open));
   }
 
   function updateEnabled(data: any, hasRequired: boolean) {
@@ -53,34 +52,36 @@
   }
 </script>
 
-{#if showEmpty || hasProps}
-  {#if justAnyOf}
-    <AnyOfControl {anyOf} bind:data />
-  {:else}
-    <Accordion class="jsonschema-form-control control-object">
-      <Panel bind:open variant="unelevated" disabled={!enabled} class={hasRequired ? "has-required" : undefined}>
-        <Header>
-          {#if !hasRequired}
-            <IconButton type="button" toggle bind:pressed={enabled} size="button" on:click={stop}>
-              <Icon class="material-icons" on>check_box</Icon>
-              <Icon class="material-icons">check_box_outline_blank</Icon>
+{#if justAnyOf}
+  <AnyOfControl {anyOf} bind:data />
+{:else}
+  <Accordion class="jsonschema-form-control control-object">
+    <Panel bind:open variant="unelevated" disabled={!enabled} class={hasRequired ? "has-required" : undefined} nonInteractive={!hasProps}>
+      <Header>
+        {#if !hasRequired}
+          <IconButton type="button" toggle bind:pressed={enabled} size="button" on:click={stop}>
+            <Icon class="material-icons" on>check_box</Icon>
+            <Icon class="material-icons">check_box_outline_blank</Icon>
+          </IconButton>
+        {/if}
+        <span class="control-object-title">{title ?? ""}</span>
+        <svelte:fragment slot="description">{description ?? ""}</svelte:fragment>
+        <svelte:fragment slot="icon">
+          {#if hasProps}
+            <IconButton type="button" toggle pressed={open} size="button">
+              <Icon class="material-icons" on>expand_less</Icon>
+              <Icon class="material-icons">expand_more</Icon>
             </IconButton>
           {/if}
-          <span class="control-object-title">{title ?? ""}</span>
-          <svelte:fragment slot="description">{description ?? ""}</svelte:fragment>
-          <IconButton slot="icon" type="button" toggle pressed={open} size="button" disabled={!enabled}>
-            <Icon class="material-icons" on>expand_less</Icon>
-            <Icon class="material-icons">expand_more</Icon>
-          </IconButton>
-        </Header>
-        <Content class="jsonschema-form-controls">
-          {#if data}
-            <ObjectProps {properties} {required} {anyOf} bind:data />
-          {:else}
-            <ObjectProps {properties} {required} {anyOf} data={{}} />
-          {/if}
-        </Content>
-      </Panel>
-    </Accordion>
-  {/if}
+        </svelte:fragment>
+      </Header>
+      <Content class="jsonschema-form-controls">
+        {#if data}
+          <ObjectProps {properties} {required} {anyOf} bind:data />
+        {:else}
+          <ObjectProps {properties} {required} {anyOf} data={{}} />
+        {/if}
+      </Content>
+    </Panel>
+  </Accordion>
 {/if}

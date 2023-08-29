@@ -4,6 +4,7 @@
   import Paper, { Title, Content } from "@smui/paper";
   import Select, { Option } from '@smui/select';
   import Control from "../Control.svelte";
+  import ObjectProps from "./ObjectProps.svelte";
 
   export let type: JSONSchema7['type'] = undefined;
   export let data: any;
@@ -13,6 +14,7 @@
   let selected: JSONSchema7 | undefined = undefined;
 
   $: schemas = anyOf.filter(schema => (schema !== true) && (schema !== false)) as JSONSchema7[];
+  $: typeSchema = { type: selected?.type ?? type };
   $: resetSelected(schemas);
   $: updateData(selected);
 
@@ -33,7 +35,6 @@
   }
 
   function updateData(selected: JSONSchema7 | undefined) {
-    const typeSchema =  { type: selected?.type ?? type };
     if (selected == null) {
       data = undefined;
     }
@@ -59,7 +60,17 @@
   </Title>
   {#if selected != null}
     <!-- <Content> -->
-      <Control {...selected} bind:data debug={true} />
+      {#if isObjectSchema(typeSchema)}
+        <Paper variant="unelevated" class="jsonschema-form-control control-object">
+          {#if data}
+            <ObjectProps {...selected} bind:data />
+          {:else}
+            <ObjectProps {...selected} data={{}} />
+          {/if}
+        </Paper>
+      {:else}
+        <Control {...selected} bind:data />
+      {/if}
     <!-- </Content> -->
   {/if}
 </Paper>
