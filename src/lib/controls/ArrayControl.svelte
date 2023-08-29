@@ -40,7 +40,7 @@
       (itemsIsArray ? additionalItems : items) as JSONSchema7
     ];
   }
-  $: canAddItem = (additional != null) && ((data?.length ?? 0) < maxItems);
+  $: canAddItem = (additional != null) && !!data && ((data?.length ?? 0) < maxItems);
   $: hasRequired = checkRequired({ prefixItems, items, additionalItems } as any);
   $: updateEnabled(data, hasRequired);
   $: updateData(enabled);
@@ -219,9 +219,4 @@
   .control-array-items > li > .control-array-item-actions :global(.mdc-icon-button) {
     color: revert;
   }
-
-  .control-array-items :global(.smui-paper__content) {
-    display: flex;
-  }
-
 </style>
