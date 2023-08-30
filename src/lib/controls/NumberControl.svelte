@@ -45,9 +45,9 @@
         <Option value={enumValue}>{enumValue}</Option>
       {/each}
     </Select>
-    <HelperText persistent>
-      {#if description}{description}{/if}
-    </HelperText>
+    {#if description}
+      <HelperText persistent>{description}</HelperText>
+    {/if}
   {:else}
     <Textfield
       type={format ?? "number"}
@@ -59,9 +59,11 @@
       input$step={multipleOf ?? "any"}
       required={isRequired}
     >
-      <HelperText persistent slot="helper">
-        {#if description}{description}{/if}
-      </HelperText>
+      <svelte:fragment slot="helper">
+        {#if description}
+          <HelperText persistent>{description}</HelperText>
+        {/if}
+      </svelte:fragment>
     </Textfield>
   {/if}
 </div>
