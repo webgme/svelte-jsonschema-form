@@ -1,5 +1,6 @@
 <script lang="ts">
   import "../theme/_custom.scss"
+  import { tick } from 'svelte';
   import TabBar from "@smui/tab-bar"
   import Tab, { Label } from "@smui/tab"
   import IconButton from '@smui/icon-button';
@@ -25,11 +26,13 @@
   $: setDataString(data);
   $: if (validationError != null) errorSnackbar.open();
 
-  function setSchemaString(schema: TestSchema["schema"]) {
+  async function setSchemaString(schema: TestSchema["schema"]) {
+    await tick();
     schemaString = JSON.stringify(schema, null, 2);
   }
 
-  function setDataString(data: TestSchema["data"]) {
+  async function setDataString(data: TestSchema["data"]) {
+    await tick();
     dataString = JSON.stringify(data, null, 2);
   }
 
