@@ -12,7 +12,7 @@
   let active = schemas[0];
   let schema: TestSchema["schema"];
   let data: TestSchema["data"];
-  let uischema = { collapse: "unrequired" } as const;
+  const uischema = { collapse: "unrequired" } as const;
   let schemaString = "";
   let dataString = "";
   let validationError: ValidationError | null = null;

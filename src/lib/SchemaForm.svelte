@@ -45,7 +45,11 @@
 
   $: validator = ajv.compile(schema);
 
-  $: $uischemaStore = uischema;
+  $: updateUischemaStore(uischema);
+
+  function updateUischemaStore(uischema: UISchema) {
+    $uischemaStore = uischema;
+  }
 
   export function validate() {
     const valid = validator(data);

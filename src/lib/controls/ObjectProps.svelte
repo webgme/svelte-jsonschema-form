@@ -3,18 +3,21 @@
   import Control from "../Control.svelte";
   import AnyOfControl from "./AnyOfControl.svelte";
 
-  export let data: { [prop: string]: any };
+  export let data: { [prop: string]: any } | undefined;
   export let properties: { [prop: string]: any } | undefined = undefined;
   export let required: string[] = [];
   export let anyOf: JSONSchema7Definition[] | undefined = undefined;
+  export let force: boolean = false;
+
+  $: if (force && (data == null)) data = {};
 </script>
 
-{#if properties != null}
+{#if (properties != null) && (data != null)}
   {#each Object.entries(properties) as [name, props] (name)}
-    {@const schema = {...props, title: name, isRequired: required.includes(name)}}
+    {@const schema = {title: name, ...props, isRequired: required.includes(name)}}
     <Control {schema} bind:data={data[name]} />
   {/each}
 {/if}
-{#if anyOf != null}
+{#if (anyOf != null) && (data != null)}
   <AnyOfControl {anyOf} type={'object'} bind:data />
 {/if}
