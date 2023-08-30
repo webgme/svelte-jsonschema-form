@@ -31,3 +31,7 @@ export function hasRequired(schema: JSONSchema7) {
 export function isBoolean(arg: any): arg is boolean {
   return typeof arg === "boolean";
 }
+
+export function isString(arg: any): arg is string {
+  return typeof arg === "string";
+}

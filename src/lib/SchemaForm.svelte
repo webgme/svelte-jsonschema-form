@@ -1,6 +1,7 @@
 <script lang="ts">
   import 'core-js/actual/structured-clone';
   import type { JSONSchema7 } from "json-schema";
+  import DownloadOptions, { type DataTransform } from './DowloadOptions';
   import UISchema from "./UISchema";
   import JsonSchemaDereferencer from "@json-schema-tools/dereferencer";
   import Ajv from "ajv";
@@ -10,7 +11,7 @@
   import ObjectProps from "./controls/ObjectProps.svelte";
   import Control from "./Control.svelte";
   import ValidationError from "./ValidationError";
-  import { isObjectSchema } from './utilities';
+  import { isObjectSchema, isString } from './utilities';
 
   export let schema: JSONSchema7 = {};
   export let data: { [prop: string]: any } = {};
@@ -56,25 +57,30 @@
     return valid || (validator.errors ?? false);
   }
 
-  export function getBlob() {
+  export function getBlob(transform?: DataTransform) {
+    const transformed = transform ? transform(structuredClone(data)) : data;
     return new Blob(
-      [JSON.stringify(data)],
+      [JSON.stringify(transformed)],
       { type: "application/json"}
     );
   }
 
-  export function getUrl() {
-    const blob = getBlob();
+  export function getUrl(transform?: DataTransform) {
+    const blob = getBlob(transform);
     return URL.createObjectURL(blob);
   }
 
-  export function download(filename: string = "data", options?: { validate: boolean }) {
-    const opts = Object.assign({ validate: true }, options);
-    const validity = !opts.validate || validate();
+  export function download(options?: DownloadOptions): void;
+  export function download(filename: string, options?: DownloadOptions): void;
+  export function download(arg1?: string | DownloadOptions, arg2?: DownloadOptions) {
+    const [filename, options] = isString(arg1)
+      ? [arg1, DownloadOptions.withDefaults(arg2)]
+      : ["data", DownloadOptions.withDefaults(arg1)];
+    const validity = !options.validate || validate();
     if (validity !== true) {
       throw new ValidationError(validity)
     }
-    const url = getUrl();
+    const url = getUrl(options.transform);
     const anchor = document.createElementNS('http://www.w3.org/1999/xhtml', 'a') as HTMLAnchorElement;
     anchor.href = url;
     anchor.setAttribute("download", `${filename}.json`);
