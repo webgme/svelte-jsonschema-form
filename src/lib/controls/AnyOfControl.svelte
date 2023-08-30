@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { JSONSchema7, JSONSchema7Definition } from "json-schema";
   import deepEquals from "fast-deep-equal";
+  import { tick } from 'svelte';
   import { isObjectSchema, isArraySchema } from "$lib/utilities";
   import Paper, { Title, Content } from "@smui/paper";
   import Select, { Option } from '@smui/select';
@@ -14,11 +15,11 @@
   const keys = new WeakMap<JSONSchema7, string>();
   let schemas: JSONSchema7[] = [];
   let selected: JSONSchema7 | undefined = undefined;
-  let value = data ?? $$props.default;
 
   $: typeSchema = { type: selected?.type ?? type };
   $: updateSchemas(anyOf);
   $: resetSelected(schemas);
+  $: resetData(selected);
 
   function getKey(schema: JSONSchema7) {
     return keys.get(schema) ?? "";
@@ -42,6 +43,13 @@
       selected = schemas[0];
     }
   }
+
+  async function resetData(selected: JSONSchema7 | undefined) {
+    await tick();
+    if (data != null) {
+      data = undefined;
+    }
+  }
 </script>
 
 <Paper variant="unelevated" class="jsonschema-form-control control-anyof">
@@ -55,13 +63,9 @@
   <Content>
     {#if selected != null}
       {#if isObjectSchema(typeSchema)}
-        <Paper variant="unelevated" class="jsonschema-form-control control-object">
-          <Content>
-            <ObjectProps {...selected} bind:data force />
-          </Content>
-        </Paper>
+        <ObjectProps {...selected} bind:data force />
       {:else}
-        <Control schema={selected} bind:data={value} force />
+        <Control schema={selected} bind:data force />
       {/if}
     {/if}
   </Content>

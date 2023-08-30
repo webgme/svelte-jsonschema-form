@@ -18,6 +18,6 @@
     <Control {schema} bind:data={data[name]} />
   {/each}
 {/if}
-{#if (anyOf != null) && (data != null)}
+{#if (anyOf != null)}
   <AnyOfControl {anyOf} type={'object'} bind:data />
 {/if}
