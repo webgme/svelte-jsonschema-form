@@ -198,6 +198,7 @@
   .control-array-items {
     list-style: none;
     padding-left: 0;
+    margin: 0;
     width: 100%;
   }
 
