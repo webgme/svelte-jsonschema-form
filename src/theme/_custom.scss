@@ -1,11 +1,15 @@
+$root-header-bg: #6B6B6B;
+$sub-header-bg: #E4E4E4;
+$separator-color: #707070;
+
 .control-object,
 .control-array {
 
   &.smui-accordion > .smui-paper {
 
     > .smui-accordion__header {
-      background-color: #E4E4E4;
-      color: #6B6B6B;
+      background-color: #{$sub-header-bg};
+      color: #{$root-header-bg};
       border-radius: 6px;
       align-items: center;
 
@@ -39,7 +43,7 @@
       }
 
       .jsonschema-form > .smui-paper > .smui-paper__content > & {
-        background-color: #6B6B6B;
+        background-color: #{$root-header-bg};
         color: #FFFFFF;
       }
     }
@@ -47,5 +51,12 @@
     &.has-required > .smui-accordion__header {
       padding-left: 18px;
     }
+  }
+}
+
+.control-array {
+  .control-array-items > li {
+    border-bottom: #{$separator-color} solid 1px;
+    padding: 0.5rem 0;
   }
 }
