@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { JSONSchema7, JSONSchema7Definition } from "json-schema";
+  import deepEquals from "fast-deep-equal";
   import { isObjectSchema, isArraySchema } from "$lib/utilities";
   import Paper, { Title, Content } from "@smui/paper";
   import Select, { Option } from '@smui/select';
@@ -13,44 +14,32 @@
   const keys = new WeakMap<JSONSchema7, string>();
   let schemas: JSONSchema7[] = [];
   let selected: JSONSchema7 | undefined = undefined;
+  let value = data ?? $$props.default;
 
   $: typeSchema = { type: selected?.type ?? type };
   $: updateSchemas(anyOf);
   $: resetSelected(schemas);
-  $: updateData(selected);
 
   function getKey(schema: JSONSchema7) {
     return keys.get(schema) ?? "";
   }
 
   function updateSchemas(anyOf: JSONSchema7Definition[]) {
-    schemas = anyOf.filter(schema => (schema !== true) && (schema !== false)) as JSONSchema7[];
-    const timestamp = Date.now();
-    schemas.forEach((schema, index) => {
-      if (!keys.has(schema)) {
-        keys.set(schema, `${timestamp}#${index}`);
-      }
-    });
+    const filtered = anyOf.filter(schema => (schema !== true) && (schema !== false)) as JSONSchema7[];
+    if (!deepEquals(schemas, filtered)) {
+      schemas = filtered;
+      const timestamp = Date.now();
+      schemas.forEach((schema, index) => {
+        if (!keys.has(schema)) {
+          keys.set(schema, `${timestamp}#${index}`);
+        }
+      });
+    }
   }
 
   function resetSelected(schemas: JSONSchema7[]) {
     if ((selected == null) || !schemas.includes(selected)) {
       selected = schemas[0];
-    }
-  }
-
-  function updateData(selected: JSONSchema7 | undefined) {
-    if (selected == null) {
-      data = undefined;
-    }
-    else if (isObjectSchema(typeSchema)) {
-      data = {};
-    }
-    else if (isArraySchema(typeSchema)) {
-      data = [];
-    }
-    else {
-      data = undefined;
     }
   }
 </script>
@@ -63,13 +52,17 @@
       {/each}
     </Select>
   </Title>
-  {#if selected != null}
-    {#if isObjectSchema(typeSchema)}
-      <Paper variant="unelevated" class="jsonschema-form-control control-object">
-        <ObjectProps {...selected} bind:data force />
-      </Paper>
-    {:else}
-      <Control schema={selected} bind:data force />
+  <Content>
+    {#if selected != null}
+      {#if isObjectSchema(typeSchema)}
+        <Paper variant="unelevated" class="jsonschema-form-control control-object">
+          <Content>
+            <ObjectProps {...selected} bind:data force />
+          </Content>
+        </Paper>
+      {:else}
+        <Control schema={selected} bind:data={value} force />
+      {/if}
     {/if}
-  {/if}
+  </Content>
 </Paper>
