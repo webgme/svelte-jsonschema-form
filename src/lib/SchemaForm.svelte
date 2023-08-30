@@ -58,7 +58,7 @@
   }
 
   export function getBlob(transform?: DataTransform) {
-    const transformed = transform ? transform(structuredClone(data)) : data;
+    const transformed = transform ? transform(structuredClone(data), schema) : data;
     return new Blob(
       [JSON.stringify(transformed)],
       { type: "application/json"}

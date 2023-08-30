@@ -1,4 +1,6 @@
-export type DataTransform = (data: { [prop: string]: any }) => any;
+import type { JSONSchema7 } from "json-schema";
+
+export type DataTransform = (data: { [prop: string]: any }, schema: JSONSchema7) => any;
 type DownloadOptions = {
   validate?: boolean,
   transform?: DataTransform
