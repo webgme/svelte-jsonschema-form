@@ -44,7 +44,7 @@
   }
 </script>
 
-<Paper variant="unelevated" class="control-anyof">
+<Paper variant="unelevated" class="jsonschema-form-control control-anyof">
   <Title>
     <Select variant="outlined" key={getKey} bind:value={selected}>
       {#each schemas as schema, index (schema)}

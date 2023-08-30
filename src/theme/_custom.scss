@@ -2,6 +2,10 @@ $root-header-bg: #6B6B6B;
 $sub-header-bg: #E4E4E4;
 $separator-color: #707070;
 
+.jsonschema-form-control.smui-paper {
+  padding: 0;
+}
+
 .control-object,
 .control-array {
 
