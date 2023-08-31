@@ -64,3 +64,18 @@ $separator-color: #707070;
     padding: 0.5rem 0;
   }
 }
+
+.smui-accordion .smui-accordion__panel > .smui-accordion__header {
+  > .smui-accordion__header__title.smui-accordion__header__title--with-description {
+    flex: 1;
+    max-width: unset;
+  }
+
+  > .smui-accordion__header__description {
+    min-width: 60%;
+
+    &:empty {
+      display: none;
+    }
+  }
+}

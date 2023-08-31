@@ -139,12 +139,12 @@
         </IconButton>
       {/if}
       <span class="control-array-title">{title ?? ""}</span>
-      <span slot="description">{description ?? ""}</span>
+      <svelte:fragment slot="description">{description ?? ""}</svelte:fragment>
       <div slot="icon">
         {#if canAddItem}
-          <IconButton type="button" class="material-icons" on:click={headerAddItem}>add</IconButton>
+          <IconButton type="button" class="material-icons" on:click={headerAddItem} size="button">add</IconButton>
         {/if}
-        <IconButton type="button" toggle pressed={open}>
+        <IconButton type="button" toggle pressed={open} size="button">
           <Icon class="material-icons" on>expand_less</Icon>
           <Icon class="material-icons">expand_more</Icon>
         </IconButton>
