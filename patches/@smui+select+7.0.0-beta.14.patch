@@ -1,12 +1,12 @@
 diff --git a/node_modules/@smui/select/dist/Select.svelte b/node_modules/@smui/select/dist/Select.svelte
-index f56ba6e..280a571 100644
+index f56ba6e..b1ffcbe 100644
 --- a/node_modules/@smui/select/dist/Select.svelte
 +++ b/node_modules/@smui/select/dist/Select.svelte
 @@ -172,13 +172,15 @@
      {/if}
    </div>
  
-+  <Portal disable={!menu$portal}>
++  <Portal class="smui-select__menu-portal" disable={!menu$portal}>
    <Menu
 +    bind:this={menu}
      class={classMap({
@@ -31,7 +31,7 @@ index f56ba6e..280a571 100644
  import LineRipple from '@smui/line-ripple';
  import NotchedOutline from '@smui/notched-outline';
  import HelperText from './helper-text/HelperText.svelte';
-+import Portal, {portal} from 'svelte-portal';
++import Portal from 'svelte-portal';
  const forwardEvents = forwardEventsBuilder(get_current_component());
  let uninitializedValue = () => { };
  function isUninitializedValue(value) {
