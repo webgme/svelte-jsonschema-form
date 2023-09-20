@@ -107,7 +107,7 @@
   function updateOpen(enabled: boolean): void;
   function updateOpen(collapse: UISchema['collapse']): void;
   function updateOpen(arg: boolean | UISchema['collapse']) {
-    open = isBoolean(arg) ? arg : !UISchema.shouldCollapse($$props, arg, open);
+    open = hasItems || (isBoolean(arg) ? arg : !UISchema.shouldCollapse($$props, arg, open));
   }
 
   function updateEnabled(data: any, hasRequired: boolean) {
