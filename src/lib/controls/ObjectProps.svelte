@@ -7,9 +7,6 @@
   export let properties: { [prop: string]: any } | undefined = undefined;
   export let required: string[] = [];
   export let anyOf: JSONSchema7Definition[] | undefined = undefined;
-  export let force: boolean = false;
-
-  $: if (force && (data == null)) data = {};
 </script>
 
 {#if (properties != null) && (data != null)}

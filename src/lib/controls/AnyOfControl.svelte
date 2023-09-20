@@ -2,7 +2,7 @@
   import type { JSONSchema7, JSONSchema7Definition } from "json-schema";
   import deepEquals from "fast-deep-equal";
   import { tick } from 'svelte';
-  import { isObjectSchema, isArraySchema } from "$lib/utilities";
+  import { isObjectSchema, omit } from "$lib/utilities";
   import Paper, { Title, Content } from "@smui/paper";
   import Select, { Option } from '@smui/select';
   import Control from "../Control.svelte";
@@ -15,6 +15,7 @@
   const keys = new WeakMap<JSONSchema7, string>();
   let schemas: JSONSchema7[] = [];
   let selected: JSONSchema7 | undefined = undefined;
+  let selectedProps: string[] | undefined = [];
 
   $: typeSchema = { type: selected?.type ?? type };
   $: updateSchemas(anyOf);
@@ -46,9 +47,22 @@
 
   async function resetData(selected: JSONSchema7 | undefined) {
     await tick();
+    const isObj = isObjectSchema(typeSchema);
     if (data != null) {
-      data = undefined;
+      if (selectedProps) {
+        const omitted = omit(data, selectedProps);
+        // make sure it's changed (to prevent infinite loop)
+        if (Object.keys(data).length != Object.keys(omitted).length) {
+          data = omitted;
+        }
+      } else {
+        data = undefined;
+      }
     }
+    else if (isObj) {
+      data = {};
+    }
+    selectedProps = isObj ? Object.keys(selected?.properties ?? {}) : undefined;
   }
 </script>
 
@@ -63,7 +77,7 @@
   <Content>
     {#if selected != null}
       {#if isObjectSchema(typeSchema)}
-        <ObjectProps {...selected} bind:data force />
+        <ObjectProps {...selected} bind:data />
       {:else}
         <Control schema={selected} bind:data force />
       {/if}
