@@ -68,7 +68,14 @@
 
 <Paper variant="unelevated" class="jsonschema-form-control control-anyof">
   <Title>
-    <Select variant="outlined" key={getKey} bind:value={selected} menu$portal>
+    <Select 
+      variant="outlined"
+      key={getKey}
+      class="control-anyof-select"
+      menu$class="control-anyof-menu"
+      menu$portal
+      bind:value={selected}
+    >
       {#each schemas as schema, index (schema)}
         <Option value={schema}>{schema.title ?? `Option ${index + 1}` }</Option>
       {/each}
