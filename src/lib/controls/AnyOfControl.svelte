@@ -74,7 +74,7 @@
       {/each}
     </Select>
   </Title>
-  <Content>
+  <Content class="jsonschema-form-controls">
     {#if selected != null}
       {#if isObjectSchema(typeSchema)}
         <ObjectProps {...selected} bind:data />
