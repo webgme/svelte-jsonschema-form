@@ -138,7 +138,7 @@
     flex-basis: 325px;
   }
 
-  :global(.smui-select__menu-portal > .control-anyof-menu) {
+  :global(.smui-select__menu-portal > .mdc-select__menu) {
     width: 325px;
     max-width: 80%;
   }
