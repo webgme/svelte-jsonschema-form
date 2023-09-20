@@ -1,0 +1,20 @@
+diff --git a/node_modules/svelte-portal/src/Portal.svelte b/node_modules/svelte-portal/src/Portal.svelte
+index 510a1a5..11f020c 100644
+--- a/node_modules/svelte-portal/src/Portal.svelte
++++ b/node_modules/svelte-portal/src/Portal.svelte
+@@ -55,8 +55,13 @@
+    * @type { HTMLElement|string}
+    */
+   export let target = "body";
++  export let disable = false;
+ </script>
+ 
+-<div use:portal={target} hidden>
++{#if disable}
+   <slot />
+-</div>
++{:else}
++  <div class={$$props.class} use:portal={target} hidden>
++    <slot />
++  </div>
++{/if}

@@ -126,14 +126,21 @@
     margin: 12px 0;
   }
 
-  .jsonschema-form :global(.jsonschema-form-controls) {
+  .jsonschema-form :global(.jsonschema-form-controls),
+  .jsonschema-form :global(.control-anyof > .smui-paper__title) {
     display: flex;
     flex-wrap: wrap;
     gap: 24px;
   }
 
-  .jsonschema-form :global(.jsonschema-form-controls > .jsonschema-form-control) {
+  .jsonschema-form :global(.jsonschema-form-controls > .jsonschema-form-control),
+  .jsonschema-form :global(.jsonschema-form-controls .control-anyof-select) {
     flex-basis: 325px;
+  }
+
+  :global(.smui-select__menu-portal > .mdc-select__menu) {
+    width: 325px;
+    max-width: 80%;
   }
 
   .jsonschema-form :global(.jsonschema-form-controls > .control-array),

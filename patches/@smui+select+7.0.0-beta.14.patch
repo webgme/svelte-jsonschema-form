@@ -1,0 +1,75 @@
+diff --git a/node_modules/@smui/select/dist/Select.svelte b/node_modules/@smui/select/dist/Select.svelte
+index f56ba6e..b1ffcbe 100644
+--- a/node_modules/@smui/select/dist/Select.svelte
++++ b/node_modules/@smui/select/dist/Select.svelte
+@@ -172,13 +172,15 @@
+     {/if}
+   </div>
+ 
++  <Portal class="smui-select__menu-portal" disable={!menu$portal}>
+   <Menu
++    bind:this={menu}
+     class={classMap({
+       [menu$class]: true,
+       'mdc-select__menu': true,
+       ...menuClasses,
+     })}
+-    fullWidth
++    fullWidth={!menu$portal}
+     anchor={false}
+     {anchorElement}
+     {anchorCorner}
+@@ -198,6 +200,7 @@
+       {...prefixFilter($$restProps, 'list$')}><slot /></List
+     >
+   </Menu>
++  </Portal>
+ </div>
+ {#if $$slots.helperText}
+   <HelperText
+@@ -230,6 +233,7 @@ import FloatingLabel from '@smui/floating-label';
+ import LineRipple from '@smui/line-ripple';
+ import NotchedOutline from '@smui/notched-outline';
+ import HelperText from './helper-text/HelperText.svelte';
++import Portal from 'svelte-portal';
+ const forwardEvents = forwardEventsBuilder(get_current_component());
+ let uninitializedValue = () => { };
+ function isUninitializedValue(value) {
+@@ -269,6 +273,7 @@ export let selectedText$class = '';
+ export let dropdownIcon$use = [];
+ export let dropdownIcon$class = '';
+ export let menu$class = '';
++export let menu$portal = false;
+ let element;
+ let instance;
+ let internalClasses = {};
+@@ -279,6 +284,7 @@ let selectedIndex = -1;
+ let helperId = undefined;
+ let addLayoutListener = getContext('SMUI:addLayoutListener');
+ let removeLayoutListener;
++let menu;
+ let menuOpen = false;
+ let menuClasses = {};
+ let anchorElement = undefined;
+@@ -337,6 +343,9 @@ if (addLayoutListener) {
+     removeLayoutListener = addLayoutListener(layout);
+ }
+ onMount(() => {
++    if (menu$portal) {
++      menu.getMenuSurface().setIsHoisted(true);
++    }
+     instance = new MDCSelectFoundation({
+         // getSelectAdapterMethods
+         // getMenuItemAttr: (menuItem: Element, attr: string) =>
+diff --git a/node_modules/@smui/select/src/Select.svelte b/node_modules/@smui/select/src/Select.svelte
+index 5c99bde..28f68b5 100644
+--- a/node_modules/@smui/select/src/Select.svelte
++++ b/node_modules/@smui/select/src/Select.svelte
+@@ -281,6 +281,7 @@
+     dropdownIcon$use?: ActionArray;
+     dropdownIcon$class?: string;
+     menu$class?: string;
++    menu$portal?: boolean;
+   };
+   type $$Props = OwnProps &
+     SmuiAttrs<'div', keyof OwnProps> & {
