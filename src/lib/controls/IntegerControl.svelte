@@ -37,7 +37,7 @@
 
 <div class="jsonschema-form-control control-integer">
   {#if enumValues?.length}
-    <Select variant="outlined" bind:value label={title} required={isRequired}>
+    <Select variant="outlined" bind:value label={title} required={isRequired} menu$portal>
       {#if !force}
         <Option value={null}/>
       {/if}
