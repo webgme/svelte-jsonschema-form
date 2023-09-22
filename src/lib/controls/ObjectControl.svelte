@@ -8,18 +8,18 @@
   import ObjectProps from "./ObjectProps.svelte";
 
   export let data: { [prop: string]: any } | undefined = undefined;
+  export let uischema: UISchema = {};
   export let title: string | undefined = undefined;
   export let description: string | undefined = undefined;
   export let properties: { [prop: string]: any } | undefined = undefined;
   export let required: string[] = [];
   export let anyOf: JSONSchema7Definition[] | undefined = undefined;
-  // export let uischema: UISchema = {};
 
   let open = true;
   let hasProps = false;
   let enabled = true;
-  const uiOptions = UISchema.Options.get();
 
+  $: uiOptions = UISchema.Options.get(uischema);
   $: justAnyOf = (title == null) && (properties == null) && (anyOf != null);
   $: hasProps = !!Object.keys(properties ?? {}).length || !!Object.keys(anyOf ?? {}).length;
   $: hasRequired = checkRequired({ properties, required, anyOf });

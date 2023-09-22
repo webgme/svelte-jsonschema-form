@@ -1,6 +1,6 @@
 import type { JSONSchema7 } from "json-schema";
 import { getContext, setContext } from 'svelte';
-import { writable, type Readable } from "svelte/store";
+import { writable, type Readable, derived } from "svelte/store";
 import { hasRequired } from "./utilities";
 
 type UISchemaComponent<T extends string = string> =
@@ -20,16 +20,18 @@ namespace UISchema {
     export const ContextKey = Symbol("svelte-jsonschema-form UI schema context key");
     export type Collapse = "all" | "none" | "unrequired" | undefined;
 
-    export function get() {
-      return getContext<Readable<Options>>(ContextKey);
-    }
-
-    export function store(options: Options) {
-      const store = writable(options);
-      return setContext(ContextKey, store);
+    export function get(uischema?: UISchema) {
+      const rootOpts = getContext<Readable<Options>>(ContextKey);
+      const opts = uischema?.[Key];
+      return derived(rootOpts, $rootOpts => ({ ...$rootOpts, ...opts }));
     }
   }
 
+  export function store(uischema: UISchema) {
+    const options = uischema?.[Options.Key] ?? {};
+    const store = writable(options);
+    return setContext(Options.ContextKey, store);
+  }
 
   export function shouldCollapse(schema: JSONSchema7, setting: Options.Collapse, fallback: boolean) {
     switch (setting) {

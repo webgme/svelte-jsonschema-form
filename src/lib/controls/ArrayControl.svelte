@@ -7,6 +7,7 @@
   import Control from "../Control.svelte";
 
   export let data: any[] | undefined = undefined;
+  export let uischema: UISchema = {};
   export let title: string | undefined = undefined;
   export let description: string | null = null;
 
@@ -30,8 +31,8 @@
   let additional: JSONSchema7 | undefined = undefined;
   let canAddItem = false;
   let enabled = true;
-  const uiOptions = UISchema.Options.get();
 
+  $: uiOptions = UISchema.Options.get(uischema);
   $: hasItems = (data?.length ?? 0) > 0;
   $: {
     const itemsIsArray = Array.isArray(items);

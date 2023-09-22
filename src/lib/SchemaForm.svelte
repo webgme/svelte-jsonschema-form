@@ -49,7 +49,7 @@
   $: updateUischemaStore(uischema);
 
   function updateUischemaStore(uischema: UISchema) {
-    $uischemaStore = uischema;
+    $uischemaStore = uischema[UISchema.Options.Key] ?? {};
   }
 
   export function validate() {
