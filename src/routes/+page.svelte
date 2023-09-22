@@ -10,10 +10,12 @@
   import SchemaForm, { type ValidationError } from "$lib";
   import schemas, { type TestSchema } from "../schemas";
 
+  import type UISchema from "$lib/UISchema";
+
   let active = schemas[0];
   let schema: TestSchema["schema"];
   let data: TestSchema["data"];
-  const uischema = { collapse: "unrequired" } as const;
+  const uischema = { ":ui:": { collapse: "unrequired" }} as const;
   let schemaString = "";
   let dataString = "";
   let validationError: ValidationError | null = null;

@@ -25,11 +25,11 @@
   $: updateEnabled(data, hasRequired);
   $: updateData(enabled);
   $: updateOpen(enabled);
-  $: updateOpen($uischema.collapse);
+  $: updateOpen($uischema[UISchema.OptionsKey]?.collapse);
 
   function updateOpen(enabled: boolean): void;
-  function updateOpen(collapse: UISchema['collapse']): void;
-  function updateOpen(arg: boolean | UISchema['collapse']) {
+  function updateOpen(collapse: UISchema.CollapseOption): void;
+  function updateOpen(arg: boolean | UISchema.CollapseOption) {
     open = hasProps && (isBoolean(arg) ? arg : !UISchema.shouldCollapse($$props, arg, open));
   }
 
