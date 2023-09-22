@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { JSONSchema7, JSONSchema7Definition } from "json-schema";
+  import type UISchema from "$lib/UISchema";
   import deepEquals from "fast-deep-equal";
   import { tick } from 'svelte';
   import { isObjectSchema, omit } from "$lib/utilities";
@@ -10,6 +11,7 @@
 
   export let type: JSONSchema7['type'] = undefined;
   export let data: any;
+  export let uischema: UISchema = {};
   export let anyOf: JSONSchema7Definition[] = [];
 
   const keys = new WeakMap<JSONSchema7, string>();
@@ -84,9 +86,9 @@
   <Content class="jsonschema-form-controls">
     {#if selected != null}
       {#if isObjectSchema(typeSchema)}
-        <ObjectProps {...selected} bind:data />
+        <ObjectProps {...selected} bind:data {uischema} />
       {:else}
-        <Control schema={selected} bind:data force />
+        <Control schema={selected} bind:data {uischema} force />
       {/if}
     {/if}
   </Content>
