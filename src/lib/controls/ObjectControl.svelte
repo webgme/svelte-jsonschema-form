@@ -13,11 +13,12 @@
   export let properties: { [prop: string]: any } | undefined = undefined;
   export let required: string[] = [];
   export let anyOf: JSONSchema7Definition[] | undefined = undefined;
+  // export let uischema: UISchema = {};
 
   let open = true;
   let hasProps = false;
   let enabled = true;
-  const uischema = UISchema.get();
+  const uiOptions = UISchema.Options.get();
 
   $: justAnyOf = (title == null) && (properties == null) && (anyOf != null);
   $: hasProps = !!Object.keys(properties ?? {}).length || !!Object.keys(anyOf ?? {}).length;
@@ -25,11 +26,11 @@
   $: updateEnabled(data, hasRequired);
   $: updateData(enabled);
   $: updateOpen(enabled);
-  $: updateOpen($uischema[UISchema.OptionsKey]?.collapse);
+  $: updateOpen($uiOptions.collapse);
 
   function updateOpen(enabled: boolean): void;
-  function updateOpen(collapse: UISchema.CollapseOption): void;
-  function updateOpen(arg: boolean | UISchema.CollapseOption) {
+  function updateOpen(collapse: UISchema.Options.Collapse): void;
+  function updateOpen(arg: boolean | UISchema.Options.Collapse) {
     open = hasProps && (isBoolean(arg) ? arg : !UISchema.shouldCollapse($$props, arg, open));
   }
 

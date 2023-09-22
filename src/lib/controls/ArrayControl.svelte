@@ -30,7 +30,7 @@
   let additional: JSONSchema7 | undefined = undefined;
   let canAddItem = false;
   let enabled = true;
-  const uischema = UISchema.get();
+  const uiOptions = UISchema.Options.get();
 
   $: hasItems = (data?.length ?? 0) > 0;
   $: {
@@ -45,7 +45,7 @@
   $: updateEnabled(data, hasRequired);
   $: updateData(enabled);
   $: updateOpen(enabled);
-  $: updateOpen($uischema[UISchema.OptionsKey]?.collapse);
+  $: updateOpen($uiOptions.collapse);
 
   function getKey(index: number) {
     const value = data![index];
@@ -105,8 +105,8 @@
   }
 
   function updateOpen(enabled: boolean): void;
-  function updateOpen(collapse: UISchema.CollapseOption): void;
-  function updateOpen(arg: boolean | UISchema.CollapseOption) {
+  function updateOpen(collapse: UISchema.Options.Collapse): void;
+  function updateOpen(arg: boolean | UISchema.Options.Collapse) {
     open = hasItems || (isBoolean(arg) ? arg : !UISchema.shouldCollapse($$props, arg, open));
   }
 

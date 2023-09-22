@@ -4,32 +4,34 @@ import { writable, type Readable } from "svelte/store";
 import { hasRequired } from "./utilities";
 
 type UISchemaComponent<T extends string = string> =
-  (T extends typeof UISchema.OptionsKey ? never : { [key: string]: UISchemaComponent<T> }) &
-  {
-    [UISchema.OptionsKey]?: {
-      collapse?: UISchema.CollapseOption
-      ignoreEmpty?: boolean
-    }
-  };
+  (T extends typeof UISchema.Options.Key ? never : { [key: string]: UISchemaComponent<T> }) &
+  { [UISchema.Options.Key]?: UISchema.Options };
 
 type UISchema = UISchemaComponent;
 
 namespace UISchema {
-  export type CollapseOption = "all" | "none" | "unrequired" | undefined;
+  export type Options = {
+    collapse?: UISchema.Options.Collapse
+    ignoreEmpty?: boolean
+  };
 
-  export const Key = Symbol("svelte-jsonschema-form UI schema context key");
-  export const OptionsKey = ":ui:";
+  export namespace Options {
+    export const Key = ":ui:";
+    export const ContextKey = Symbol("svelte-jsonschema-form UI schema context key");
+    export type Collapse = "all" | "none" | "unrequired" | undefined;
 
-  export function get() {
-    return getContext<Readable<UISchema>>(Key);
+    export function get() {
+      return getContext<Readable<Options>>(ContextKey);
+    }
+
+    export function store(options: Options) {
+      const store = writable(options);
+      return setContext(ContextKey, store);
+    }
   }
 
-  export function store(uischema: UISchema) {
-    const store = writable(uischema);
-    return setContext(Key, store);
-  }
 
-  export function shouldCollapse(schema: JSONSchema7, setting: CollapseOption, fallback: boolean) {
+  export function shouldCollapse(schema: JSONSchema7, setting: Options.Collapse, fallback: boolean) {
     switch (setting) {
       case "all":
         return true;
