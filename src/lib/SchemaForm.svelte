@@ -104,11 +104,11 @@
           <Subtitle>{dereferenced.description}</Subtitle>
         {/if}
         <Content class="jsonschema-form-controls">
-          <ObjectProps {...dereferenced} bind:data force />
+          <ObjectProps {...dereferenced} bind:data {uischema} force />
         </Content>
       </Paper>
     {:else}
-      <Control schema={dereferenced} bind:data force />
+      <Control schema={dereferenced} bind:data {uischema} force />
     {/if}
   {:catch error}
     <div class="error">ERROR: {error.message}</div>
