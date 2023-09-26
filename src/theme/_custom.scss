@@ -16,6 +16,7 @@ $separator-color: #707070;
       color: #{$root-header-bg};
       border-radius: 6px;
       align-items: center;
+      min-height: 36px;
 
       > .smui-accordion__header__title {
         display: inline-flex;
@@ -52,7 +53,7 @@ $separator-color: #707070;
       }
     }
 
-    &.has-required > .smui-accordion__header {
+    &.no-disable > .smui-accordion__header {
       padding-left: 18px;
     }
   }

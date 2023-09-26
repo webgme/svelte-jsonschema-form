@@ -23,8 +23,9 @@
   $: justAnyOf = (title == null) && (properties == null) && (anyOf != null);
   $: hasProps = !!Object.keys(properties ?? {}).length || !!Object.keys(anyOf ?? {}).length;
   $: hasRequired = checkRequired({ properties, required, anyOf });
-  $: updateEnabled(data, hasRequired);
   $: updateData(enabled);
+  $: ignoreEmpty = $uiOptions.ignoreEmpty ?? false;
+  $: updateEnabled(data, hasRequired, ignoreEmpty);
   $: updateOpen(enabled);
   $: updateOpen($uiOptions.collapse);
 
@@ -34,8 +35,8 @@
     open = hasProps && (isBoolean(arg) ? arg : !UISchema.shouldCollapse($$props, arg, open));
   }
 
-  function updateEnabled(data: any, hasRequired: boolean) {
-    const shouldEnable = hasRequired || !!data;
+  function updateEnabled(data: any, hasRequired: boolean, ignoreEmpty: boolean) {
+    const shouldEnable = hasRequired || ignoreEmpty || !!data;
     if (shouldEnable != enabled) {
       enabled = shouldEnable;
     }
@@ -57,9 +58,15 @@
   <AnyOfControl {anyOf} type={'object'} bind:data {uischema} />
 {:else}
   <Accordion class="jsonschema-form-control control-object">
-    <Panel bind:open variant="unelevated" disabled={!enabled} class={hasRequired ? "has-required" : undefined} nonInteractive={!hasProps}>
+    <Panel
+      bind:open
+      variant="unelevated"
+      disabled={!enabled}
+      class={(hasRequired || ignoreEmpty) ? "no-disable" : undefined}
+      nonInteractive={!hasProps}
+    >
       <Header>
-        {#if !hasRequired}
+        {#if !hasRequired && !ignoreEmpty}
           <IconButton type="button" toggle bind:pressed={enabled} size="button" on:click={stop}>
             <Icon class="material-icons" on>check_box</Icon>
             <Icon class="material-icons">check_box_outline_blank</Icon>
