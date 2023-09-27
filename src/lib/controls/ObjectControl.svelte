@@ -23,9 +23,9 @@
   $: justAnyOf = (title == null) && (properties == null) && (anyOf != null);
   $: hasProps = !!Object.keys(properties ?? {}).length || !!Object.keys(anyOf ?? {}).length;
   $: hasRequired = checkRequired({ properties, required, anyOf });
-  $: updateData(enabled);
   $: ignoreEmpty = $uiOptions.ignoreEmpty ?? false;
   $: updateEnabled(data, hasRequired, ignoreEmpty);
+  $: updateData(enabled);
   $: updateOpen(enabled);
   $: updateOpen($uiOptions.collapse);
 

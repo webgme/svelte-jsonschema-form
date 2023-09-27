@@ -25,7 +25,7 @@
 
 {#if !!data}
   {#each items as { name, schema, uischema } (name)}
-    <Control {schema} bind:data={values[name]} {uischema} />
+    <Control {schema} bind:data={data[name]} {uischema} />
   {/each}
 {/if}
 {#if (anyOf != null)}
