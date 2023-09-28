@@ -44,3 +44,13 @@ export function omit<T extends Record<any, any>, K extends keyof T>(obj: T, keys
       return acc;
     }, {} as Omit<T, K>)
 }
+
+export function isDefined<T>(value: T | undefined): value is T {
+  return (value != null) || (value === null);
+}
+
+export function isEmpty(obj: { [key: string]: any }) {
+  return Object.entries(obj)
+    .filter(([_, val]) => isDefined(val))
+    .length === 0;
+}
