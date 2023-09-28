@@ -44,8 +44,9 @@
 
   function updateData(enabled: boolean) {
     const hasData = (data != null);
-    if (hasData != enabled) {
-      data = enabled ? {} : undefined;
+    const shouldHaveData = enabled && !ignoreEmpty;
+    if (hasData != shouldHaveData) {
+      data = shouldHaveData ? {} : undefined;
     }
   }
 
