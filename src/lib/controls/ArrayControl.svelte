@@ -33,6 +33,7 @@
   let enabled = true;
 
   $: uiOptions = UISchema.Options.get(uischema);
+  $: ignoreEmpty = $uiOptions.ignoreEmpty ?? false;
   $: hasItems = (data?.length ?? 0) > 0;
   $: {
     const itemsIsArray = Array.isArray(items);
@@ -41,10 +42,10 @@
       (itemsIsArray ? additionalItems : items) as JSONSchema7
     ];
   }
-  $: canAddItem = (additional != null) && !!data && ((data?.length ?? 0) < maxItems);
+  $: canAddItem = (additional != null) && (ignoreEmpty || !!data) && ((data?.length ?? 0) < maxItems);
   $: hasRequired = checkRequired({ prefixItems, items, additionalItems } as any);
   $: updateEnabled(data, hasRequired);
-  $: updateData(enabled);
+  $: updateData(enabled, ignoreEmpty);
   $: updateOpen(enabled);
   $: updateOpen($uiOptions.collapse);
 
@@ -76,13 +77,14 @@
 
   function addItem() {
     if (canAddItem) {
-      data = [...data!, undefined];
+      data = [...(data ?? []), undefined];
     }
   }
 
   function removeItem(index: number) {
     if (canRemoveItem(index)) {
-      data = (data!.splice(index, 1), data);
+      data?.splice(index, 1);
+      data = (ignoreEmpty && (data?.length ?? 0) === 0) ? undefined : data;
     }
   }
 
@@ -118,10 +120,11 @@
     }
   }
 
-  function updateData(enabled: boolean) {
+  function updateData(enabled: boolean, ignoreEmpty: boolean) {
     const hasData = (data != null);
-    if (hasData != enabled) {
-      data = enabled ? [] : undefined;
+    const shouldHaveData = enabled && !ignoreEmpty;
+    if (hasData != shouldHaveData) {
+      data = shouldHaveData ? [] : undefined;
     }
   }
 
