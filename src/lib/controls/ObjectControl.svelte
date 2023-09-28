@@ -14,6 +14,7 @@
   export let properties: { [prop: string]: any } | undefined = undefined;
   export let required: string[] = [];
   export let anyOf: JSONSchema7Definition[] | undefined = undefined;
+  export let isRequired: boolean | undefined = undefined;
 
   let open = true;
   let hasProps = false;
@@ -22,7 +23,7 @@
   $: uiOptions = UISchema.Options.get(uischema);
   $: justAnyOf = (title == null) && (properties == null) && (anyOf != null);
   $: hasProps = !!Object.keys(properties ?? {}).length || !!Object.keys(anyOf ?? {}).length;
-  $: hasRequired = checkRequired({ properties, required, anyOf });
+  $: hasRequired = isRequired || checkRequired({ properties, required, anyOf });
   $: ignoreEmpty = $uiOptions.ignoreEmpty ?? false;
   $: updateEnabled(data, hasRequired, ignoreEmpty);
   $: updateData(enabled);
