@@ -160,7 +160,12 @@
           {#each data as value, index (getKey(index))}
             <li>
               <div class="jsonschema-form-controls">
-                <Control schema={getItem(index)} bind:data={value} force />
+                <Control
+                  schema={getItem(index)}
+                  bind:data={value}
+                  uischema={uischema?.["items"]}
+                  force
+                />
               </div>
               <div class="control-array-item-actions">
                 <IconButton
