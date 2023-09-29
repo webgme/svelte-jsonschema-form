@@ -10,11 +10,14 @@
   import SchemaForm, { type ValidationError } from "$lib";
   import schemas, { type TestSchema } from "../schemas";
 
+  import type UISchema from "$lib/UISchema";
+
   let active = schemas[0];
   let schema: TestSchema["schema"];
+  let uischema: UISchema;
   let data: TestSchema["data"];
-  const uischema = { collapse: "unrequired" } as const;
   let schemaString = "";
+  let uischemaString = "";
   let dataString = "";
   let validationError: ValidationError | null = null;
 
@@ -23,12 +26,18 @@
 
   $: updateActive(active);
   $: setSchemaString(schema);
+  $: setUISchemaString(uischema);
   $: setDataString(data);
   $: if (validationError != null) errorSnackbar.open();
 
   async function setSchemaString(schema: TestSchema["schema"]) {
     await tick();
     schemaString = JSON.stringify(schema, null, 2);
+  }
+
+  async function setUISchemaString(uischema: UISchema) {
+    await tick();
+    uischemaString = JSON.stringify(uischema, null, 2);
   }
 
   async function setDataString(data: TestSchema["data"]) {
@@ -38,12 +47,21 @@
 
   function updateActive(active: TestSchema) {
     schema = structuredClone(active.schema);
+    uischema = structuredClone(active.uischema) ?? {};
     data = structuredClone(active.data);
   }
 
   function setSchema() {
     try {
       schema = JSON.parse(schemaString);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  function setUISchema() {
+    try {
+      uischema = JSON.parse(uischemaString);
     } catch (error) {
       console.error(error);
     }
@@ -105,6 +123,13 @@
     bind:value={schemaString}
     on:change={setSchema}
     label="Schema"
+  />
+
+  <Textfield
+    textarea
+    bind:value={uischemaString}
+    on:change={setUISchema}
+    label="UI Schema"
   />
 
   <Textfield

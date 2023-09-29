@@ -1,4 +1,5 @@
 import type { JSONSchema7 } from "json-schema";
+import type UISchema from "$lib/UISchema";
 import simpleSchema from "../schemas/simple/schema.json";
 import simpleData from "../schemas/simple/data.json";
 import nestedSchema from "../schemas/nested/schema.json";
@@ -13,12 +14,14 @@ import anyOfSchema from "../schemas/any-of/schema.json";
 import anyOfData from "../schemas/any-of/data.json";
 import allOfSchema from "../schemas/all-of/schema.json";
 import allOfData from "../schemas/all-of/data.json";
-import taxonomySchema from "../schemas/taxonomy/schema.json"; 
+import taxonomySchema from "../schemas/taxonomy/schema.json";
+import taxonomyUISchema from "../schemas/taxonomy/uischema.json";
 import taxonomyData from "../schemas/taxonomy/data.json"; 
 
 export type TestSchema = {
   name: string;
   schema: JSONSchema7;
+  uischema?: UISchema;
   data: { [prop: string]: any };
 };
 
@@ -61,6 +64,7 @@ export default [
   {
     name: "Taxonomy",
     schema: taxonomySchema,
+    uischema: taxonomyUISchema,
     data: taxonomyData
   }
 ] as TestSchema[];
