@@ -3,7 +3,7 @@
   import HelperText from "@smui/textfield/helper-text";
   import Select, { Option } from "@smui/select";
 
-  export let data: string | undefined = undefined;
+  export let data: string | undefined = $$props.default;
   export let title: string | undefined = undefined;
   export let description: string | undefined = undefined;
   export let format: string | undefined = undefined;
@@ -13,8 +13,7 @@
   export let isRequired: boolean | undefined = undefined;
   export let force: boolean = false;
 
-  let defaultValue = $$props.default ?? "";
-  let value: string = data ?? defaultValue;
+  let value: string = data ?? "";
   let enumValues: string[] | undefined = undefined;
 
   $: updateData(value);
@@ -23,14 +22,16 @@
 
 
   function updateData(val: string) {
-    if ((data !== val) && (force || ((data != null) || (val != defaultValue)))) {
-      data = val || (force ? defaultValue : undefined);
+    const setData = (!!val || force) ? val : undefined;
+    if (data !== setData) {
+      data = setData;
     }
   }
 
   function updateValue(val: string | undefined) {
-    if (value !== val) {
-      value = val ?? defaultValue;
+    const setValue = val ?? "";
+    if (value !== setValue) {
+      value = setValue;
     }
   }
   

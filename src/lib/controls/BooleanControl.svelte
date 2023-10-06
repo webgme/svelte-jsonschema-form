@@ -3,26 +3,27 @@
   import Checkbox from "@smui/checkbox";
   import HelperText from "@smui/textfield/helper-text";
 
-  export let data: boolean | undefined = undefined;
+  export let data: boolean | undefined = $$props.default;
   export let title: string | undefined = undefined;
   export let description: string | undefined = undefined;
   export let force: boolean = false;
 
-  let defaultValue = $$props.default ?? false;
-  let checked: boolean = data ?? defaultValue;
+  let checked: boolean = data ?? false;
 
   $: updateData(checked);
   $: updateChecked(data);
 
   function updateData(val: boolean) {
-    if ((data !== val) && (force || ((data != null) || (val != defaultValue)))) {
-      data = val ?? (force ? defaultValue : undefined);
+    const setData = ((data != null) || val || force) ? val : undefined;
+    if (data !== setData) {
+      data = setData;
     }
   }
 
   function updateChecked(val: boolean | undefined) {
-    if (checked !== val) {
-      checked = val ?? defaultValue;
+    const setValue = val ?? $$props.default ?? false;
+    if (checked !== setValue) {
+      checked = setValue;
     }
   }
 

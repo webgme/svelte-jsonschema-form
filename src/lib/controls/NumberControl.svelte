@@ -3,7 +3,7 @@
   import HelperText from "@smui/textfield/helper-text";
   import Select, { Option } from "@smui/select";
 
-  export let data: number | undefined = undefined;
+  export let data: number | undefined = $$props.default;
   export let title: string | undefined = undefined;
   export let description: string | undefined = undefined;
   export let format: string | undefined = undefined;
@@ -13,8 +13,7 @@
   export let multipleOf: number | undefined = undefined;
   export let force: boolean = false;
 
-  let defaultValue = $$props.default ?? NaN;
-  let value = data ?? defaultValue;
+  let value = data ?? NaN;
   let enumValues: number[] | undefined = undefined;
 
   $: updateData(value);
@@ -22,15 +21,16 @@
   $: enumValues = $$props.enum;
 
   function updateData(val: number) {
-    if ((data !== val) && (force || ((data != null) || (val != defaultValue)))) {
-      const hasVal = (val != null) && !Number.isNaN(val);
-      data = hasVal ? val : (force ? defaultValue : undefined);
+    const setData = Number.isNaN(val) ? force ? ($$props.default ?? NaN) : undefined : val;
+    if (data !== setData) {
+      data = setData;
     }
   }
 
   function updateValue(val: number | undefined) {
-    if (value !== val) {
-      value = val ?? defaultValue;
+    const setValue = val ?? NaN;
+    if (value !== setValue) {
+      value = setValue;
     }
   }
 </script>
@@ -39,7 +39,7 @@
   {#if enumValues?.length}
     <Select variant="outlined" bind:value label={title} required={isRequired} menu$portal>
       {#if !force}
-        <Option value={null}/>
+        <Option value={NaN}/>
       {/if}
       {#each enumValues as enumValue}
         <Option value={enumValue}>{enumValue}</Option>
