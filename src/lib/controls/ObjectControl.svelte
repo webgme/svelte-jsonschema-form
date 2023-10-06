@@ -57,7 +57,7 @@
 </script>
 
 {#if justAnyOf}
-  <AnyOfControl {anyOf} type={'object'} bind:data {uischema} />
+  <AnyOfControl {title} {anyOf} type={'object'} bind:data {uischema} />
 {:else}
   <Accordion class="jsonschema-form-control control-object">
     <Panel
@@ -86,7 +86,7 @@
         </svelte:fragment>
       </Header>
       <Content class="jsonschema-form-controls">
-        <ObjectProps {properties} {required} {anyOf} bind:data {uischema} />
+        <ObjectProps {title} {properties} {required} {anyOf} bind:data {uischema} />
       </Content>
     </Panel>
   </Accordion>

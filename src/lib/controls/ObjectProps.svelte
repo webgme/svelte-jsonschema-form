@@ -6,6 +6,7 @@
   import { isEmpty } from "$lib/utilities";
 
   export let data: { [prop: string]: any } | undefined;
+  export let title: string | undefined = undefined;
   export let uischema: UISchema = {};
   export let properties: { [prop: string]: any } | undefined = undefined;
   export let required: string[] = [];
@@ -32,7 +33,7 @@
     if (ignoreEmpty && (data == null) && ((values == null) || !isEmpty(values))) {
       values = {};
     }
-    else {
+    else if (values != data) {
       values = data;
     }
   }
@@ -53,5 +54,5 @@
   {/each}
 {/if}
 {#if (anyOf != null)}
-  <AnyOfControl {anyOf} type={'object'} bind:data {uischema} />
+  <AnyOfControl {anyOf} {title} type={'object'} bind:data {uischema} />
 {/if}
