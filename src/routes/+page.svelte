@@ -68,7 +68,10 @@
   }
 
   function setData() {
-    try {
+    if (dataString.trim() === "") {
+      data = {};
+    }
+    else try {
       data = JSON.parse(dataString);
     } catch (error) {
       console.error(error);
