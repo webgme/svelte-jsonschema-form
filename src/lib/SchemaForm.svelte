@@ -1,6 +1,6 @@
 <script lang="ts">
   import 'core-js/actual/structured-clone';
-  import type { JSONSchema7 } from "json-schema";
+  import type { JSONSchema7Definition } from "json-schema";
   import DownloadOptions, { type DataTransform } from './DowloadOptions';
   import UISchema from "./UISchema";
   import JsonSchemaDereferencer from "@json-schema-tools/dereferencer";
@@ -11,9 +11,9 @@
   import ObjectProps from "./controls/ObjectProps.svelte";
   import Control from "./Control.svelte";
   import ValidationError from "./ValidationError";
-  import { isObjectSchema, isString } from './utilities';
+  import { isObjectSchema, isString, isBoolean } from './utilities';
 
-  export let schema: JSONSchema7 = {};
+  export let schema: JSONSchema7Definition = {};
   export let data: { [prop: string]: any } = {};
   export let uischema: UISchema = {};
 
@@ -40,7 +40,7 @@
   let uischemaStore = UISchema.store(uischema);
 
   $: dereferencing = new Dereferencer(
-    mergeAllOf(structuredClone(schema)),
+    isBoolean(schema) ? schema : mergeAllOf(structuredClone(schema)),
     { mutate: true }
   ).resolve();
 

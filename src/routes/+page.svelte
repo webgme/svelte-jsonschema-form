@@ -52,7 +52,10 @@
   }
 
   function setSchema() {
-    try {
+    if (schemaString.trim() === "") {
+      schema = true;
+    }
+    else try {
       schema = JSON.parse(schemaString);
     } catch (error) {
       console.error(error);
@@ -60,7 +63,10 @@
   }
 
   function setUISchema() {
-    try {
+    if (uischemaString.trim() === "") {
+      uischema = {};
+    }
+    else try {
       uischema = JSON.parse(uischemaString);
     } catch (error) {
       console.error(error);
