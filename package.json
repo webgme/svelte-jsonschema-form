@@ -35,6 +35,7 @@
 		"dist",
 		"!dist/**/*.test.*",
 		"!dist/**/*.spec.*",
+		"patches",
 		"src/theme",
 		"static/smui.css"
 	],
