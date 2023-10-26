@@ -12,6 +12,7 @@
   import Control from "./Control.svelte";
   import ValidationError from "./ValidationError";
   import { isObjectSchema, isString, isBoolean } from './utilities';
+  import libVersion from "./version";
 
   export let schema: JSONSchema7Definition = {};
   export let data: { [prop: string]: any } = {};
@@ -91,7 +92,7 @@
   }
 </script>
 
-<form class="jsonschema-form">
+<form class="jsonschema-form" data-version={ libVersion }>
   {#await dereferencing}
     <p>dereferencing...</p>
   {:then dereferenced}
