@@ -84,5 +84,6 @@
 		"json-schema-merge-allof": "^0.8.1",
 		"patch-package": "^7.0.2",
 		"svelte-portal": "^2.2.0"
-	}
+	},
+	"bundleDependencies": ["@json-schema-tools/dereferencer", "@smui/select", "svelte-portal"]
 }
