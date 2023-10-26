@@ -1,6 +1,6 @@
 {
 	"name": "svelte-jsonschema-form",
-	"version": "0.6.1",
+	"version": "0.6.2",
 	"description": "A Svelte component for generating forms from JSON Schema.",
 	"license": "MIT",
 	"repository": {
@@ -85,5 +85,9 @@
 		"patch-package": "^7.0.2",
 		"svelte-portal": "^2.2.0"
 	},
-	"bundleDependencies": ["@json-schema-tools/dereferencer", "@smui/select", "svelte-portal"]
+	"bundleDependencies": [
+		"@json-schema-tools/dereferencer",
+		"@smui/select",
+		"svelte-portal"
+	]
 }
