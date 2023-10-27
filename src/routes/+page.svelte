@@ -1,5 +1,4 @@
 <script lang="ts">
-  import "../theme/_custom.scss"
   import { tick } from 'svelte';
   import TabBar from "@smui/tab-bar"
   import Tab, { Label } from "@smui/tab"

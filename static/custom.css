@@ -1,0 +1,72 @@
+.jsonschema-form-control.smui-paper {
+  padding: 0;
+}
+
+.control-object.smui-accordion > .smui-paper > .smui-accordion__header,
+.control-array.smui-accordion > .smui-paper > .smui-accordion__header {
+  background-color: #E4E4E4;
+  color: #6B6B6B;
+  border-radius: 6px;
+  align-items: center;
+  min-height: 36px;
+}
+.control-object.smui-accordion > .smui-paper > .smui-accordion__header > .smui-accordion__header__title,
+.control-array.smui-accordion > .smui-paper > .smui-accordion__header > .smui-accordion__header__title {
+  display: inline-flex;
+  align-items: center;
+  padding-left: 2px;
+}
+.control-object.smui-accordion > .smui-paper > .smui-accordion__header > .smui-accordion__header__title > .control-object-title,
+.control-object.smui-accordion > .smui-paper > .smui-accordion__header > .smui-accordion__header__title > .control-array-title,
+.control-array.smui-accordion > .smui-paper > .smui-accordion__header > .smui-accordion__header__title > .control-object-title,
+.control-array.smui-accordion > .smui-paper > .smui-accordion__header > .smui-accordion__header__title > .control-array-title {
+  padding-left: 8px;
+  text-transform: uppercase;
+}
+.control-object.smui-accordion > .smui-paper > .smui-accordion__header > .smui-accordion__header__description,
+.control-array.smui-accordion > .smui-paper > .smui-accordion__header > .smui-accordion__header__description {
+  font-style: italic;
+  opacity: 1;
+}
+.control-object.smui-accordion > .smui-paper > .smui-accordion__header > .smui-accordion__header__title,
+.control-object.smui-accordion > .smui-paper > .smui-accordion__header > .smui-accordion__header__description,
+.control-array.smui-accordion > .smui-paper > .smui-accordion__header > .smui-accordion__header__title,
+.control-array.smui-accordion > .smui-paper > .smui-accordion__header > .smui-accordion__header__description {
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+.control-object.smui-accordion > .smui-paper > .smui-accordion__header .mdc-icon-button,
+.control-array.smui-accordion > .smui-paper > .smui-accordion__header .mdc-icon-button {
+  display: inline-flex;
+  height: 34px;
+  justify-content: center;
+}
+.jsonschema-form > .smui-paper > .smui-paper__content > .control-object.smui-accordion > .smui-paper > .smui-accordion__header,
+.jsonschema-form > .smui-paper > .smui-paper__content > .control-array.smui-accordion > .smui-paper > .smui-accordion__header {
+  background-color: #6B6B6B;
+  color: #FFFFFF;
+}
+.control-object.smui-accordion > .smui-paper.no-disable > .smui-accordion__header,
+.control-array.smui-accordion > .smui-paper.no-disable > .smui-accordion__header {
+  padding-left: 18px;
+}
+
+.control-array .control-array-items > li {
+  border-bottom: #707070 solid 1px;
+  padding: 0.5rem 0;
+}
+
+.smui-accordion .smui-accordion__panel > .smui-accordion__header > .smui-accordion__header__title.smui-accordion__header__title--with-description {
+  flex: 1;
+  max-width: unset;
+}
+.smui-accordion .smui-accordion__panel > .smui-accordion__header > .smui-accordion__header__description {
+  min-width: 60%;
+}
+.smui-accordion .smui-accordion__panel > .smui-accordion__header > .smui-accordion__header__description:empty {
+  display: none;
+}
+
+.control-anyof .smui-paper__title {
+  margin-bottom: 1rem;
+}

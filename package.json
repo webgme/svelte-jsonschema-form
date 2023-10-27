@@ -11,7 +11,7 @@
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build && npm run package",
-		"build:theme": "smui-theme compile static/smui.css -i src/theme",
+		"build:theme": "smui-theme compile static/smui.css -i src/theme && sass --no-source-map src/theme/_custom.scss:static/custom.css",
 		"build:static": "npm run build --static && npm run build:theme",
 		"preview": "vite preview",
 		"package": "svelte-kit sync && svelte-package && publint",
@@ -29,7 +29,8 @@
 			"types": "./dist/index.d.ts",
 			"main": "./dist/index.js",
 			"svelte": "./dist/index.js"
-		}
+		},
+		"./theme/default": "./static/theme.scss"
 	},
 	"files": [
 		"dist",
