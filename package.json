@@ -38,7 +38,7 @@
 		"!dist/**/*.spec.*",
 		"patches",
 		"src/theme",
-		"static/smui.css"
+		"static/*.css"
 	],
 	"peerDependencies": {
 		"svelte": "^3.50 || ^4"
