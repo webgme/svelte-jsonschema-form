@@ -30,7 +30,7 @@
 			"main": "./dist/index.js",
 			"svelte": "./dist/index.js"
 		},
-		"./theme/default": "./static/theme.scss"
+		"./theme/default": "./static/theme.css"
 	},
 	"files": [
 		"dist",
