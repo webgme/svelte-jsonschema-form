@@ -3,7 +3,7 @@
   import type UISchema from "$lib/UISchema";
   import deepEquals from "fast-deep-equal";
   import { tick } from 'svelte';
-  import { isObjectSchema, omit } from "$lib/utilities";
+  import { isObjectSchema, omit, getLabel } from "$lib/utilities";
   import Paper, { Title, Content } from "@smui/paper";
   import Select, { Option } from '@smui/select';
   import Control from "../Control.svelte";
@@ -87,7 +87,7 @@
         <Option value={null} />
       {/if}
       {#each schemas as schema, index (schema)}
-        <Option value={schema}>{schema.title ?? `Option ${index + 1}` }</Option>
+        <Option value={schema}>{ getLabel(schema, index) }</Option>
       {/each}
     </Select>
   </Title>
