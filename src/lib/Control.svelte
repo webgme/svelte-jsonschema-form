@@ -10,9 +10,11 @@
 
   let control: any;
 
-  $: updateControlType(schema?.type);
+  $: updateControlType(schema);
 
-  function updateControlType(type: JSONSchema7['type']) {
+  function updateControlType(schema: JSONSchema7 | undefined) {
+    const hasConst = (schema != null) && Object.hasOwn(schema, "const");
+    const type = hasConst ? "const" : schema?.type;
     const singleType = (Array.isArray(type) ? type[0] : type) ?? "object";
     control = controls[singleType as keyof typeof controls] as any;
   }
