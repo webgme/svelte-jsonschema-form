@@ -32,7 +32,7 @@
 
 </script>
 
-{#if !isRequired}
+{#if !isRequired && !force}
   <div class="jsonschema-form-control control-const">
     <FormField>
       <Checkbox bind:checked />
