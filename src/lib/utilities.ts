@@ -28,12 +28,23 @@ export function hasRequired(schema: JSONSchema7) {
   return hasRequired;
 }
 
+export function getLabel(schema: JSONSchema7, fallback?: string | number) {
+  const { title, const: constValue } = schema;
+  const constTitle = !(Array.isArray(constValue) || isObject(constValue)) ? constValue?.toString() : undefined;
+  const fbTitle = (fallback != null) ? isString(fallback) ? fallback : `Option ${fallback}` : null;
+  return title ?? constTitle ?? fbTitle;
+}
+
 export function isBoolean(arg: any): arg is boolean {
   return typeof arg === "boolean";
 }
 
 export function isString(arg: any): arg is string {
   return typeof arg === "string";
+}
+
+export function isObject(arg: any): arg is object {
+  return Object.prototype.toString.call(arg) === '[object Object]';
 }
 
 export function omit<T extends Record<any, any>, K extends keyof T>(obj: T, keys: K[]) {
