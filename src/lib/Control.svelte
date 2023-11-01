@@ -17,7 +17,7 @@
   }
 
   function useAnyOf(schema: JSONSchema7 | undefined) {
-    return (schema != null) && (("anyOf" in schema) && !("properties" in schema));
+    return (schema?.anyOf != null) && (schema?.properties == null);
   }
 
   function updateControlType(schema: JSONSchema7 | undefined) {
