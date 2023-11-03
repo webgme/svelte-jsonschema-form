@@ -12,12 +12,12 @@
 
   let checked: boolean = (data != null);
 
-  $: updateData(checked);
-  $: updateData($$restProps.const != null);
+  $: value = $$restProps.const
+  $: updateData(checked, value);
   $: updateChecked(data);
 
-  function updateData(checked: boolean) {
-    const setData = (isRequired || force || checked) ? $$restProps.const : undefined;
+  function updateData(checked: boolean, value: any) {
+    const setData = (isRequired || force || checked) ? value: undefined;
     if (data !== setData) {
       data = setData;
     }
