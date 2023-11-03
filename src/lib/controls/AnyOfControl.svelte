@@ -7,6 +7,7 @@
   import Select, { Option } from '@smui/select';
   import Control from "../Control.svelte";
   import ObjectProps from "./ObjectProps.svelte";
+  import { tick } from "svelte";
 
   export let type: JSONSchema7['type'] = undefined;
   export let data: any;
@@ -54,6 +55,7 @@
         const omitted = omit(data, selectedProps);
         // make sure it's changed (to prevent infinite loop)
         if (Object.keys(data).length != Object.keys(omitted).length) {
+          await tick();
           data = omitted;
         }
       }
