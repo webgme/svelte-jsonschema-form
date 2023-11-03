@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { JSONSchema7, JSONSchema7TypeName } from "json-schema";
+  import type { JSONSchema7 } from "json-schema";
   import type UISchema from "./UISchema";
   import * as controls from "./controls";
 

@@ -2,7 +2,6 @@
   import type { JSONSchema7, JSONSchema7Definition } from "json-schema";
   import type UISchema from "$lib/UISchema";
   import deepEquals from "fast-deep-equal";
-  import { tick } from 'svelte';
   import { isObjectSchema, omit, getLabel } from "$lib/utilities";
   import Paper, { Title, Content } from "@smui/paper";
   import Select, { Option } from '@smui/select';
@@ -20,12 +19,11 @@
   const keys = new WeakMap<JSONSchema7, string>();
   let schemas: JSONSchema7[] = [];
   let selected: JSONSchema7 | null = null;
-  let selectedProps: string[] | undefined = [];
+  let selectedProps: string[] | undefined;
 
-  $: typeSchema = { type: selected?.type ?? type };
   $: updateSchemas(anyOf);
   $: resetSelected(schemas);
-  $: resetData(selected);
+  $: resetData(selected, type);
 
   function getKey(schema: JSONSchema7) {
     return keys.get(schema) ?? "";
@@ -50,24 +48,24 @@
     }
   }
 
-  async function resetData(selected: JSONSchema7 | null) {
-    await tick();
-    const isObj = isObjectSchema(typeSchema);
-    if (data != null) {
+  async function resetData(selected: JSONSchema7 | null, type: JSONSchema7['type']) {
+    if (isObjectSchema({ type: selected?.type ?? type })) {
       if (selectedProps) {
         const omitted = omit(data, selectedProps);
         // make sure it's changed (to prevent infinite loop)
         if (Object.keys(data).length != Object.keys(omitted).length) {
           data = omitted;
         }
-      } else {
-        data = undefined;
       }
+      else {
+        data = {};
+      }
+      selectedProps = Object.keys(selected?.properties ?? {})
     }
-    else if (isObj && force) {
-      data = {};
+    else {
+      if (data != null) data = undefined;
+      if (selectedProps != null) selectedProps = undefined;
     }
-    selectedProps = isObj ? Object.keys(selected?.properties ?? {}) : undefined;
   }
 </script>
 
@@ -93,7 +91,7 @@
   </Title>
   <Content class="jsonschema-form-controls">
     {#if selected != null}
-      {#if isObjectSchema(typeSchema)}
+      {#if !!selectedProps}
         <ObjectProps {...selected} bind:data {uischema} />
       {:else}
         <Control schema={selected} bind:data {uischema} force />
