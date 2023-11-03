@@ -32,10 +32,10 @@
 
 </script>
 
-{#if !isRequired && !force}
+{#if !force}
   <div class="jsonschema-form-control control-const">
     <FormField>
-      <Checkbox bind:checked />
+      <Checkbox bind:checked disabled={isRequired} />
       <span slot="label">{ getLabel({ title, ...$$restProps }, "") }</span>
     </FormField>
     {#if description}
