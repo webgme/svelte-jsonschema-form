@@ -26,7 +26,10 @@
       : useAnyOf(schema) ? "anyOf"
       : schema?.type;
     const singleType = (Array.isArray(type) ? type[0] : type) ?? "object";
-    control = controls[singleType as keyof typeof controls] as any;
+    const updatedControl = controls[singleType as keyof typeof controls] as any;
+    if (updatedControl != control) {
+      control = updatedControl;
+    }
   }
 </script>
 

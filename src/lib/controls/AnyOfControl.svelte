@@ -2,7 +2,7 @@
   import type { JSONSchema7, JSONSchema7Definition } from "json-schema";
   import type UISchema from "$lib/UISchema";
   import deepEquals from "fast-deep-equal";
-  import { isObjectSchema, omit, getLabel } from "$lib/utilities";
+  import { isObjectSchema, omit, getLabel, isEmpty } from "$lib/utilities";
   import Paper, { Title, Content } from "@smui/paper";
   import Select, { Option } from '@smui/select';
   import Control from "../Control.svelte";
@@ -59,7 +59,8 @@
           data = omitted;
         }
       }
-      else {
+      else if ((data == null) || !isEmpty(data)) {
+        await tick();
         data = {};
       }
       selectedProps = Object.keys(selected?.properties ?? {})
