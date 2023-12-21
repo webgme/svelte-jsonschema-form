@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { JSONSchema7Definition } from "json-schema";
-  import { hasRequired as checkRequired, isBoolean } from "$lib/utilities";
+  import { isBoolean } from "$lib/utilities";
   import UISchema from "$lib/UISchema";
   import Accordion, { Panel, Header, Content } from '@smui-extra/accordion';
   import IconButton, { Icon } from '@smui/icon-button';
@@ -21,9 +21,8 @@
 
   $: uiOptions = UISchema.Options.get(uischema);
   $: hasProps = !!Object.keys(properties ?? {}).length || !!Object.keys(anyOf ?? {}).length;
-  $: hasRequired = isRequired || checkRequired({ properties, required, anyOf });
   $: ignoreEmpty = $uiOptions.ignoreEmpty ?? false;
-  $: updateEnabled(data, hasRequired, ignoreEmpty);
+  $: updateEnabled(data, isRequired, ignoreEmpty);
   $: updateData(enabled);
   $: updateOpen(enabled);
   $: updateOpen($uiOptions.collapse);
@@ -34,8 +33,8 @@
     open = hasProps && (isBoolean(arg) ? arg : !UISchema.shouldCollapse($$props, arg, open));
   }
 
-  function updateEnabled(data: any, hasRequired: boolean, ignoreEmpty: boolean) {
-    const shouldEnable = hasRequired || ignoreEmpty || !!data;
+  function updateEnabled(data: any, isRequired: boolean | undefined, ignoreEmpty: boolean) {
+    const shouldEnable = isRequired || ignoreEmpty || !!data;
     if (shouldEnable != enabled) {
       enabled = shouldEnable;
     }
@@ -59,11 +58,11 @@
     bind:open
     variant="unelevated"
     disabled={!enabled}
-    class={(hasRequired || ignoreEmpty) ? "no-disable" : undefined}
+    class={(isRequired || ignoreEmpty) ? "no-disable" : undefined}
     nonInteractive={!hasProps}
   >
     <Header>
-      {#if !hasRequired && !ignoreEmpty}
+      {#if !isRequired && !ignoreEmpty}
         <IconButton type="button" toggle bind:pressed={enabled} size="button" on:click={stop}>
           <Icon class="material-icons" on>check_box</Icon>
           <Icon class="material-icons">check_box_outline_blank</Icon>
