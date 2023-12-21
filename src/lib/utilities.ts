@@ -47,13 +47,26 @@ export function isObject(arg: any): arg is object {
   return Object.prototype.toString.call(arg) === '[object Object]';
 }
 
-export function omit<T extends Record<any, any>, K extends keyof T>(obj: T, keys: K[]) {
-  return Object.keys(obj)
-    .filter(key => !keys.includes(key as K))
-    .reduce((acc, key) => {
-      acc[key as keyof typeof acc] = obj[key];
-      return acc;
-    }, {} as Omit<T, K>)
+/**
+ * Omits properties from the given object.
+ *
+ * @param obj The object to omit properties from
+ * @param keys The array of property keys to omit from the object
+ * @param [options] Options for the omit function:
+ *  {
+ *    keepUnchanged: True to return the original object if no properties were omitted. Defaults to false.
+ *  }
+ * @return An object with the given properties omitted
+ */
+export function omit<T extends Record<any, any>, K extends keyof T>(obj: T, keys: K[], options?: { keepUnchanged: boolean }) {
+  const { keepUnchanged = false } = options ?? {};
+  const objKeys = Object.keys(obj);
+  const keepKeys = objKeys.filter(key => !keys.includes(key as K));
+  const keepObj = (keepKeys.length === objKeys.length) && keepUnchanged;
+  return keepObj ? obj : keepKeys.reduce((acc, key) => {
+    acc[key as keyof typeof acc] = obj[key];
+    return acc;
+  }, {} as Omit<T, K>)
 }
 
 export function isDefined<T>(value: T | undefined): value is T {
