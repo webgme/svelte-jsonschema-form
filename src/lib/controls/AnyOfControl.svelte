@@ -26,6 +26,10 @@
   $: resetSelected(schemas);
   $: resetData(selected, type);
 
+  function isObjSchema() {
+    return isObjectSchema({ type: selected?.type ?? type });
+  }
+
   function getKey(schema: JSONSchema7) {
     return keys.get(schema) ?? "";
   }
@@ -50,24 +54,29 @@
   }
 
   async function resetData(selected: JSONSchema7 | null, type: JSONSchema7['type']) {
-    if (isObjectSchema({ type: selected?.type ?? type })) {
-      if (selectedProps) {
-        const omitted = omit(data, selectedProps);
-        // make sure it's changed (to prevent infinite loop)
-        if (Object.keys(data).length != Object.keys(omitted).length) {
-          await tick();
-          data = omitted;
-        }
+    let newData = data;
+    if (isObjSchema() && (selected != null)) {
+      if (selectedProps && data) {
+        newData = omit(data, selectedProps, { keepUnchanged: true });
       }
       else if ((data == null) || !isEmpty(data)) {
-        await tick();
-        data = {};
+        newData = {};
       }
-      selectedProps = Object.keys(selected?.properties ?? {})
     }
     else {
-      if (data != null) data = undefined;
-      if (selectedProps != null) selectedProps = undefined;
+      newData = undefined;
+    }
+    if (newData !== data) {
+      await tick();
+      data = newData;
+    }
+    resetSelectedProps();
+  }
+
+  function resetSelectedProps() {
+    const newSelectedProps = isObjSchema() ? Object.keys(selected?.properties ?? {}) : undefined;
+    if (newSelectedProps !== selectedProps) {
+      selectedProps = newSelectedProps;
     }
   }
 </script>
