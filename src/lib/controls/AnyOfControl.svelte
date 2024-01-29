@@ -54,6 +54,7 @@
   }
 
   async function resetData(selected: JSONSchema7 | null, type: JSONSchema7['type']) {
+    await tick();
     let newData = data;
     if (isObjSchema() && (selected != null)) {
       if (selectedProps && data) {
@@ -67,7 +68,6 @@
       newData = undefined;
     }
     if (newData !== data) {
-      await tick();
       data = newData;
     }
     resetSelectedProps();
