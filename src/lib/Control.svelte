@@ -1,3 +1,20 @@
+<script context="module" lang="ts">
+  function useConst(schema: JSONSchema7 | undefined) {
+    return (schema != null) && !isBoolean(schema) && ("const" in schema);
+  }
+
+  function useAnyOf(schema: JSONSchema7 | undefined) {
+    return (schema?.anyOf != null) && (schema?.properties == null);
+  }
+
+  export function getSingleSchemaType(schema: JSONSchema7 | undefined) {
+    const type = useConst(schema) ? "const"
+      : useAnyOf(schema) ? "anyOf"
+      : schema?.type;
+    return (Array.isArray(type) ? type[0] : type) ?? "object";
+  }
+</script>
+
 <script lang="ts">
   import type { JSONSchema7 } from "json-schema";
   import type UISchema from "./UISchema";
@@ -13,19 +30,8 @@
 
   $: updateControlType(schema);
 
-  function useConst(schema: JSONSchema7 | undefined) {
-    return (schema != null) && !isBoolean(schema) && ("const" in schema);
-  }
-
-  function useAnyOf(schema: JSONSchema7 | undefined) {
-    return (schema?.anyOf != null) && (schema?.properties == null);
-  }
-
   function updateControlType(schema: JSONSchema7 | undefined) {
-    const type = useConst(schema) ? "const"
-      : useAnyOf(schema) ? "anyOf"
-      : schema?.type;
-    const singleType = (Array.isArray(type) ? type[0] : type) ?? "object";
+    const singleType = getSingleSchemaType(schema);
     const updatedControl = controls[singleType as keyof typeof controls] as any;
     if (updatedControl != control) {
       control = updatedControl;
