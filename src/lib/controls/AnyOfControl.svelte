@@ -103,7 +103,7 @@
   </Title>
   <Content class="jsonschema-form-controls">
     {#if selected != null}
-      {#if !!selectedProps}
+      {#if isObjSchema()}
         <ObjectProps {...selected} bind:data {uischema} />
       {:else}
         <Control schema={selected} bind:data {uischema} force />

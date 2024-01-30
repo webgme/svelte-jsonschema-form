@@ -2,9 +2,9 @@
   import type { JSONSchema7 } from "json-schema";
   import UISchema from "$lib/UISchema";
   import { hasRequired as checkRequired, isBoolean } from "$lib/utilities";
-  import Accordion, { Panel, Header, Content } from '@smui-extra/accordion';
+  import Accordion, { Panel, Header } from '@smui-extra/accordion';
   import IconButton, { Icon } from "@smui/icon-button";
-  import Control from "../Control.svelte";
+  import Control, { getSingleSchemaType } from "../Control.svelte";
 
   export let data: any[] | undefined = undefined;
   export let uischema: UISchema = {};
@@ -49,10 +49,10 @@
   $: updateOpen(enabled);
   $: updateOpen($uiOptions.collapse);
 
+  const dataKeys: Symbol[] = [];
+
   function getKey(index: number) {
-    const value = data![index];
-    const useIndex = (value == null) || (typeof value !== "object");
-    return useIndex ? `${index} | ${getType(index) ?? ""}` : value;
+    return dataKeys[index] ??= Symbol();
   }
 
   function getItem(index: number) {
@@ -60,7 +60,8 @@
   }
 
   function getType(index: number) {
-    return getItem(index)?.type;
+    const item = getItem(index);
+    return getSingleSchemaType(item);
   }
 
   function canRemoveItem(index: number) {
@@ -78,6 +79,7 @@
   function addItem() {
     if (canAddItem) {
       data = [...(data ?? []), undefined];
+      dataKeys.push(Symbol());
     }
   }
 
@@ -85,18 +87,21 @@
     if (canRemoveItem(index)) {
       data?.splice(index, 1);
       data = (ignoreEmpty && (data?.length ?? 0) === 0) ? undefined : data;
+      dataKeys.splice(index, 1);
     }
   }
 
   function moveItemUp(index: number) {
     if (canMoveItemUp(index)) {
       [data![index - 1], data![index]] = [data![index], data![index - 1]];
+      [dataKeys[index - 1], dataKeys[index]] = [dataKeys[index], dataKeys[index - 1]];
     }
   }
 
   function moveItemDown(index: number) {
     if (canMoveItemDown(index)) {
       [data![index + 1], data![index]] = [data![index], data![index + 1]];
+      [dataKeys[index + 1], dataKeys[index]] = [dataKeys[index], dataKeys[index + 1]];
     }
   }
 
