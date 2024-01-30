@@ -75,7 +75,7 @@
 
   function resetSelectedProps() {
     const newSelectedProps = isObjSchema() ? Object.keys(selected?.properties ?? {}) : undefined;
-    if (newSelectedProps !== selectedProps) {
+    if (!deepEquals(newSelectedProps?.sort(), selectedProps?.sort())) {
       selectedProps = newSelectedProps;
     }
   }
@@ -103,7 +103,7 @@
   </Title>
   <Content class="jsonschema-form-controls">
     {#if selected != null}
-      {#if !!selectedProps}
+      {#if isObjSchema()}
         <ObjectProps {...selected} bind:data {uischema} />
       {:else}
         <Control schema={selected} bind:data {uischema} force />
