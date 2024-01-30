@@ -75,7 +75,7 @@
 
   function resetSelectedProps() {
     const newSelectedProps = isObjSchema() ? Object.keys(selected?.properties ?? {}) : undefined;
-    if (newSelectedProps !== selectedProps) {
+    if (!deepEquals(newSelectedProps?.sort(), selectedProps?.sort())) {
       selectedProps = newSelectedProps;
     }
   }
