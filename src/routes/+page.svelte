@@ -6,7 +6,7 @@
   import Button, { Label as BtnLabel } from "@smui/button"
   import Textfield from '@smui/textfield';
   import Snackbar, { Label as SBLabel, Actions } from '@smui/snackbar';
-  import SchemaForm, { type ValidationError } from "$lib";
+  import SchemaForm, { ValidationError } from "$lib";
   import schemas, { type TestSchema } from "../schemas";
 
   import type UISchema from "$lib/UISchema";
@@ -18,7 +18,7 @@
   let schemaString = "";
   let uischemaString = "";
   let dataString = "";
-  let validationError: ValidationError | null = null;
+  let schemaError: Error | ValidationError | null = null;
 
   let schemaForm: SchemaForm;
   let errorSnackbar: Snackbar;
@@ -27,7 +27,7 @@
   $: setSchemaString(schema);
   $: setUISchemaString(uischema);
   $: setDataString(data);
-  $: if (validationError != null) errorSnackbar.open();
+  $: if (schemaError != null) errorSnackbar.open();
 
   async function setSchemaString(schema: TestSchema["schema"]) {
     await tick();
@@ -87,7 +87,7 @@
     try {
       schemaForm.download();
     } catch (error) {
-      validationError = error as ValidationError;
+      schemaError = error as Error;
     }
   }
 </script>
@@ -98,7 +98,7 @@
       <Label>{tab.name}</Label>
     </Tab>
   </TabBar>
-  <SchemaForm {schema} {uischema} bind:data bind:this={schemaForm}>
+  <SchemaForm {schema} {uischema} bind:data bind:this={schemaForm} on:error={(event) => schemaError = event.detail}>
     <Button on:click={download} type="button" variant="raised">
       <BtnLabel>Download</BtnLabel>
     </Button>
@@ -106,13 +106,15 @@
 
   <Snackbar class="schema-error" bind:this={errorSnackbar}>
     <SBLabel>
-      {#if validationError}
-        {validationError.message}
-        <ul>
-          {#each validationError.errors as error}
-            <li>{error.message}</li>
-          {/each}
-        </ul>
+      {#if schemaError}
+        {schemaError.message}
+        {#if schemaError instanceof ValidationError}
+          <ul>
+            {#each schemaError.errors as error}
+              <li>{error.message}</li>
+            {/each}
+          </ul>
+        {/if}
       {:else}
         Unknown error
       {/if}
