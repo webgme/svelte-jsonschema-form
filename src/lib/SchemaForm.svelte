@@ -1,10 +1,11 @@
 <script lang="ts">
   import 'core-js/actual/structured-clone';
   import type { JSONSchema7Definition } from "json-schema";
+  import { createEventDispatcher } from 'svelte';
   import DownloadOptions, { type DataTransform } from './DowloadOptions';
   import UISchema from "./UISchema";
   import JsonSchemaDereferencer from "@json-schema-tools/dereferencer";
-  import Ajv from "ajv";
+  import Ajv, { type ValidateFunction } from "ajv";
   import ajvFormats from "ajv-formats";
   import mergeAllOf from "json-schema-merge-allof";
   import Paper, { Title, Subtitle, Content } from '@smui/paper';
@@ -18,6 +19,7 @@
   export let data: { [prop: string]: any } = {};
   export let uischema: UISchema = {};
 
+  const dispatch = createEventDispatcher();
   /* A bit of a hack - When bulding the static test site, the dereferencer is still behind a
    * `.default` property for some reason. I'm guessing it has something to do with how modules are
    * imported during the svelte build process. When running in browser, it appears to be imported
@@ -39,13 +41,22 @@
     download
   };
   let uischemaStore = UISchema.store(uischema);
+  let validator: ValidateFunction;
 
   $: dereferencing = new Dereferencer(
     isBoolean(schema) ? schema : mergeAllOf(structuredClone(schema)),
     { mutate: true }
-  ).resolve();
+  ).resolve().catch(error => {
+    dispatch("error", error);
+    return null;
+  });
 
-  $: validator = ajv.compile(schema);
+  $: try {
+    validator = ajv.compile(schema);
+  }
+  catch (error) {
+    dispatch("error", error);
+  }
 
   $: updateUischemaStore(uischema);
 
@@ -108,11 +119,9 @@
           <ObjectProps {...dereferenced} bind:data {uischema} force />
         </Content>
       </Paper>
-    {:else}
+    {:else if dereferenced != null}
       <Control schema={dereferenced} bind:data {uischema} force />
     {/if}
-  {:catch error}
-    <div class="error">ERROR: {error.message}</div>
   {/await}
 
   {#if $$slots.default}
