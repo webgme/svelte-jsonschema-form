@@ -1,7 +1,6 @@
 <script lang="ts">
   import 'core-js/actual/structured-clone';
   import type { JSONSchema7Definition } from "json-schema";
-  import { createEventDispatcher } from 'svelte';
   import DownloadOptions, { type DataTransform } from './DowloadOptions';
   import UISchema from "./UISchema";
   import JsonSchemaDereferencer from "@json-schema-tools/dereferencer";
@@ -9,6 +8,7 @@
   import ajvFormats from "ajv-formats";
   import mergeAllOf from "json-schema-merge-allof";
   import Paper, { Title, Subtitle, Content } from '@smui/paper';
+  import createMountedEventDispatcher from './createMountedEventDispatcher';
   import ObjectProps from "./controls/ObjectProps.svelte";
   import Control from "./Control.svelte";
   import ValidationError from "./ValidationError";
@@ -19,7 +19,7 @@
   export let data: { [prop: string]: any } = {};
   export let uischema: UISchema = {};
 
-  const dispatch = createEventDispatcher();
+  const dispatch = createMountedEventDispatcher();
   /* A bit of a hack - When bulding the static test site, the dereferencer is still behind a
    * `.default` property for some reason. I'm guessing it has something to do with how modules are
    * imported during the svelte build process. When running in browser, it appears to be imported
