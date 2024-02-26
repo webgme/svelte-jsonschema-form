@@ -1,6 +1,6 @@
 {
 	"name": "svelte-jsonschema-form",
-	"version": "0.7.5",
+	"version": "0.7.6",
 	"description": "A Svelte component for generating forms from JSON Schema.",
 	"license": "MIT",
 	"repository": {
