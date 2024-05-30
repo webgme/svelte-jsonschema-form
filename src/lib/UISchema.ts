@@ -13,6 +13,7 @@ namespace UISchema {
   export type Options = {
     collapse?: UISchema.Options.Collapse
     ignoreEmpty?: boolean
+    readonly?: boolean
   };
 
   export namespace Options {
