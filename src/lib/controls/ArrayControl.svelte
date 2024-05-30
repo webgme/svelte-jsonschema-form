@@ -142,7 +142,14 @@
   <Panel bind:open variant="unelevated"  disabled={!enabled}  class={hasRequired ? "has-required" : undefined}>
     <Header>
       {#if !hasRequired}
-        <IconButton type="button" toggle bind:pressed={enabled} size="button" on:click={stop}>
+        <IconButton
+          type="button"
+          toggle
+          disabled={$uiOptions.readonly}
+          bind:pressed={enabled}
+          size="button"
+          on:click={stop}
+        >
           <Icon class="material-icons" on>check_box</Icon>
           <Icon class="material-icons">check_box_outline_blank</Icon>
         </IconButton>
@@ -150,7 +157,7 @@
       <span class="control-array-title">{title ?? ""}</span>
       <svelte:fragment slot="description">{description ?? ""}</svelte:fragment>
       <div slot="icon">
-        {#if canAddItem}
+        {#if canAddItem && !$uiOptions.readonly}
           <IconButton type="button" class="material-icons" on:click={headerAddItem} size="button">add</IconButton>
         {/if}
         <IconButton type="button" toggle pressed={open} size="button">
@@ -172,34 +179,36 @@
                   force
                 />
               </div>
-              <div class="control-array-item-actions">
-                <IconButton
-                  type="button"
-                  on:click={() => moveItemUp(index)}
-                  class="material-icons"
-                  size="button"
-                  disabled={!canMoveItemUp(index)}
-                >keyboard_arrow_up</IconButton>
-                <!-- {#if canRemoveItem(index)}
-                  <Fab mini on:click={() => removeItem(index)}>
-                    <Icon class="material-icons">delete</Icon>
-                  </Fab>
-                {/if} -->
-                <IconButton
-                  type="button"
-                  on:click={() => removeItem(index)}
-                  class="material-icons"
-                  size="button"
-                  disabled={!canRemoveItem(index)}
-                >delete</IconButton>
-                <IconButton
-                  type="button"
-                  on:click={() => moveItemDown(index)}
-                  class="material-icons"
-                  size="button"
-                  disabled={!canMoveItemDown(index)}
-                >keyboard_arrow_down</IconButton>
-              </div>
+              {#if !$uiOptions.readonly}
+                <div class="control-array-item-actions">
+                  <IconButton
+                    type="button"
+                    on:click={() => moveItemUp(index)}
+                    class="material-icons"
+                    size="button"
+                    disabled={!canMoveItemUp(index)}
+                  >keyboard_arrow_up</IconButton>
+                  <!-- {#if canRemoveItem(index)}
+                    <Fab mini on:click={() => removeItem(index)}>
+                      <Icon class="material-icons">delete</Icon>
+                    </Fab>
+                  {/if} -->
+                  <IconButton
+                    type="button"
+                    on:click={() => removeItem(index)}
+                    class="material-icons"
+                    size="button"
+                    disabled={!canRemoveItem(index)}
+                  >delete</IconButton>
+                  <IconButton
+                    type="button"
+                    on:click={() => moveItemDown(index)}
+                    class="material-icons"
+                    size="button"
+                    disabled={!canMoveItemDown(index)}
+                  >keyboard_arrow_down</IconButton>
+                </div>
+              {/if}
             </li>
           {/each}
         {/if}

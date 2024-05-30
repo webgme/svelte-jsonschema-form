@@ -1,9 +1,11 @@
 <script lang="ts">
+  import UISchema from "$lib/UISchema";
   import Textfield from "@smui/textfield";
   import HelperText from "@smui/textfield/helper-text";
   import Select, { Option } from "@smui/select";
 
   export let data: number | undefined = $$props.default;
+  export let uischema: UISchema = {};
   export let title: string | undefined = undefined;
   export let description: string | undefined = undefined;
   export let format: string | undefined = undefined;
@@ -16,6 +18,7 @@
   let value = data ?? NaN;
   let enumValues: number[] | undefined = undefined;
 
+  $: uiOptions = UISchema.Options.get(uischema);
   $: updateData(value);
   $: updateValue(data);
   $: enumValues = $$props.enum;
@@ -37,7 +40,13 @@
 
 <div class="jsonschema-form-control control-integer">
   {#if enumValues?.length}
-    <Select variant="outlined" bind:value label={title} required={isRequired} menu$portal>
+    <Select
+      variant="outlined"
+      bind:value label={title}
+      required={isRequired}
+      disabled={$uiOptions.readonly}
+      menu$portal
+    >
       {#if !force}
         <Option value={NaN}/>
       {/if}
@@ -58,6 +67,7 @@
       input$max={maximum}
       input$step={multipleOf}
       required={isRequired}
+      disabled={$uiOptions.readonly}
     >
       <svelte:fragment slot="helper">
         {#if description}

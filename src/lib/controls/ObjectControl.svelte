@@ -63,7 +63,14 @@
   >
     <Header>
       {#if !isRequired && !ignoreEmpty}
-        <IconButton type="button" toggle bind:pressed={enabled} size="button" on:click={stop}>
+        <IconButton 
+          type="button"
+          toggle
+          disabled={$uiOptions.readonly}
+          bind:pressed={enabled}
+          size="button"
+          on:click={stop}
+        >
           <Icon class="material-icons" on>check_box</Icon>
           <Icon class="material-icons">check_box_outline_blank</Icon>
         </IconButton>

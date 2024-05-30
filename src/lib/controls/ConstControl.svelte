@@ -1,10 +1,12 @@
 <script lang="ts">
+  import UISchema from "$lib/UISchema";
   import FormField from "@smui/form-field";
   import Checkbox from "@smui/checkbox";
   import HelperText from "@smui/textfield/helper-text";
   import { getLabel } from "$lib/utilities";
 
   export let data: any;
+  export let uischema: UISchema = {};
   export let title: string | undefined = undefined;
   export let description: string | undefined = undefined;
   export let isRequired: boolean | undefined = undefined;
@@ -12,6 +14,8 @@
 
   let checked: boolean = (data != null);
 
+  $: uiOptions = UISchema.Options.get(uischema);
+  $: disabled = isRequired || $uiOptions.readonly;
   $: value = $$restProps.const
   $: updateData(checked, value);
   $: updateChecked(data);
@@ -35,7 +39,7 @@
 {#if !force}
   <div class="jsonschema-form-control control-const">
     <FormField>
-      <Checkbox bind:checked disabled={isRequired} />
+      <Checkbox bind:checked {disabled} />
       <span slot="label">{ getLabel({ title, ...$$restProps }, "") }</span>
     </FormField>
     {#if description}

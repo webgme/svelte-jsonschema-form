@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { JSONSchema7, JSONSchema7Definition } from "json-schema";
-  import type UISchema from "$lib/UISchema";
+  import UISchema from "$lib/UISchema";
   import deepEquals from "fast-deep-equal";
   import { isObjectSchema, omit, getLabel, isEmpty } from "$lib/utilities";
   import Paper, { Title, Content } from "@smui/paper";
@@ -22,6 +22,7 @@
   let selected: JSONSchema7 | null = null;
   let selectedProps: string[] | undefined;
 
+  $: uiOptions = UISchema.Options.get(uischema);
   $: updateSchemas(anyOf);
   $: resetSelected(schemas);
   $: resetData(selected, type);
@@ -89,6 +90,7 @@
       class="control-anyof-select"
       label={title}
       required={isRequired}
+      disabled={$uiOptions.readonly}
       menu$class="control-anyof-menu"
       menu$portal
       bind:value={selected}
