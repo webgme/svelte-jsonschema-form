@@ -1,7 +1,7 @@
 <script lang="ts">
   import 'core-js/actual/structured-clone';
   import type { JSONSchema7Definition } from "json-schema";
-  import DownloadOptions, { type DataTransform } from './DowloadOptions';
+  import DownloadOptions, { type DataTransform } from './DownloadOptions';
   import UISchema from "./UISchema";
   import JsonSchemaDereferencer from "@json-schema-tools/dereferencer";
   import Ajv, { type ValidateFunction } from "ajv";
