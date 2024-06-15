@@ -1,6 +1,10 @@
-import { expect, test } from '@playwright/test';
+import { test } from "@playwright/test";
 
-test('index page has expected h1', async ({ page }) => {
-	await page.goto('/');
-	await expect(page.getByRole('heading', { name: 'Welcome to SvelteKit' })).toBeVisible();
+test.describe("required options", function () {
+  test("dont expand required field in optional parent", async ({ _page }) => {
+    // TODO: create an enum
+    // TODO: select an option (with nested fields)
+    // TODO: ensure the fields can be set
+    test.fixme();
+  });
 });
