@@ -58,7 +58,7 @@
 
 .smui-accordion .smui-accordion__panel > .smui-accordion__header > .smui-accordion__header__title.smui-accordion__header__title--with-description {
   flex: 1;
-  max-width: unset;
+  max-width: unset !important;
 }
 .smui-accordion .smui-accordion__panel > .smui-accordion__header > .smui-accordion__header__description {
   min-width: 60%;
