@@ -23,7 +23,7 @@
   $: hasProps = !!Object.keys(properties ?? {}).length || !!Object.keys(anyOf ?? {}).length;
   $: ignoreEmpty = $uiOptions.ignoreEmpty ?? false;
   $: updateEnabled(data, isRequired, ignoreEmpty);
-  $: updateData(enabled);
+  $: updateData(enabled, data);
   $: updateOpen(enabled);
   $: updateOpen($uiOptions.collapse);
 
@@ -40,9 +40,9 @@
     }
   }
 
-  function updateData(enabled: boolean) {
-    const hasData = (data != null);
-    const shouldHaveData = enabled && !ignoreEmpty;
+  function updateData(enabled: boolean, current: any) {
+    const hasData = (current != null);
+    const shouldHaveData = (enabled && !ignoreEmpty) || isRequired;
     if (hasData != shouldHaveData) {
       data = shouldHaveData ? {} : undefined;
     }
