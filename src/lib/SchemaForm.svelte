@@ -4,14 +4,12 @@
   import DownloadOptions, { type DataTransform } from './DownloadOptions';
   import UISchema from "./UISchema";
   import JsonSchemaDereferencer from "@json-schema-tools/dereferencer";
-  import Ajv, { type ValidateFunction } from "ajv";
-  import ajvFormats from "ajv-formats";
+  import Validator, { ValidationError, type ValidateFunction } from "./Validator";
   import mergeAllOf from "json-schema-merge-allof";
   import Paper, { Title, Subtitle, Content } from '@smui/paper';
   import createMountedEventDispatcher from './createMountedEventDispatcher';
   import ObjectProps from "./controls/ObjectProps.svelte";
   import Control from "./Control.svelte";
-  import ValidationError from "./ValidationError";
   import { isObjectSchema, isString, isBoolean } from './utilities';
   import libVersion from "./version";
 
@@ -26,8 +24,6 @@
    * properly (so `.default` is `undefined`).
    */
   const Dereferencer: typeof JsonSchemaDereferencer = (<any>JsonSchemaDereferencer).default ?? JsonSchemaDereferencer;
-  const ajv = new Ajv();
-  ajvFormats(ajv);
   const actions = {
     get blob() {
       return getBlob();
@@ -52,7 +48,7 @@
   });
 
   $: try {
-    validator = ajv.compile(schema);
+    validator = Validator.compile(schema);
   }
   catch (error) {
     dispatch("error", error);
