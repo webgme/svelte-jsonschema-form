@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { JSONSchema7, JSONSchema7Definition } from "json-schema";
+  import Validator from "$lib/Validator";
   import UISchema from "$lib/UISchema";
   import deepEquals from "fast-deep-equal";
   import { isObjectSchema, omit, getLabel, isEmpty } from "$lib/utilities";
@@ -20,15 +21,13 @@
   const keys = new WeakMap<JSONSchema7, string>();
   let schemas: JSONSchema7[] = [];
   let selected: JSONSchema7 | null = null;
-  let selectedProps: string[] | undefined;
 
   $: uiOptions = UISchema.Options.get(uischema);
   $: updateSchemas(anyOf);
   $: resetSelected(schemas);
-  $: resetData(selected, type);
 
-  function isObjSchema() {
-    return isObjectSchema({ type: selected?.type ?? type });
+  function isObjSchema(schema: JSONSchema7 | null = selected) {
+    return isObjectSchema({ type: schema?.type ?? type });
   }
 
   function getKey(schema: JSONSchema7) {
@@ -48,38 +47,38 @@
     }
   }
 
+  async function setSelected(value: JSONSchema7 | null) {
+    if (selected !== value) {
+      let newData = data;
+      if (isObjSchema(value) && (value != null)) {
+        if ((selected != null) && isObjSchema() && !isEmpty(data ?? {})) {
+          const selectedProps = Object.keys(selected?.properties ?? {});
+          newData = omit(data, selectedProps, { keepUnchanged: true });
+        }
+        else if ((data == null) || !isEmpty(data)) {
+          newData = {};
+        }
+      }
+      else {
+        newData = undefined;
+      }
+      if (newData != data) {
+        data = newData;
+      }
+      selected = value;
+    }
+  }
+
   function resetSelected(schemas: JSONSchema7[]) {
-    if ((selected == null) ? force : !schemas.includes(selected)) {
-      selected = force ? schemas[0] : null;
+    let newSelected = schemas.find(schema => Validator.validate(schema, data)) ?? null;
+    if (force && (newSelected == null)) {
+      newSelected = schemas[0];
+    }
+    if (newSelected !== selected) {
+      selected = newSelected;
     }
   }
 
-  async function resetData(selected: JSONSchema7 | null, type: JSONSchema7['type']) {
-    await tick();
-    let newData = data;
-    if (isObjSchema() && (selected != null)) {
-      if (selectedProps && data) {
-        newData = omit(data, selectedProps, { keepUnchanged: true });
-      }
-      else if ((data == null) || !isEmpty(data)) {
-        newData = {};
-      }
-    }
-    else {
-      newData = undefined;
-    }
-    if (newData !== data) {
-      data = newData;
-    }
-    resetSelectedProps();
-  }
-
-  function resetSelectedProps() {
-    const newSelectedProps = isObjSchema() ? Object.keys(selected?.properties ?? {}) : undefined;
-    if (!deepEquals(newSelectedProps?.sort(), selectedProps?.sort())) {
-      selectedProps = newSelectedProps;
-    }
-  }
 </script>
 
 <Paper variant="unelevated" class="jsonschema-form-control control-anyof">
@@ -93,7 +92,8 @@
       disabled={$uiOptions.readonly}
       menu$class="control-anyof-menu"
       menu$portal
-      bind:value={selected}
+      value={selected}
+      on:SMUISelect:change={(event) => setSelected(event.detail.value)}
     >
       {#if !force}
         <Option value={null} />
