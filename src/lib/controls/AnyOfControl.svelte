@@ -8,7 +8,6 @@
   import Select, { Option } from '@smui/select';
   import Control from "../Control.svelte";
   import ObjectProps from "./ObjectProps.svelte";
-  import { tick } from "svelte";
 
   export let type: JSONSchema7['type'] = undefined;
   export let data: any;
