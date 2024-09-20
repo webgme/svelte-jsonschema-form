@@ -74,9 +74,7 @@
     if (force && (newSelected == null)) {
       newSelected = schemas[0];
     }
-    if (newSelected !== selected) {
-      selected = newSelected;
-    }
+    setSelected(newSelected);
   }
 
 </script>
