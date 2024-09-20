@@ -8,19 +8,19 @@ type EventDispatcherhArgs<EventMap extends {} = any> = Parameters<EventDispatche
  */
 export default function createMountedEventDispatcher<EventMap extends {} = any>(): EventDispatcher<EventMap> {
   let mounted = false;
-  const dispatchOnMount: EventDispatcherhArgs<EventMap>[] = [];
+  const dispatchOnMount: EventDispatcherhArgs<any>[] = [];
   const dispatch = createEventDispatcher();
 
   onMount(() => {
     mounted = true;
     dispatchOnMount.forEach(args => {
-      dispatch(...args);
+      dispatch.call(null, ...args);
     });
   });
 
-  return (...args: EventDispatcherhArgs<EventMap>) => {
+  return (...args: EventDispatcherhArgs<any>) => {
     if (mounted) {
-      return dispatch(...args);
+      return dispatch.call(null, ...args);
     }
     else {
       dispatchOnMount.push(args);
