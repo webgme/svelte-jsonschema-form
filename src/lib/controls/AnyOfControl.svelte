@@ -49,8 +49,8 @@
   async function setSelected(value: JSONSchema7 | null) {
     if (selected !== value) {
       let newData = data;
-      if (isObjSchema(value) && (value != null)) {
-        if ((selected != null) && isObjSchema() && !isEmpty(data ?? {})) {
+      if (isObjSchema(value)) {
+        if (isObjSchema() && !isEmpty(data ?? {})) {
           const selectedProps = Object.keys(selected?.properties ?? {});
           newData = omit(data, selectedProps, { keepUnchanged: true });
         }
