@@ -8,7 +8,6 @@
   import Select, { Option } from '@smui/select';
   import Control from "../Control.svelte";
   import ObjectProps from "./ObjectProps.svelte";
-  import { tick } from "svelte";
 
   export let type: JSONSchema7['type'] = undefined;
   export let data: any;
@@ -50,8 +49,8 @@
   async function setSelected(value: JSONSchema7 | null) {
     if (selected !== value) {
       let newData = data;
-      if (isObjSchema(value) && (value != null)) {
-        if ((selected != null) && isObjSchema() && !isEmpty(data ?? {})) {
+      if (isObjSchema(value)) {
+        if (isObjSchema() && !isEmpty(data ?? {})) {
           const selectedProps = Object.keys(selected?.properties ?? {});
           newData = omit(data, selectedProps, { keepUnchanged: true });
         }
@@ -74,9 +73,7 @@
     if (force && (newSelected == null)) {
       newSelected = schemas[0];
     }
-    if (newSelected !== selected) {
-      selected = newSelected;
-    }
+    setSelected(newSelected);
   }
 
 </script>
