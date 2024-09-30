@@ -70,10 +70,16 @@
 
   function resetSelected(schemas: JSONSchema7[]) {
     let newSelected = schemas.find(schema => Validator.validate(schema, data)) ?? null;
+    const resetData = (newSelected == null);
     if (force && (newSelected == null)) {
       newSelected = schemas[0];
     }
-    setSelected(newSelected);
+    if (resetData) {
+      setSelected(newSelected);
+    }
+    else if (selected !== newSelected) {
+      selected = newSelected;
+    }
   }
 
 </script>
