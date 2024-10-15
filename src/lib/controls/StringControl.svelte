@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { isString } from "$lib/utilities";
   import UISchema from "$lib/UISchema";
   import Textfield from "@smui/textfield";
   import HelperText from "@smui/textfield/helper-text";
@@ -14,6 +15,9 @@
   export let pattern: string | undefined = undefined;
   export let isRequired: boolean | undefined = undefined;
   export let force: boolean = false;
+
+  export let prepend: ConstructorOfATypedSvelteComponent | string | undefined = undefined;
+  export let append: ConstructorOfATypedSvelteComponent | string | undefined = undefined;
 
   let value: string = data ?? "";
   let enumValues: string[] | undefined = undefined;
@@ -41,6 +45,12 @@
 </script>
 
 <div class="jsonschema-form-control control-string">
+  {#if isString(prepend)}
+    {@html prepend}
+  {:else if prepend != null}
+    <svelte:component this={prepend} {...$$props} />
+  {/if}
+
   {#if enumValues?.length}
     <Select 
       variant="outlined"
@@ -79,9 +89,22 @@
       </svelte:fragment>
     </Textfield>
   {/if}
+
+  {#if isString(append)}
+    {@html append}
+  {:else if append != null}
+    <svelte:component this={append} {...$$props} />
+  {/if}
 </div>
 
 <style>
+  .control-string {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 3px;
+  }
+
   .control-string > :global(.mdc-text-field),
   .control-string > :global(.mdc-select) {
     width: 100%;

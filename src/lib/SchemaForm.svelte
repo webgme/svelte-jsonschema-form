@@ -9,7 +9,7 @@
   import Paper, { Title, Subtitle, Content } from '@smui/paper';
   import createMountedEventDispatcher from './createMountedEventDispatcher';
   import ObjectProps from "./controls/ObjectProps.svelte";
-  import Control from "./Control.svelte";
+  import Control, { setControlProps } from "./Control.svelte";
   import { isObjectSchema, isString, isBoolean } from './utilities';
   import libVersion from "./version";
 
@@ -17,6 +17,7 @@
   export let data: { [prop: string]: any } = {};
   export let uischema: UISchema = {};
 
+  setControlProps($$restProps);
   const dispatch = createMountedEventDispatcher();
   /* A bit of a hack - When bulding the static test site, the dereferencer is still behind a
    * `.default` property for some reason. I'm guessing it has something to do with how modules are
